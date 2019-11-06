@@ -82,10 +82,13 @@ namespace ProyectoArchivos.MainApp.Create
         {
             foreach (Entity e in entities)
             {
-                foreach (Attributes a in e.attributes)
+                if (e.id == ddlEntidad.SelectedValue.ToString())
                 {
-                    if (a.name == name)
-                        return true;
+                    foreach (Attributes a in e.attributes)
+                    {
+                        if (a.name == name)
+                            return true;
+                    }
                 }
             }
             return false;

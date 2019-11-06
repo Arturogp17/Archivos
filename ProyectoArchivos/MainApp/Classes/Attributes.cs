@@ -16,5 +16,6 @@ namespace ProyectoArchivos.Models
         public int indexType { get; set; }
         public long indexAddress { get; set; }
         public long nextAttributeAddress { get; set; }
+        public string entity { get; set; }
     }
 }

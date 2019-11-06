@@ -29,13 +29,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            Telerik.WinControls.UI.TableViewDefinition tableViewDefinition1 = new Telerik.WinControls.UI.TableViewDefinition();
             Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn1 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
             Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn2 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
             Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn3 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
             Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn4 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
             Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn5 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
             Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn6 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
-            Telerik.WinControls.UI.TableViewDefinition tableViewDefinition1 = new Telerik.WinControls.UI.TableViewDefinition();
+            Telerik.WinControls.UI.TableViewDefinition tableViewDefinition2 = new Telerik.WinControls.UI.TableViewDefinition();
             Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn7 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
             Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn8 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
             Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn9 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
@@ -44,20 +45,23 @@
             Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn12 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
             Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn13 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
             Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn14 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
-            Telerik.WinControls.UI.TableViewDefinition tableViewDefinition2 = new Telerik.WinControls.UI.TableViewDefinition();
+            Telerik.WinControls.UI.TableViewDefinition tableViewDefinition3 = new Telerik.WinControls.UI.TableViewDefinition();
+            Telerik.WinControls.UI.TableViewDefinition tableViewDefinition4 = new Telerik.WinControls.UI.TableViewDefinition();
+            Telerik.WinControls.UI.TableViewDefinition tableViewDefinition5 = new Telerik.WinControls.UI.TableViewDefinition();
             this.radThemeManager1 = new Telerik.WinControls.RadThemeManager();
             this.telerikMetroTheme1 = new Telerik.WinControls.Themes.TelerikMetroTheme();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.radContextMenu1 = new Telerik.WinControls.UI.RadContextMenu(this.components);
             this.radMenu1 = new Telerik.WinControls.UI.RadMenu();
+            this.radGridView1 = new Telerik.WinControls.UI.RadGridView();
             this.radMenuItem1 = new Telerik.WinControls.UI.RadMenuItem();
             this.newFile = new Telerik.WinControls.UI.RadMenuItem();
             this.open = new Telerik.WinControls.UI.RadMenuItem();
             this.Save = new Telerik.WinControls.UI.RadMenuItem();
             this.btnCreateEntity = new Telerik.WinControls.UI.RadButton();
             this.btnCreateAttribute = new Telerik.WinControls.UI.RadButton();
-            this.btnDeleteAtribute = new Telerik.WinControls.UI.RadButton();
+            this.btnDeleteAttribute = new Telerik.WinControls.UI.RadButton();
             this.btnDeleteEntity = new Telerik.WinControls.UI.RadButton();
             this.gridEntities = new Telerik.WinControls.UI.RadGridView();
             this.gridAttributes = new Telerik.WinControls.UI.RadGridView();
@@ -66,11 +70,21 @@
             this.visualStudio2012LightTheme1 = new Telerik.WinControls.Themes.VisualStudio2012LightTheme();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtHeader = new Telerik.WinControls.UI.RadTextBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnDataFile = new Telerik.WinControls.UI.RadButton();
+            this.gridAddRegister = new Telerik.WinControls.UI.RadGridView();
+            this.btnAddReg = new Telerik.WinControls.UI.RadButton();
+            this.gridRegisters = new Telerik.WinControls.UI.RadGridView();
             this.genericItemBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.radMenu1)).BeginInit();
+            this.radMenu1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.radGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radGridView1.MasterTemplate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCreateEntity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCreateAttribute)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnDeleteAtribute)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnDeleteAttribute)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnDeleteEntity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridEntities)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridEntities.MasterTemplate)).BeginInit();
@@ -78,6 +92,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridAttributes.MasterTemplate)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtHeader)).BeginInit();
+            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.btnDataFile)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridAddRegister)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridAddRegister.MasterTemplate)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnAddReg)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridRegisters)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridRegisters.MasterTemplate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.genericItemBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             this.SuspendLayout();
@@ -88,13 +110,30 @@
             // 
             // radMenu1
             // 
+            this.radMenu1.Controls.Add(this.radGridView1);
             this.radMenu1.Items.AddRange(new Telerik.WinControls.RadItem[] {
             this.radMenuItem1});
             this.radMenu1.Location = new System.Drawing.Point(0, 0);
             this.radMenu1.Name = "radMenu1";
-            this.radMenu1.Size = new System.Drawing.Size(733, 20);
+            this.radMenu1.Size = new System.Drawing.Size(1421, 20);
             this.radMenu1.TabIndex = 0;
             this.radMenu1.ThemeName = "VisualStudio2012Light";
+            // 
+            // radGridView1
+            // 
+            this.radGridView1.AutoScroll = true;
+            this.radGridView1.Location = new System.Drawing.Point(775, 47);
+            // 
+            // 
+            // 
+            this.radGridView1.MasterTemplate.AllowDeleteRow = false;
+            this.radGridView1.MasterTemplate.AllowDragToGroup = false;
+            this.radGridView1.MasterTemplate.EnableGrouping = false;
+            this.radGridView1.MasterTemplate.ViewDefinition = tableViewDefinition1;
+            this.radGridView1.Name = "radGridView1";
+            this.radGridView1.Size = new System.Drawing.Size(624, 102);
+            this.radGridView1.TabIndex = 16;
+            this.radGridView1.ThemeName = "VisualStudio2012Light";
             // 
             // radMenuItem1
             // 
@@ -125,7 +164,6 @@
             // 
             this.Save.Name = "Save";
             this.Save.Text = "Guardar";
-            this.Save.Click += new System.EventHandler(this.Save_Click);
             // 
             // btnCreateEntity
             // 
@@ -148,15 +186,16 @@
             this.btnCreateAttribute.ThemeName = "VisualStudio2012Light";
             this.btnCreateAttribute.Click += new System.EventHandler(this.btnCreateAttribute_Click);
             // 
-            // btnDeleteAtribute
+            // btnDeleteAttribute
             // 
-            this.btnDeleteAtribute.Enabled = false;
-            this.btnDeleteAtribute.Location = new System.Drawing.Point(6, 65);
-            this.btnDeleteAtribute.Name = "btnDeleteAtribute";
-            this.btnDeleteAtribute.Size = new System.Drawing.Size(110, 38);
-            this.btnDeleteAtribute.TabIndex = 4;
-            this.btnDeleteAtribute.Text = "Eliminar atributo";
-            this.btnDeleteAtribute.ThemeName = "VisualStudio2012Light";
+            this.btnDeleteAttribute.Enabled = false;
+            this.btnDeleteAttribute.Location = new System.Drawing.Point(6, 65);
+            this.btnDeleteAttribute.Name = "btnDeleteAttribute";
+            this.btnDeleteAttribute.Size = new System.Drawing.Size(110, 38);
+            this.btnDeleteAttribute.TabIndex = 4;
+            this.btnDeleteAttribute.Text = "Eliminar atributo";
+            this.btnDeleteAttribute.ThemeName = "VisualStudio2012Light";
+            this.btnDeleteAttribute.Click += new System.EventHandler(this.btnDeleteAttribute_Click);
             // 
             // btnDeleteEntity
             // 
@@ -219,13 +258,14 @@
             gridViewTextBoxColumn4,
             gridViewTextBoxColumn5,
             gridViewTextBoxColumn6});
-            this.gridEntities.MasterTemplate.ViewDefinition = tableViewDefinition1;
+            this.gridEntities.MasterTemplate.ViewDefinition = tableViewDefinition2;
             this.gridEntities.Name = "gridEntities";
             this.gridEntities.ShowGroupPanel = false;
             this.gridEntities.Size = new System.Drawing.Size(607, 253);
             this.gridEntities.TabIndex = 7;
             this.gridEntities.ThemeName = "VisualStudio2012Light";
             this.gridEntities.CellEndEdit += new Telerik.WinControls.UI.GridViewCellEventHandler(this.gridEntities_CellEndEdit);
+            this.gridEntities.CellClick += new Telerik.WinControls.UI.GridViewCellEventHandler(this.gridEntities_CellClick);
             // 
             // gridAttributes
             // 
@@ -289,7 +329,7 @@
             gridViewTextBoxColumn12,
             gridViewTextBoxColumn13,
             gridViewTextBoxColumn14});
-            this.gridAttributes.MasterTemplate.ViewDefinition = tableViewDefinition2;
+            this.gridAttributes.MasterTemplate.ViewDefinition = tableViewDefinition3;
             this.gridAttributes.Name = "gridAttributes";
             this.gridAttributes.ShowGroupPanel = false;
             this.gridAttributes.Size = new System.Drawing.Size(712, 253);
@@ -330,13 +370,97 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.btnCreateAttribute);
-            this.groupBox2.Controls.Add(this.btnDeleteAtribute);
+            this.groupBox2.Controls.Add(this.btnDeleteAttribute);
             this.groupBox2.Location = new System.Drawing.Point(150, 26);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(129, 112);
             this.groupBox2.TabIndex = 12;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Atributo";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(505, 149);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(54, 13);
+            this.label1.TabIndex = 13;
+            this.label1.Text = "Cabecera";
+            // 
+            // txtHeader
+            // 
+            this.txtHeader.Location = new System.Drawing.Point(561, 143);
+            this.txtHeader.Name = "txtHeader";
+            this.txtHeader.ReadOnly = true;
+            this.txtHeader.Size = new System.Drawing.Size(58, 24);
+            this.txtHeader.TabIndex = 14;
+            this.txtHeader.ThemeName = "VisualStudio2012Light";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.btnDataFile);
+            this.groupBox3.Location = new System.Drawing.Point(285, 26);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(129, 112);
+            this.groupBox3.TabIndex = 13;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Archivo de datos";
+            // 
+            // btnDataFile
+            // 
+            this.btnDataFile.Enabled = false;
+            this.btnDataFile.Location = new System.Drawing.Point(6, 21);
+            this.btnDataFile.Name = "btnDataFile";
+            this.btnDataFile.Size = new System.Drawing.Size(110, 38);
+            this.btnDataFile.TabIndex = 2;
+            this.btnDataFile.Text = "Crear archivo";
+            this.btnDataFile.ThemeName = "VisualStudio2012Light";
+            this.btnDataFile.Click += new System.EventHandler(this.btnDataFile_Click);
+            // 
+            // gridAddRegister
+            // 
+            this.gridAddRegister.Location = new System.Drawing.Point(778, 149);
+            // 
+            // 
+            // 
+            this.gridAddRegister.MasterTemplate.AllowAddNewRow = false;
+            this.gridAddRegister.MasterTemplate.AllowDeleteRow = false;
+            this.gridAddRegister.MasterTemplate.AllowDragToGroup = false;
+            this.gridAddRegister.MasterTemplate.EnableGrouping = false;
+            this.gridAddRegister.MasterTemplate.ViewDefinition = tableViewDefinition4;
+            this.gridAddRegister.Name = "gridAddRegister";
+            this.gridAddRegister.Size = new System.Drawing.Size(621, 81);
+            this.gridAddRegister.TabIndex = 16;
+            this.gridAddRegister.ThemeName = "VisualStudio2012Light";
+            // 
+            // btnAddReg
+            // 
+            this.btnAddReg.Location = new System.Drawing.Point(1289, 236);
+            this.btnAddReg.Name = "btnAddReg";
+            this.btnAddReg.Size = new System.Drawing.Size(110, 24);
+            this.btnAddReg.TabIndex = 17;
+            this.btnAddReg.Text = "Añadir";
+            this.btnAddReg.ThemeName = "VisualStudio2012Light";
+            this.btnAddReg.Click += new System.EventHandler(this.btnAddReg_Click);
+            // 
+            // gridRegisters
+            // 
+            this.gridRegisters.AutoScroll = true;
+            this.gridRegisters.EnableCustomGrouping = true;
+            this.gridRegisters.Location = new System.Drawing.Point(778, 266);
+            // 
+            // 
+            // 
+            this.gridRegisters.MasterTemplate.AllowAddNewRow = false;
+            this.gridRegisters.MasterTemplate.AllowDeleteRow = false;
+            this.gridRegisters.MasterTemplate.AllowDragToGroup = false;
+            this.gridRegisters.MasterTemplate.EnableCustomGrouping = true;
+            this.gridRegisters.MasterTemplate.ViewDefinition = tableViewDefinition5;
+            this.gridRegisters.Name = "gridRegisters";
+            this.gridRegisters.Size = new System.Drawing.Size(621, 441);
+            this.gridRegisters.TabIndex = 18;
+            this.gridRegisters.ThemeName = "VisualStudio2012Light";
+            this.gridRegisters.CellEndEdit += new Telerik.WinControls.UI.GridViewCellEventHandler(this.gridRegisters_CellEndEdit);
             // 
             // genericItemBindingSource
             // 
@@ -346,7 +470,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(733, 719);
+            this.ClientSize = new System.Drawing.Size(1421, 719);
+            this.Controls.Add(this.gridRegisters);
+            this.Controls.Add(this.btnAddReg);
+            this.Controls.Add(this.gridAddRegister);
+            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.txtHeader);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label3);
@@ -362,9 +492,12 @@
             this.Text = "Diccionario de datos";
             this.ThemeName = "VisualStudio2012Light";
             ((System.ComponentModel.ISupportInitialize)(this.radMenu1)).EndInit();
+            this.radMenu1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.radGridView1.MasterTemplate)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCreateEntity)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCreateAttribute)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnDeleteAtribute)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnDeleteAttribute)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnDeleteEntity)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridEntities.MasterTemplate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridEntities)).EndInit();
@@ -372,6 +505,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridAttributes)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.txtHeader)).EndInit();
+            this.groupBox3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.btnDataFile)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridAddRegister.MasterTemplate)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridAddRegister)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnAddReg)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridRegisters.MasterTemplate)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridRegisters)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.genericItemBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
             this.ResumeLayout(false);
@@ -393,7 +534,7 @@
         private Telerik.WinControls.UI.RadMenuItem Save;
         private Telerik.WinControls.UI.RadButton btnCreateEntity;
         private Telerik.WinControls.UI.RadButton btnCreateAttribute;
-        private Telerik.WinControls.UI.RadButton btnDeleteAtribute;
+        private Telerik.WinControls.UI.RadButton btnDeleteAttribute;
         private Telerik.WinControls.UI.RadButton btnDeleteEntity;
         private Telerik.WinControls.UI.RadGridView gridEntities;
         private Telerik.WinControls.UI.RadGridView gridAttributes;
@@ -403,5 +544,13 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.BindingSource genericItemBindingSource;
+        private System.Windows.Forms.Label label1;
+        private Telerik.WinControls.UI.RadTextBox txtHeader;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private Telerik.WinControls.UI.RadButton btnDataFile;
+        private Telerik.WinControls.UI.RadGridView radGridView1;
+        private Telerik.WinControls.UI.RadGridView gridAddRegister;
+        private Telerik.WinControls.UI.RadButton btnAddReg;
+        public Telerik.WinControls.UI.RadGridView gridRegisters;
     }
 }

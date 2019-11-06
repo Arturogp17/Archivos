@@ -73,6 +73,7 @@
     <Compile Include="MainApp\Classes\Attributes.cs" />
     <Compile Include="MainApp\Classes\Entity.cs" />
     <Compile Include="MainApp\Classes\genericItem.cs" />
+    <Compile Include="MainApp\Classes\Register.cs" />
     <Compile Include="MainApp\Create\frmCreateAttribute.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -84,6 +85,12 @@
     </Compile>
     <Compile Include="MainApp\Create\frmCreateEntity.Designer.cs">
       <DependentUpon>frmCreateEntity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainApp\Delete\frmDeleteAttribute.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainApp\Delete\frmDeleteAttribute.Designer.cs">
+      <DependentUpon>frmDeleteAttribute.cs</DependentUpon>
     </Compile>
     <Compile Include="MainApp\Delete\frmDeleteEntity.cs">
       <SubType>Form</SubType>
@@ -98,6 +105,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainApp\Create\frmCreateEntity.resx">
       <DependentUpon>frmCreateEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainApp\Delete\frmDeleteAttribute.resx">
+      <DependentUpon>frmDeleteAttribute.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainApp\Delete\frmDeleteEntity.resx">
       <DependentUpon>frmDeleteEntity.cs</DependentUpon>

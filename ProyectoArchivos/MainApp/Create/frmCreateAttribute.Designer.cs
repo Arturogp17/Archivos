@@ -50,8 +50,8 @@
             this.btnCancel = new Telerik.WinControls.UI.RadButton();
             this.radLabel6 = new Telerik.WinControls.UI.RadLabel();
             this.ntxtLength = new Telerik.WinControls.UI.RadSpinEditor();
-            this.ddlEntidad = new Telerik.WinControls.UI.RadDropDownList();
             this.radLabel7 = new Telerik.WinControls.UI.RadLabel();
+            this.ddlEntidad = new Telerik.WinControls.UI.RadDropDownList();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel3)).BeginInit();
@@ -64,8 +64,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.btnCancel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ntxtLength)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ddlEntidad)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ddlEntidad)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             this.SuspendLayout();
             // 
@@ -196,6 +196,15 @@
             this.ntxtLength.TabStop = false;
             this.ntxtLength.ThemeName = "VisualStudio2012Light";
             // 
+            // radLabel7
+            // 
+            this.radLabel7.Location = new System.Drawing.Point(12, 4);
+            this.radLabel7.Name = "radLabel7";
+            this.radLabel7.Size = new System.Drawing.Size(44, 18);
+            this.radLabel7.TabIndex = 7;
+            this.radLabel7.Text = "Entidad";
+            this.radLabel7.ThemeName = "VisualStudio2012Light";
+            // 
             // ddlEntidad
             // 
             this.ddlEntidad.DisplayMember = "name";
@@ -213,15 +222,6 @@
             this.ddlEntidad.TabIndex = 1;
             this.ddlEntidad.ThemeName = "VisualStudio2012Light";
             this.ddlEntidad.ValueMember = "id";
-            // 
-            // radLabel7
-            // 
-            this.radLabel7.Location = new System.Drawing.Point(12, 4);
-            this.radLabel7.Name = "radLabel7";
-            this.radLabel7.Size = new System.Drawing.Size(44, 18);
-            this.radLabel7.TabIndex = 7;
-            this.radLabel7.Text = "Entidad";
-            this.radLabel7.ThemeName = "VisualStudio2012Light";
             // 
             // frmCreateAttribute
             // 
@@ -264,8 +264,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.btnCancel)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ntxtLength)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ddlEntidad)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ddlEntidad)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -286,7 +286,7 @@
         private Telerik.WinControls.UI.RadButton btnCancel;
         private Telerik.WinControls.UI.RadLabel radLabel6;
         private Telerik.WinControls.UI.RadSpinEditor ntxtLength;
-        private Telerik.WinControls.UI.RadDropDownList ddlEntidad;
         private Telerik.WinControls.UI.RadLabel radLabel7;
+        private Telerik.WinControls.UI.RadDropDownList ddlEntidad;
     }
 }

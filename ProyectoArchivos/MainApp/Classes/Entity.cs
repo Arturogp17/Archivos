@@ -15,5 +15,7 @@ namespace ProyectoArchivos.Models
         public long dataAddress { get; set; }
         public long nextEntityAddress { get; set; }
         public List<Attributes> attributes = new List<Attributes>();
+
+        public int cve_busqueda { get; set; }
     }
 }
