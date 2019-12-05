@@ -78,6 +78,11 @@
             this.btnAddReg = new Telerik.WinControls.UI.RadButton();
             this.gridRegisters = new Telerik.WinControls.UI.RadGridView();
             this.genericItemBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.btnDelReg = new Telerik.WinControls.UI.RadButton();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.btnFK = new Telerik.WinControls.UI.RadButton();
+            this.btnPK = new Telerik.WinControls.UI.RadButton();
             ((System.ComponentModel.ISupportInitialize)(this.radMenu1)).BeginInit();
             this.radMenu1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.radGridView1)).BeginInit();
@@ -101,6 +106,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridRegisters)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridRegisters.MasterTemplate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.genericItemBindingSource)).BeginInit();
+            this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.btnDelReg)).BeginInit();
+            this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.btnFK)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnPK)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             this.SuspendLayout();
             // 
@@ -466,11 +476,64 @@
             // 
             this.genericItemBindingSource.DataSource = typeof(ProyectoArchivos.MainApp.Classes.genericItem);
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.btnDelReg);
+            this.groupBox4.Location = new System.Drawing.Point(778, 26);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(129, 112);
+            this.groupBox4.TabIndex = 14;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Registro";
+            // 
+            // btnDelReg
+            // 
+            this.btnDelReg.Location = new System.Drawing.Point(6, 21);
+            this.btnDelReg.Name = "btnDelReg";
+            this.btnDelReg.Size = new System.Drawing.Size(110, 38);
+            this.btnDelReg.TabIndex = 2;
+            this.btnDelReg.Text = "Eliminar registro";
+            this.btnDelReg.ThemeName = "VisualStudio2012Light";
+            this.btnDelReg.Click += new System.EventHandler(this.btnDelReg_Click);
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.btnFK);
+            this.groupBox5.Controls.Add(this.btnPK);
+            this.groupBox5.Location = new System.Drawing.Point(913, 26);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(129, 112);
+            this.groupBox5.TabIndex = 15;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Indices";
+            // 
+            // btnFK
+            // 
+            this.btnFK.Location = new System.Drawing.Point(6, 65);
+            this.btnFK.Name = "btnFK";
+            this.btnFK.Size = new System.Drawing.Size(110, 38);
+            this.btnFK.TabIndex = 3;
+            this.btnFK.Text = "Índice secundario";
+            this.btnFK.ThemeName = "VisualStudio2012Light";
+            this.btnFK.Click += new System.EventHandler(this.btnFK_Click);
+            // 
+            // btnPK
+            // 
+            this.btnPK.Location = new System.Drawing.Point(6, 21);
+            this.btnPK.Name = "btnPK";
+            this.btnPK.Size = new System.Drawing.Size(110, 38);
+            this.btnPK.TabIndex = 2;
+            this.btnPK.Text = "Índice primario";
+            this.btnPK.ThemeName = "VisualStudio2012Light";
+            this.btnPK.Click += new System.EventHandler(this.btnPK_Click);
+            // 
             // frmStart
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1421, 719);
+            this.Controls.Add(this.groupBox5);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.gridRegisters);
             this.Controls.Add(this.btnAddReg);
             this.Controls.Add(this.gridAddRegister);
@@ -514,6 +577,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridRegisters.MasterTemplate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridRegisters)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.genericItemBindingSource)).EndInit();
+            this.groupBox4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.btnDelReg)).EndInit();
+            this.groupBox5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.btnFK)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnPK)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -552,5 +620,10 @@
         private Telerik.WinControls.UI.RadGridView gridAddRegister;
         private Telerik.WinControls.UI.RadButton btnAddReg;
         public Telerik.WinControls.UI.RadGridView gridRegisters;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private Telerik.WinControls.UI.RadButton btnDelReg;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private Telerik.WinControls.UI.RadButton btnFK;
+        private Telerik.WinControls.UI.RadButton btnPK;
     }
 }

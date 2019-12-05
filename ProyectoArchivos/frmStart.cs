@@ -1,6 +1,7 @@
 ﻿using ProyectoArchivos.MainApp.Classes;
 using ProyectoArchivos.MainApp.Create;
 using ProyectoArchivos.MainApp.Delete;
+using ProyectoArchivos.MainApp.Index;
 using ProyectoArchivos.Models;
 using System;
 using System.Collections.Generic;
@@ -1062,6 +1063,165 @@ namespace ProyectoArchivos
                     RegistersNextAddrs(en);
                 }
             }
+        }
+
+        private void btnDelReg_Click(object sender, EventArgs e)
+        {
+            if (gridRegisters.RowCount > 0)
+            {
+                for (int i = 0; i < gridRegisters.RowCount; i++)
+                {
+                    if (gridRegisters.SelectedRows[0].Cells[0].Value == gridRegisters.Rows[i].Cells[0].Value)
+                    {
+                        gridRegisters.Rows.RemoveAt(i);
+                        int size = 16;
+                        Entity en = FindEntity(gridEntities.SelectedRows[0].Cells["id"].Value.ToString());
+                        foreach (Attributes a in en.attributes)
+                        {
+                            if (a.dataType == 'C')
+                                size += a.length;
+                            else
+                                size += 4;
+                        }
+                        for (int j = 0; j < gridRegisters.RowCount; j++)
+                        {
+                            gridRegisters.Rows[j].Cells[0].Value = j * size;
+                        }
+                        gridAddRegister.Rows[0].Cells[0].Value = gridRegisters.RowCount * size;
+                        string p = Path.Combine(path, en.id + ".dat");
+                        FileStream file = new FileStream(p, FileMode.Create, FileAccess.Write, FileShare.None);
+                        file.Close();
+                        RegistersNextAddrs(en);
+                        WriteRegister(size);
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Error", "Antes de eliminar un registro, agrega uno o abre un archivo que contenga registros", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnPK_Click(object sender, EventArgs e)
+        {
+            bool pk = false;
+            Entity en = FindEntity(gridEntities.SelectedRows[0].Cells["id"].Value.ToString());
+            foreach (var a in en.attributes)
+            {
+                if(a.indexType == 2)
+                {
+                    pk = true;
+                    break;
+                }
+            }
+            if(pk)
+            {
+                string p = Path.Combine(path, en.id + ".pk");
+                FileStream file = new FileStream(p, FileMode.Create, FileAccess.Write, FileShare.None);
+                BinaryWriter bw = new BinaryWriter(file);
+                int indexPK = 1;
+                int size = 8;
+                int sizeDat = 0;
+                int type = 0; ;
+                foreach (var a in en.attributes)
+                {
+                    if (a.indexType == 2)
+                    {
+                        size += a.length;
+                        sizeDat = a.length;
+                        if (a.dataType == 'C')
+                            type = 0;
+                        else
+                            type = 1;
+                        break;
+                    }
+                    else
+                        indexPK++;
+                }
+                List<Register> lpk = new List<Register>();
+                for (int i = 0; i < gridRegisters.RowCount; i++)
+                {
+                    Register r = new Register();
+                    r.dir = Convert.ToInt64(gridRegisters.Rows[i].Cells[0].Value);
+                    r.val = gridRegisters.Rows[i].Cells[indexPK].Value.ToString();
+                    lpk.Add(r);
+                }
+                int maxReg = (int)Math.Floor(2048.0 / Convert.ToDouble(size));
+                int sizePK = (int)Math.Ceiling(Convert.ToDouble(gridRegisters.RowCount) / Convert.ToDouble(maxReg));
+                sizePK = sizePK * 2048;
+                
+                foreach(Register r in lpk)
+                {
+                    bw.Write(r.dir);
+                    if(type == 0)
+                    {
+                        byte[] name = new byte[sizeDat];
+                        Encoding.ASCII.GetBytes(Convert.ToString(r.val), 0, Convert.ToString(r.val).Length, name, 0);
+                        bw.Write(name);
+                    }
+                    else
+                    {
+                        bw.Write(Convert.ToInt32(r.val));
+                    }
+                }
+                bw.Write(Convert.ToInt64(-1));
+                byte[] bPK = new byte[sizePK - file.Length];
+                bw.Write(bPK);
+                bw.Close();
+                file.Close();
+                lpk = lpk.OrderBy(o => o.val).ToList();
+                frmPrimaryKey fpk = new frmPrimaryKey(lpk);
+                fpk.ShowDialog();
+                fpk.Dispose();
+            }
+            else
+            {
+                MessageBox.Show("Error", "Esta entidad no contiene ningun atributo de tipo índice primario", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+        }
+
+        private void btnFK_Click(object sender, EventArgs e)
+        {
+            bool fk = false;
+            Entity en = FindEntity(gridEntities.SelectedRows[0].Cells["id"].Value.ToString());
+            foreach (var a in en.attributes)
+            {
+                if (a.indexType == 3)
+                {
+                    fk = true;
+                    break;
+                }
+            }
+            if(fk)
+            {
+                int sizeDat = 0;
+                int indexFK = 1;
+                foreach (var a in en.attributes)
+                {
+                    if (a.indexType == 3)
+                    {
+                        sizeDat = a.length;
+                        break;
+                    }
+                    else
+                        indexFK++;
+                }
+                List<Register> lr = new List<Register>();
+                for (int i = 0; i < gridRegisters.RowCount; i++)
+                {
+                    Register r = new Register();
+                    r.dir = Convert.ToInt64(gridRegisters.Rows[i].Cells[0].Value);
+                    r.val = gridRegisters.Rows[i].Cells[indexFK].Value;
+                    lr.Add(r);
+                }
+                string p = Path.Combine(path, en.id + ".fk");
+                frmForeignKey frmFK = new frmForeignKey(lr, p, sizeDat);
+                frmFK.ShowDialog();
+            }
+            else
+                MessageBox.Show("Error", "Esta entidad no contiene ningun atributo de tipo índice secundario", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

@@ -47,3 +47,5 @@
 \\Mac\Home\Documents\UASLP\Estructuras de archivos\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.exe
 \\Mac\Home\Documents\UASLP\Estructuras de archivos\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.pdb
 \\Mac\Home\Documents\UASLP\Estructuras de archivos\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Delete.frmDeleteAttribute.resources
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Index.frmForeignKey.resources
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Index.frmPrimaryKey.resources

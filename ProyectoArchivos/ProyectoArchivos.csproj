@@ -98,6 +98,18 @@
     <Compile Include="MainApp\Delete\frmDeleteEntity.Designer.cs">
       <DependentUpon>frmDeleteEntity.cs</DependentUpon>
     </Compile>
+    <Compile Include="MainApp\Index\frmForeignKey.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainApp\Index\frmForeignKey.Designer.cs">
+      <DependentUpon>frmForeignKey.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainApp\Index\frmPrimaryKey.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainApp\Index\frmPrimaryKey.Designer.cs">
+      <DependentUpon>frmPrimaryKey.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainApp\Create\frmCreateAttribute.resx">
@@ -111,6 +123,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainApp\Delete\frmDeleteEntity.resx">
       <DependentUpon>frmDeleteEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainApp\Index\frmForeignKey.resx">
+      <DependentUpon>frmForeignKey.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainApp\Index\frmPrimaryKey.resx">
+      <DependentUpon>frmPrimaryKey.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">

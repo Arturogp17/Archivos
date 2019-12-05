@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace ProyectoArchivos.MainApp.Classes
 {
-    class Register
+    public class Register
     {
         public long dir { get; set; }
         public object val { get; set; }
         public long nextDir { get; set; }
+        public List<Register> bloque { get; set; }
     }
 }
