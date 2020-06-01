@@ -77,12 +77,12 @@
             this.gridAddRegister = new Telerik.WinControls.UI.RadGridView();
             this.btnAddReg = new Telerik.WinControls.UI.RadButton();
             this.gridRegisters = new Telerik.WinControls.UI.RadGridView();
-            this.genericItemBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.btnDelReg = new Telerik.WinControls.UI.RadButton();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.btnFK = new Telerik.WinControls.UI.RadButton();
             this.btnPK = new Telerik.WinControls.UI.RadButton();
+            this.genericItemBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.radMenu1)).BeginInit();
             this.radMenu1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.radGridView1)).BeginInit();
@@ -105,12 +105,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.btnAddReg)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridRegisters)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridRegisters.MasterTemplate)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.genericItemBindingSource)).BeginInit();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnDelReg)).BeginInit();
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnFK)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnPK)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.genericItemBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             this.SuspendLayout();
             // 
@@ -472,10 +472,6 @@
             this.gridRegisters.ThemeName = "VisualStudio2012Light";
             this.gridRegisters.CellEndEdit += new Telerik.WinControls.UI.GridViewCellEventHandler(this.gridRegisters_CellEndEdit);
             // 
-            // genericItemBindingSource
-            // 
-            this.genericItemBindingSource.DataSource = typeof(ProyectoArchivos.MainApp.Classes.genericItem);
-            // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.btnDelReg);
@@ -527,6 +523,10 @@
             this.btnPK.ThemeName = "VisualStudio2012Light";
             this.btnPK.Click += new System.EventHandler(this.btnPK_Click);
             // 
+            // genericItemBindingSource
+            // 
+            this.genericItemBindingSource.DataSource = typeof(ProyectoArchivos.MainApp.Classes.genericItem);
+            // 
             // frmStart
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -576,12 +576,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.btnAddReg)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridRegisters.MasterTemplate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridRegisters)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.genericItemBindingSource)).EndInit();
             this.groupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.btnDelReg)).EndInit();
             this.groupBox5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.btnFK)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnPK)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.genericItemBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

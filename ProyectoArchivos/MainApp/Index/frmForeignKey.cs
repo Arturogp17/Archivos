@@ -32,7 +32,7 @@ namespace ProyectoArchivos.MainApp.Index
             long sizeFK = 2048;
             foreach (var r in lr)
             {
-                if(bloque.Count == 0)
+                if (bloque.Count == 0)
                 {
                     Register reg = new Register();
                     reg.val = r.val;
@@ -46,8 +46,52 @@ namespace ProyectoArchivos.MainApp.Index
                 }
                 else
                 {
-                    int index = SearchBlock((string)r.val);
-                    if(index != -1)
+                    int index = SearchBlock(r.val.ToString());
+                    if (index != -1)
+                    {
+                        Register regFK = new Register();
+                        regFK.dir = r.dir;
+                        bloque[index].bloque.Add(regFK);
+                    }
+                    else
+                    {
+                        Register reg = new Register();
+                        reg.val = r.val;
+                        reg.dir = sizeFK;
+                        reg.bloque = new List<Register>();
+                        Register regFK = new Register();
+                        regFK.dir = r.dir;
+                        reg.bloque.Add(regFK);
+                        sizeFK += 2048;
+                        bloque.Add(reg);
+                    }
+                }
+            }
+            bloque = bloque.OrderBy(o => o.val).ToList();
+            gridFK.DataSource = bloque;
+        }
+
+        public void WriteFile()
+        {
+            long sizeFK = 2048;
+            foreach (var r in lr)
+            {
+                if (bloque.Count == 0)
+                {
+                    Register reg = new Register();
+                    reg.val = r.val;
+                    reg.dir = sizeFK;
+                    reg.bloque = new List<Register>();
+                    Register regFK = new Register();
+                    regFK.dir = r.dir;
+                    reg.bloque.Add(regFK);
+                    sizeFK += 2048;
+                    bloque.Add(reg);
+                }
+                else
+                {
+                    int index = SearchBlock(r.val.ToString());
+                    if (index != -1)
                     {
                         Register regFK = new Register();
                         regFK.dir = r.dir;
@@ -70,11 +114,18 @@ namespace ProyectoArchivos.MainApp.Index
             bloque = bloque.OrderBy(o => o.val).ToList();
             gridFK.DataSource = bloque;
             sizeFK = 2048;
-            FileStream file = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None);
+            long fileLength = 0;
+            FileStream file = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
+            if (file.Length > 0)
+            {
+                fileLength = file.Length;
+            }
+            file.Close();
+            file = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None);
             BinaryWriter bw = new BinaryWriter(file);
             foreach (var r in bloque)
             {
-                if(sizeDat > 4)
+                if (sizeDat > 4)
                 {
                     byte[] name = new byte[sizeDat];
                     Encoding.ASCII.GetBytes(Convert.ToString(r.val), 0, Convert.ToString(r.val).Length, name, 0);
@@ -99,14 +150,23 @@ namespace ProyectoArchivos.MainApp.Index
                 bw.Write(bPK);
                 sizeFK += 2048;
             }
+            if (fileLength - file.Length > 0)
+            {
+                bPK = new byte[fileLength - file.Length];
+                bw.Write(bPK);
+            }
             file.Close();
         }
 
         public int SearchBlock(string name)
         {
+            //int index = -1;
+            //index = name.IndexOf('\0');
+            //if (index != -1)
+            //    name = name.Remove(index);
             for (int i = 0; i < bloque.Count; i++)
             {
-                if ((string)bloque[i].val == name)
+                if (bloque[i].val.ToString() == name || bloque[i].val.ToString().Contains(name))
                     return i;
             }
             return -1;

@@ -32,8 +32,24 @@ namespace ProyectoArchivos
             InitializeComponent();
         }
 
+        private void ClearData()
+        {
+            entities = new List<Entity>();
+            header = -1;
+            lastAddress = 8;
+            fileName = string.Empty;
+            path = String.Empty;
+            allowWrite = true;
+            gridAddRegister.Rows.Clear();
+            gridAddRegister.Columns.Clear();
+            gridAttributes.Rows.Clear();
+            gridEntities.Rows.Clear();
+            gridRegisters.Rows.Clear();
+            gridRegisters.Columns.Clear();
+        }
         public int CreateFile()
         {
+            ClearData();
             SaveFileDialog saveFile = new SaveFileDialog();
             if (saveFile.ShowDialog() == DialogResult.OK)
             {
@@ -249,29 +265,33 @@ namespace ProyectoArchivos
                 {
                     if (en.id == ca.idEntity)
                     {
-                        if (a.indexType == 1 && en.cve_busqueda > 0)
+                        if (a.indexType == 1)
                         {
-                            MessageBox.Show("Error", "Solo puede haber una clave de busqueda por entidad", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            ca.Dispose();
-                            return;
+                            foreach (var item in en.attributes)
+                            {
+                                if (item.indexType == 1)
+                                {
+                                    MessageBox.Show("Solo puede haber una clave de busqueda por entidad", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    ca.Dispose();
+                                    return;
+                                }
+                            }
+                            
+                        }
+                        if (a.indexType == 1)
+                            en.cve_busqueda++;
+                        if (en.attributes.Count > 0)
+                        {
+                            en.attributes.Last().nextAttributeAddress = a.address;
+                            WriteAttribute(en.attributes.Last());
                         }
                         else
-                        {
-                            if (a.indexType == 1)
-                                en.cve_busqueda++;
-                            if (en.attributes.Count > 0)
-                            {
-                                en.attributes.Last().nextAttributeAddress = a.address;
-                                WriteAttribute(en.attributes.Last());
-                            }
-                            else
-                                en.attributeAddress = a.address;
-                            en.attributes.Add(a);
-                            WriteEntity(en);
-                            WriteAttribute(a);
-                            gridEntities_CellClick(this, null);
-                            break;
-                        }
+                            en.attributeAddress = a.address;
+                        en.attributes.Add(a);
+                        WriteEntity(en);
+                        WriteAttribute(a);
+                        gridEntities_CellClick(this, null);
+                        break;
                     }
                 }
                 ca.Dispose();
@@ -768,17 +788,29 @@ namespace ProyectoArchivos
         public void RegistersNextAddrs(Entity e)
         {
             allowWrite = false;
+            Entity en = FindEntity(gridEntities.SelectedRows[0].Cells["id"].Value.ToString());
             foreach (Attributes a in e.attributes)
             {
-                if (a.indexType == 1)
+                switch (a.indexType)
                 {
-                    RegistersSearchKey(e);
-                    return;
+                    case 1:
+                        RegistersSearchKey(e);
+                        return;
+                    case 2:
+                        PrimaryKey(en);
+                        break;
+                    case 3:
+                        ForeignKey(en);
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        break;
                 }
             }
             if (gridRegisters.RowCount > 1)
             {
-                for (int i = 0; i < gridRegisters.RowCount; i++)
+                for (int i = 0; i < gridRegisters.RowCount- 1; i++)
                 {
                     gridRegisters.Rows[i].Cells[gridRegisters.ColumnCount - 1].Value = gridRegisters.Rows[i + 1].Cells[0].Value;
                 }
@@ -841,7 +873,7 @@ namespace ProyectoArchivos
             }
         }
 
-        private void WriteRegister(int size)
+        private void WriteRegister (int size)
         {
             if (gridRegisters.RowCount > 0)
             {
@@ -1050,6 +1082,7 @@ namespace ProyectoArchivos
             gridAddRegister.Rows[0].Cells[0].Value = gridRegisters.RowCount * size;
             gridAddRegister.Rows[0].Cells[gridAddRegister.ColumnCount - 1].Value = -1;
             RegistersNextAddrs(en);
+            
             WriteRegister(size);
         }
 
@@ -1063,6 +1096,17 @@ namespace ProyectoArchivos
                     RegistersNextAddrs(en);
                 }
             }
+            int size = 16;
+
+            foreach (Attributes a in en.attributes)
+            {
+                if (a.dataType == 'C')
+                    size += a.length;
+                else
+                    size += 4;
+            }
+
+            WriteRegister(size);
         }
 
         private void btnDelReg_Click(object sender, EventArgs e)
@@ -1117,69 +1161,79 @@ namespace ProyectoArchivos
             }
             if(pk)
             {
-                string p = Path.Combine(path, en.id + ".pk");
-                FileStream file = new FileStream(p, FileMode.Create, FileAccess.Write, FileShare.None);
-                BinaryWriter bw = new BinaryWriter(file);
-                int indexPK = 1;
-                int size = 8;
-                int sizeDat = 0;
-                int type = 0; ;
-                foreach (var a in en.attributes)
-                {
-                    if (a.indexType == 2)
-                    {
-                        size += a.length;
-                        sizeDat = a.length;
-                        if (a.dataType == 'C')
-                            type = 0;
-                        else
-                            type = 1;
-                        break;
-                    }
-                    else
-                        indexPK++;
-                }
-                List<Register> lpk = new List<Register>();
-                for (int i = 0; i < gridRegisters.RowCount; i++)
-                {
-                    Register r = new Register();
-                    r.dir = Convert.ToInt64(gridRegisters.Rows[i].Cells[0].Value);
-                    r.val = gridRegisters.Rows[i].Cells[indexPK].Value.ToString();
-                    lpk.Add(r);
-                }
-                int maxReg = (int)Math.Floor(2048.0 / Convert.ToDouble(size));
-                int sizePK = (int)Math.Ceiling(Convert.ToDouble(gridRegisters.RowCount) / Convert.ToDouble(maxReg));
-                sizePK = sizePK * 2048;
-                
-                foreach(Register r in lpk)
-                {
-                    bw.Write(r.dir);
-                    if(type == 0)
-                    {
-                        byte[] name = new byte[sizeDat];
-                        Encoding.ASCII.GetBytes(Convert.ToString(r.val), 0, Convert.ToString(r.val).Length, name, 0);
-                        bw.Write(name);
-                    }
-                    else
-                    {
-                        bw.Write(Convert.ToInt32(r.val));
-                    }
-                }
-                bw.Write(Convert.ToInt64(-1));
-                byte[] bPK = new byte[sizePK - file.Length];
-                bw.Write(bPK);
-                bw.Close();
-                file.Close();
-                lpk = lpk.OrderBy(o => o.val).ToList();
-                frmPrimaryKey fpk = new frmPrimaryKey(lpk);
+                frmPrimaryKey fpk = new frmPrimaryKey(PrimaryKey(en));
                 fpk.ShowDialog();
                 fpk.Dispose();
             }
             else
             {
-                MessageBox.Show("Error", "Esta entidad no contiene ningun atributo de tipo índice primario", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Esta entidad no contiene ningun atributo de tipo índice primario", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
+        }
+
+        private List<Register> PrimaryKey(Entity en)
+        {
+            string p = Path.Combine(path, en.id + ".pk");
+            FileStream file = new FileStream(p, FileMode.Create, FileAccess.Write, FileShare.None);
+            BinaryWriter bw = new BinaryWriter(file);
+            int indexPK = 1;
+            int size = 8;
+            int sizeDat = 0;
+            int type = 0; ;
+            foreach (var a in en.attributes)
+            {
+                if (a.indexType == 2)
+                {
+                    size += a.length;
+                    sizeDat = a.length;
+                    if (a.dataType == 'C')
+                        type = 0;
+                    else
+                        type = 1;
+                    break;
+                }
+                else
+                    indexPK++;
+            }
+            List<Register> lpk = new List<Register>();
+            for (int i = 0; i < gridRegisters.RowCount; i++)
+            {
+                Register r = new Register();
+                r.dir = Convert.ToInt64(gridRegisters.Rows[i].Cells[0].Value);
+                r.val = gridRegisters.Rows[i].Cells[indexPK].Value.ToString();
+                lpk.Add(r);
+            }
+            if (type == 0)
+                lpk = lpk.OrderBy(o => o.val).ToList();
+            else
+            {
+                lpk = lpk.OrderBy(o => Convert.ToInt32(o.val)).ToList();
+            }
+            int maxReg = (int)Math.Floor(2048.0 / Convert.ToDouble(size));
+            int sizePK = (int)Math.Ceiling(Convert.ToDouble(gridRegisters.RowCount) / Convert.ToDouble(maxReg));
+            sizePK = sizePK * 2048;
+
+            foreach (Register r in lpk)
+            {
+                bw.Write(r.dir);
+                if (type == 0)
+                {
+                    byte[] name = new byte[sizeDat];
+                    Encoding.ASCII.GetBytes(Convert.ToString(r.val), 0, Convert.ToString(r.val).Length, name, 0);
+                    bw.Write(name);
+                }
+                else
+                {
+                    bw.Write(Convert.ToInt32(r.val));
+                }
+            }
+            bw.Write(Convert.ToInt64(-1));
+            byte[] bPK = new byte[sizePK - file.Length];
+            bw.Write(bPK);
+            bw.Close();
+            file.Close();
+            return lpk;
         }
 
         private void btnFK_Click(object sender, EventArgs e)
@@ -1221,7 +1275,35 @@ namespace ProyectoArchivos
                 frmFK.ShowDialog();
             }
             else
-                MessageBox.Show("Error", "Esta entidad no contiene ningun atributo de tipo índice secundario", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Esta entidad no contiene ningun atributo de tipo índice secundario", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
+
+        private void ForeignKey(Entity en)
+        {
+            int sizeDat = 0;
+            int indexFK = 1;
+            foreach (var a in en.attributes)
+            {
+                if (a.indexType == 3)
+                {
+                    sizeDat = a.length;
+                    break;
+                }
+                else
+                    indexFK++;
+            }
+            List<Register> lr = new List<Register>();
+            for (int i = 0; i < gridRegisters.RowCount; i++)
+            {
+                Register r = new Register();
+                r.dir = Convert.ToInt64(gridRegisters.Rows[i].Cells[0].Value);
+                r.val = gridRegisters.Rows[i].Cells[indexFK].Value;
+                lr.Add(r);
+            }
+            string p = Path.Combine(path, en.id + ".fk");
+            frmForeignKey frmFK = new frmForeignKey(lr, p, sizeDat);
+            frmFK.WriteFile();
+        }
+        
     }
 }

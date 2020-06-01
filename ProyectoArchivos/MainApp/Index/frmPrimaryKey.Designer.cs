@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Telerik.WinControls.UI.GridViewDecimalColumn gridViewDecimalColumn1 = new Telerik.WinControls.UI.GridViewDecimalColumn();
             Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn1 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.GridViewDecimalColumn gridViewDecimalColumn1 = new Telerik.WinControls.UI.GridViewDecimalColumn();
             Telerik.WinControls.UI.TableViewDefinition tableViewDefinition1 = new Telerik.WinControls.UI.TableViewDefinition();
             this.gridPK = new Telerik.WinControls.UI.RadGridView();
             this.radThemeManager1 = new Telerik.WinControls.RadThemeManager();
@@ -49,17 +49,17 @@
             this.gridPK.MasterTemplate.AllowColumnReorder = false;
             this.gridPK.MasterTemplate.AllowDeleteRow = false;
             this.gridPK.MasterTemplate.AllowDragToGroup = false;
-            gridViewDecimalColumn1.FieldName = "dir";
-            gridViewDecimalColumn1.HeaderText = "Dirección";
-            gridViewDecimalColumn1.Name = "dir";
-            gridViewDecimalColumn1.Width = 75;
             gridViewTextBoxColumn1.FieldName = "val";
             gridViewTextBoxColumn1.HeaderText = "Llave";
             gridViewTextBoxColumn1.Name = "val";
             gridViewTextBoxColumn1.Width = 170;
+            gridViewDecimalColumn1.FieldName = "dir";
+            gridViewDecimalColumn1.HeaderText = "Dirección";
+            gridViewDecimalColumn1.Name = "dir";
+            gridViewDecimalColumn1.Width = 75;
             this.gridPK.MasterTemplate.Columns.AddRange(new Telerik.WinControls.UI.GridViewDataColumn[] {
-            gridViewDecimalColumn1,
-            gridViewTextBoxColumn1});
+            gridViewTextBoxColumn1,
+            gridViewDecimalColumn1});
             this.gridPK.MasterTemplate.EnableGrouping = false;
             this.gridPK.MasterTemplate.ViewDefinition = tableViewDefinition1;
             this.gridPK.Name = "gridPK";

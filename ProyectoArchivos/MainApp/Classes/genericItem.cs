@@ -10,6 +10,8 @@ namespace ProyectoArchivos.MainApp.Classes
     {
         public string description;
         public string value;
+        public int valueInt;
+        public long dir;
         public string indexD;
         public string indexV;
         public int indexType;
