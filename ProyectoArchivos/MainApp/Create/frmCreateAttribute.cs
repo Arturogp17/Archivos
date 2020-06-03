@@ -93,5 +93,10 @@ namespace ProyectoArchivos.MainApp.Create
             }
             return false;
         }
+
+        private void frmCreateAttribute_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

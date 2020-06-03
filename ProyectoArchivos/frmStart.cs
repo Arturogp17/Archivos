@@ -26,14 +26,17 @@ namespace ProyectoArchivos
         FileStream file;
         string path = String.Empty;
         bool allowWrite = true;
+        frmBinaryTree binaryTree;
 
         public frmStart()
         {
             InitializeComponent();
+            binaryTree = null;
         }
 
         private void ClearData()
         {
+            binaryTree = null;
             entities = new List<Entity>();
             header = -1;
             lastAddress = 8;
@@ -278,6 +281,11 @@ namespace ProyectoArchivos
                             }
                             
                         }
+
+                        if (a.indexType == 4)
+                        {
+                            binaryTree = new frmBinaryTree(a, path, fileName, en);
+                        }
                         if (a.indexType == 1)
                             en.cve_busqueda++;
                         if (en.attributes.Count > 0)
@@ -290,6 +298,7 @@ namespace ProyectoArchivos
                         en.attributes.Add(a);
                         WriteEntity(en);
                         WriteAttribute(a);
+                        
                         gridEntities_CellClick(this, null);
                         break;
                     }
@@ -558,6 +567,14 @@ namespace ProyectoArchivos
                         allowWrite = false;
                         ReadRegisters(en);
                         
+                        foreach (var a in en.attributes)
+                        {
+                            if (a.indexType == 4)
+                            {
+                                binaryTree = new frmBinaryTree(a, path, fileName, en);
+                                binaryTree.Archivo_existente_dx();
+                            }
+                        }
                         allowWrite = true;
                     }
                     else
@@ -802,10 +819,6 @@ namespace ProyectoArchivos
                     case 3:
                         ForeignKey(en);
                         break;
-                    case 4:
-                        break;
-                    case 5:
-                        break;
                 }
             }
             if (gridRegisters.RowCount > 1)
@@ -817,7 +830,7 @@ namespace ProyectoArchivos
             }
             else
             {
-                gridRegisters.Rows[0].Cells[gridRegisters.ColumnCount - 1].Value = -1;
+                //gridRegisters.Rows[0].Cells[gridRegisters.ColumnCount - 1].Value = -1;
             }
             allowWrite = true;
         }
@@ -1081,8 +1094,20 @@ namespace ProyectoArchivos
             gridAddRegister.Rows.AddNew();
             gridAddRegister.Rows[0].Cells[0].Value = gridRegisters.RowCount * size;
             gridAddRegister.Rows[0].Cells[gridAddRegister.ColumnCount - 1].Value = -1;
+
+            int count = 1;
+            foreach (var a in en.attributes)
+            {
+                if(a.indexType == 4)
+                {
+                    binaryTree.Inserta_ArbolPrimario(Convert.ToInt32(row.Cells[count].Value), Convert.ToInt64(row.Cells[0].Value));
+                }
+                else
+                {
+                    count++;
+                }
+            }
             RegistersNextAddrs(en);
-            
             WriteRegister(size);
         }
 
@@ -1304,6 +1329,13 @@ namespace ProyectoArchivos
             frmForeignKey frmFK = new frmForeignKey(lr, p, sizeDat);
             frmFK.WriteFile();
         }
-        
+
+        private void btnBinaryTree_Click(object sender, EventArgs e)
+        {
+            if(binaryTree != null)
+            {
+                binaryTree.ShowDialog();
+            }
+        }
     }
 }

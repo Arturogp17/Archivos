@@ -83,6 +83,7 @@
             this.btnFK = new Telerik.WinControls.UI.RadButton();
             this.btnPK = new Telerik.WinControls.UI.RadButton();
             this.genericItemBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.btnBinaryTree = new Telerik.WinControls.UI.RadButton();
             ((System.ComponentModel.ISupportInitialize)(this.radMenu1)).BeginInit();
             this.radMenu1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.radGridView1)).BeginInit();
@@ -111,6 +112,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.btnFK)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnPK)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.genericItemBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnBinaryTree)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             this.SuspendLayout();
             // 
@@ -494,11 +496,12 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.btnBinaryTree);
             this.groupBox5.Controls.Add(this.btnFK);
             this.groupBox5.Controls.Add(this.btnPK);
             this.groupBox5.Location = new System.Drawing.Point(913, 26);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(129, 112);
+            this.groupBox5.Size = new System.Drawing.Size(296, 112);
             this.groupBox5.TabIndex = 15;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Indices";
@@ -526,6 +529,16 @@
             // genericItemBindingSource
             // 
             this.genericItemBindingSource.DataSource = typeof(ProyectoArchivos.MainApp.Classes.genericItem);
+            // 
+            // btnBinaryTree
+            // 
+            this.btnBinaryTree.Location = new System.Drawing.Point(122, 21);
+            this.btnBinaryTree.Name = "btnBinaryTree";
+            this.btnBinaryTree.Size = new System.Drawing.Size(110, 38);
+            this.btnBinaryTree.TabIndex = 3;
+            this.btnBinaryTree.Text = "Árbol primario";
+            this.btnBinaryTree.ThemeName = "VisualStudio2012Light";
+            this.btnBinaryTree.Click += new System.EventHandler(this.btnBinaryTree_Click);
             // 
             // frmStart
             // 
@@ -582,6 +595,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.btnFK)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnPK)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.genericItemBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnBinaryTree)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -625,5 +639,6 @@
         private System.Windows.Forms.GroupBox groupBox5;
         private Telerik.WinControls.UI.RadButton btnFK;
         private Telerik.WinControls.UI.RadButton btnPK;
+        private Telerik.WinControls.UI.RadButton btnBinaryTree;
     }
 }

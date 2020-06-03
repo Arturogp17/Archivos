@@ -73,6 +73,8 @@
     <Compile Include="MainApp\Classes\Attributes.cs" />
     <Compile Include="MainApp\Classes\Entity.cs" />
     <Compile Include="MainApp\Classes\genericItem.cs" />
+    <Compile Include="MainApp\Classes\Nodo.cs" />
+    <Compile Include="MainApp\Classes\Ordenadas.cs" />
     <Compile Include="MainApp\Classes\Register.cs" />
     <Compile Include="MainApp\Create\frmCreateAttribute.cs">
       <SubType>Form</SubType>
@@ -97,6 +99,12 @@
     </Compile>
     <Compile Include="MainApp\Delete\frmDeleteEntity.Designer.cs">
       <DependentUpon>frmDeleteEntity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainApp\Index\frmBinaryTree.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainApp\Index\frmBinaryTree.Designer.cs">
+      <DependentUpon>frmBinaryTree.cs</DependentUpon>
     </Compile>
     <Compile Include="MainApp\Index\frmForeignKey.cs">
       <SubType>Form</SubType>
@@ -123,6 +131,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainApp\Delete\frmDeleteEntity.resx">
       <DependentUpon>frmDeleteEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainApp\Index\frmBinaryTree.resx">
+      <DependentUpon>frmBinaryTree.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainApp\Index\frmForeignKey.resx">
       <DependentUpon>frmForeignKey.cs</DependentUpon>

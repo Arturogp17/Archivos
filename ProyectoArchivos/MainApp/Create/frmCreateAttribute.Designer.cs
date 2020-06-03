@@ -38,6 +38,7 @@
             Telerik.WinControls.UI.RadListDataItem radListDataItem8 = new Telerik.WinControls.UI.RadListDataItem();
             Telerik.WinControls.UI.RadListDataItem radListDataItem9 = new Telerik.WinControls.UI.RadListDataItem();
             Telerik.WinControls.UI.RadListDataItem radListDataItem10 = new Telerik.WinControls.UI.RadListDataItem();
+            Telerik.WinControls.UI.RadListDataItem radListDataItem11 = new Telerik.WinControls.UI.RadListDataItem();
             this.radLabel1 = new Telerik.WinControls.UI.RadLabel();
             this.radLabel2 = new Telerik.WinControls.UI.RadLabel();
             this.radLabel3 = new Telerik.WinControls.UI.RadLabel();
@@ -127,6 +128,7 @@
             // ddlDataType
             // 
             this.ddlDataType.DisplayMember = "dataTypeString";
+            this.ddlDataType.DropDownAnimationEnabled = false;
             radListDataItem1.Text = "Cadena";
             radListDataItem2.Text = "Entero";
             this.ddlDataType.Items.Add(radListDataItem1);
@@ -142,14 +144,17 @@
             // ddlIndexType
             // 
             this.ddlIndexType.DisplayMember = "Text";
+            this.ddlIndexType.DropDownAnimationEnabled = false;
             radListDataItem3.Text = "0-Sin tipo de índice";
             radListDataItem4.Text = "1-Clave de busqueda";
             radListDataItem5.Text = "2-Índice primario";
             radListDataItem6.Text = "3-Indice secundario";
+            radListDataItem7.Text = "4-Árbol primario";
             this.ddlIndexType.Items.Add(radListDataItem3);
             this.ddlIndexType.Items.Add(radListDataItem4);
             this.ddlIndexType.Items.Add(radListDataItem5);
             this.ddlIndexType.Items.Add(radListDataItem6);
+            this.ddlIndexType.Items.Add(radListDataItem7);
             this.ddlIndexType.Location = new System.Drawing.Point(79, 121);
             this.ddlIndexType.Name = "ddlIndexType";
             this.ddlIndexType.Size = new System.Drawing.Size(201, 24);
@@ -208,14 +213,15 @@
             // ddlEntidad
             // 
             this.ddlEntidad.DisplayMember = "name";
-            radListDataItem7.Text = "Sin tipo de indice";
-            radListDataItem8.Text = "Clave de busqueda";
-            radListDataItem9.Text = "Indice primario";
-            radListDataItem10.Text = "Indice secundario";
-            this.ddlEntidad.Items.Add(radListDataItem7);
+            this.ddlEntidad.DropDownAnimationEnabled = false;
+            radListDataItem8.Text = "Sin tipo de indice";
+            radListDataItem9.Text = "Clave de busqueda";
+            radListDataItem10.Text = "Indice primario";
+            radListDataItem11.Text = "Indice secundario";
             this.ddlEntidad.Items.Add(radListDataItem8);
             this.ddlEntidad.Items.Add(radListDataItem9);
             this.ddlEntidad.Items.Add(radListDataItem10);
+            this.ddlEntidad.Items.Add(radListDataItem11);
             this.ddlEntidad.Location = new System.Drawing.Point(79, 1);
             this.ddlEntidad.Name = "ddlEntidad";
             this.ddlEntidad.Size = new System.Drawing.Size(201, 24);
@@ -252,6 +258,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Crear nuevo atributo";
             this.ThemeName = "VisualStudio2012Light";
+            this.Load += new System.EventHandler(this.frmCreateAttribute_Load);
             ((System.ComponentModel.ISupportInitialize)(this.radLabel1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel3)).EndInit();
