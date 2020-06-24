@@ -16,5 +16,6 @@ namespace ProyectoArchivos.MainApp.Classes
         public string indexV;
         public int indexType;
         public string indexTypeString;
+        public List<long> fk;
     }
 }

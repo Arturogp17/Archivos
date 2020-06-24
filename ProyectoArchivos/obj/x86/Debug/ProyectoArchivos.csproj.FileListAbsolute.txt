@@ -77,3 +77,4 @@ C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\bin\Debug\TelerikCom
 C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.xml
 C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.GridView.xml
 C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.csproj.CopyComplete
+C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Index.frmStaticHash.resources

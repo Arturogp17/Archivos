@@ -1,186 +1,276 @@
 ﻿using ProyectoArchivos.MainApp.Classes;
+using ProyectoArchivos.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Telerik.WinControls;
-using System.IO;
+using Telerik.WinControls.UI;
 
 namespace ProyectoArchivos.MainApp.Index
 {
     public partial class frmForeignKey : Telerik.WinControls.UI.RadForm
     {
-        List<Register> lr = new List<Register>();
-        List<Register> bloque = new List<Register>();
-        string path;
-        int sizeDat;
+        private List<Register> headers;
+        private Attributes fkAttribute;
+        private string path;
+        private string pathFK;
+        BinaryReader Reader;
+        BinaryWriter Writer;
+        bool exists = false;
 
-        public frmForeignKey(List<Register> l, string p, int s)
+        public frmForeignKey(Attributes a, string path)
         {
             InitializeComponent();
-            lr = l;
-            path = p;
-            sizeDat = s;
+            fkAttribute = a;
+            headers = new List<Register>();
+            this.path = path;
+            pathFK = Path.Combine(path, fkAttribute.id + ".fk");
         }
 
-        private void frmForeignKey_Load(object sender, EventArgs e)
+        public bool Insert(Object value, long dir)
         {
-            long sizeFK = 2048;
-            foreach (var r in lr)
+            try
             {
-                if (bloque.Count == 0)
+                if (headers.Count == 0)
                 {
-                    Register reg = new Register();
-                    reg.val = r.val;
-                    reg.dir = sizeFK;
-                    reg.bloque = new List<Register>();
-                    Register regFK = new Register();
-                    regFK.dir = r.dir;
-                    reg.bloque.Add(regFK);
-                    sizeFK += 2048;
-                    bloque.Add(reg);
+                    Register gi = new Register();
+                    gi.dir = 2048;
+                    gi.val = value;
+                    gi.bloque = new List<long>();
+                    gi.bloque.Add(dir);
+                    headers.Add(gi);
+                    WriteHeaders();
                 }
                 else
                 {
-                    int index = SearchBlock(r.val.ToString());
-                    if (index != -1)
+                    Register header = SearchHeader(value);
+                    if (header != null)
                     {
-                        Register regFK = new Register();
-                        regFK.dir = r.dir;
-                        bloque[index].bloque.Add(regFK);
+                        header.bloque.Add(dir);
+                        WriteBlock(header);
                     }
                     else
                     {
-                        Register reg = new Register();
-                        reg.val = r.val;
-                        reg.dir = sizeFK;
-                        reg.bloque = new List<Register>();
-                        Register regFK = new Register();
-                        regFK.dir = r.dir;
-                        reg.bloque.Add(regFK);
-                        sizeFK += 2048;
-                        bloque.Add(reg);
+                        Register gi = new Register();
+                        gi.dir = GetFileSize();
+                        gi.val = value;
+                        gi.bloque = new List<long>();
+                        gi.bloque.Add(dir);
+                        headers.Add(gi);
+                        WriteHeaders();
                     }
                 }
+                ShowData();
+                return true;
             }
-            bloque = bloque.OrderBy(o => o.val).ToList();
-            gridFK.DataSource = bloque;
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return false;
+            }
         }
 
-        public void WriteFile()
+        public void Delete(object value, long dir)
         {
-            long sizeFK = 2048;
-            foreach (var r in lr)
+            Register d = SearchHeader(value);
+            if (d != null)
             {
-                if (bloque.Count == 0)
+                d.bloque.Remove(dir);
+                ShowData();
+                WriteBlock(d);
+            }
+        }
+
+        private Register SearchHeader(object value)
+        {
+            foreach (var h in headers)
+            {
+                if(fkAttribute.dataType == 'C')
                 {
-                    Register reg = new Register();
-                    reg.val = r.val;
-                    reg.dir = sizeFK;
-                    reg.bloque = new List<Register>();
-                    Register regFK = new Register();
-                    regFK.dir = r.dir;
-                    reg.bloque.Add(regFK);
-                    sizeFK += 2048;
-                    bloque.Add(reg);
+                    if (Convert.ToString(h.val).Trim('\0') == value.ToString())
+                        return h;
                 }
                 else
                 {
-                    int index = SearchBlock(r.val.ToString());
-                    if (index != -1)
+                    if ((int)h.val == (int)value)
                     {
-                        Register regFK = new Register();
-                        regFK.dir = r.dir;
-                        bloque[index].bloque.Add(regFK);
-                    }
-                    else
-                    {
-                        Register reg = new Register();
-                        reg.val = r.val;
-                        reg.dir = sizeFK;
-                        reg.bloque = new List<Register>();
-                        Register regFK = new Register();
-                        regFK.dir = r.dir;
-                        reg.bloque.Add(regFK);
-                        sizeFK += 2048;
-                        bloque.Add(reg);
+                        return h;
                     }
                 }
+                
             }
-            bloque = bloque.OrderBy(o => o.val).ToList();
-            gridFK.DataSource = bloque;
-            sizeFK = 2048;
-            long fileLength = 0;
-            FileStream file = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
-            if (file.Length > 0)
+            return null;
+        }
+        
+        private long GetFileSize()
+        {
+            long size;
+            Reader = new BinaryReader(File.OpenRead(pathFK));
+            size = Reader.BaseStream.Length;
+            Reader.Close();
+            return size;
+        }
+
+        private void ShowData()
+        {
+            gridFK.DataSource = null;
+            gridFK.Rows.Clear();
+            gridFK.DataSource = headers.OrderBy(o=>o.val).ToList();
+            gridFK_CellClick(this, null);
+        }
+
+        private void WriteBlock(Register r)
+        {
+            FileStream file = new FileStream(pathFK, FileMode.Open, FileAccess.Write, FileShare.None);
+            Writer = new BinaryWriter(file);
+            Writer.Seek((int)r.dir, SeekOrigin.Begin);
+            foreach (var v in r.bloque)
             {
-                fileLength = file.Length;
+                Writer.Write(v);
             }
-            file.Close();
-            file = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None);
+            Writer.Write((long)-1);
+            byte[] b = new byte[2040 - (r.bloque.Count * 8 + 8)];
+            Writer.Write(b);
+            Writer.Write((long)-1);
+            Writer.Close();
+        }
+
+        private void WriteHeaders()
+        {
+            if (!exists)
+                CreateFile();
+            FileStream file = new FileStream(pathFK, FileMode.Open, FileAccess.Write, FileShare.None);
             BinaryWriter bw = new BinaryWriter(file);
-            foreach (var r in bloque)
+            file.Seek(0, SeekOrigin.Begin);
+            int counterByte = 0;
+            foreach (var r in headers)
             {
-                if (sizeDat > 4)
+                if (fkAttribute.dataType == 'C')
                 {
-                    byte[] name = new byte[sizeDat];
+                    byte[] name = new byte[fkAttribute.length];
                     Encoding.ASCII.GetBytes(Convert.ToString(r.val), 0, Convert.ToString(r.val).Length, name, 0);
+                    counterByte += fkAttribute.length;
                     bw.Write(name);
+                    bw.Write(r.dir);
+                    counterByte += fkAttribute.length + 8;
                 }
                 else
+                {
                     bw.Write(Convert.ToInt32(r.val));
-                bw.Write(r.dir);
-            }
-            bw.Write(Convert.ToInt64(-1));
-            byte[] bPK = new byte[sizeFK - file.Length];
-            bw.Write(bPK);
-            sizeFK += 2048;
-            foreach (var r in bloque)
-            {
-                foreach (var b in r.bloque)
-                {
-                    bw.Write(b.dir);
+                    bw.Write(r.dir);
+                    counterByte += 12;
                 }
-                bw.Write(Convert.ToInt64(-1));
-                bPK = new byte[sizeFK - file.Length];
-                bw.Write(bPK);
-                sizeFK += 2048;
             }
-            if (fileLength - file.Length > 0)
-            {
-                bPK = new byte[fileLength - file.Length];
-                bw.Write(bPK);
-            }
-            file.Close();
-        }
+            byte[] b = new byte[2040 - counterByte];
+            bw.Write(b);
+            bw.Write((long)-1);
 
-        public int SearchBlock(string name)
-        {
-            //int index = -1;
-            //index = name.IndexOf('\0');
-            //if (index != -1)
-            //    name = name.Remove(index);
-            for (int i = 0; i < bloque.Count; i++)
+            foreach (var r in headers)
             {
-                if (bloque[i].val.ToString() == name || bloque[i].val.ToString().Contains(name))
-                    return i;
-            }
-            return -1;
-        }
-
-        private void gridFK_CellClick(object sender, Telerik.WinControls.UI.GridViewCellEventArgs e)
-        {
-            foreach (var r in bloque)
-            {
-                if(r.val == gridFK.SelectedRows[0].Cells[0].Value)
+                bw.Seek((int)r.dir, SeekOrigin.Begin);
+                foreach (var v in r.bloque)
                 {
-                    gridFKData.DataSource = r.bloque;
+                    bw.Write(v);
+                }
+                bw.Write((long)-1);
+                b = new byte[2040 - (r.bloque.Count * 8 + 8)];
+                bw.Write(b);
+                bw.Write((long)-1);
+            }
+            bw.Close();
+            
+        }
+
+        private void CreateFile()
+        {
+            Writer = new BinaryWriter(File.Create(pathFK));
+            Writer.Close();
+
+            exists = true;
+        }
+
+        private void gridFK_CellClick(object sender, GridViewCellEventArgs e)
+        {
+            foreach (var r in headers)
+            {
+                if (r.val == gridFK.SelectedRows[0].Cells[1].Value)
+                {
+                    gridFKData.Rows.Clear();
+                    foreach (var b in r.bloque)
+                    {
+                        
+                        GridViewDataRowInfo rowInfo = new GridViewDataRowInfo(gridFKData.MasterView);
+                        rowInfo.Cells[0].Value = b;
+                        gridFKData.Rows.Add(rowInfo);
+                    }
                     return;
                 }
+            }
+        }
+
+        public void OpenFile()
+        {
+            FileStream file = new FileStream(pathFK, FileMode.Open, FileAccess.Read, FileShare.None);
+            Reader = new BinaryReader(file);
+            if (file.Length > 0)
+            {
+                Register r = new Register();
+                r.dir = -1;
+                while (true)
+                {
+                    r = new Register();
+                    if (fkAttribute.dataType == 'C')
+                    {
+                        r.val = Encoding.ASCII.GetString(Reader.ReadBytes(fkAttribute.length));
+                    }
+                    else
+                    {
+                        r.val = Reader.ReadInt32();
+                    }
+                    r.dir = Reader.ReadInt64();
+                    r.bloque = new List<long>();
+                    if (r.dir == 0)
+                        break;
+                    headers.Add(r);
+
+                }
+                Reader.Close();
+
+                foreach (var h in headers)
+                {
+                    ReadBlock(h);
+                }
+                ShowData();
+            }
+            else
+            {
+                Reader.Close();
+                file.Close();
+            }
+        }
+
+        private void ReadBlock(Register r)
+        {
+            FileStream file = new FileStream(pathFK, FileMode.Open, FileAccess.Read, FileShare.None);
+            Reader = new BinaryReader(file);
+            Reader.BaseStream.Seek(r.dir, SeekOrigin.Begin);
+            long val = 0;
+
+            while(true)
+            {
+                val = Reader.ReadInt64();
+                if (val == -1)
+                {
+                    Reader.Close();
+                    break;
+                }
+                r.bloque.Add(val);
             }
         }
     }

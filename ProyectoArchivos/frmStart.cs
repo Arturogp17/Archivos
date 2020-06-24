@@ -27,16 +27,25 @@ namespace ProyectoArchivos
         string path = String.Empty;
         bool allowWrite = true;
         frmBinaryTree binaryTree;
+        frmForeignKey foreignKey;
+        frmStaticHash staticHash;
+        List<Object> oldRegister;
 
         public frmStart()
         {
             InitializeComponent();
             binaryTree = null;
+            foreignKey = null;
+            staticHash = null;
         }
 
+        /// <summary>
+        /// Limpia los controles y las variables globales, para utilizarlas en un nuevo archivo sin cerrar el programa
+        /// </summary>
         private void ClearData()
         {
             binaryTree = null;
+            foreignKey = null;
             entities = new List<Entity>();
             header = -1;
             lastAddress = 8;
@@ -49,7 +58,12 @@ namespace ProyectoArchivos
             gridEntities.Rows.Clear();
             gridRegisters.Rows.Clear();
             gridRegisters.Columns.Clear();
+            if (binaryTree != null) binaryTree.Dispose();
+            if (staticHash != null) staticHash.Dispose();
+            if (foreignKey != null) foreignKey.Dispose();
         }
+
+
         public int CreateFile()
         {
             ClearData();
@@ -281,10 +295,17 @@ namespace ProyectoArchivos
                             }
                             
                         }
-
-                        if (a.indexType == 4)
+                        switch(a.indexType)
                         {
-                            binaryTree = new frmBinaryTree(a, path, fileName, en);
+                            case 3:
+                                foreignKey = new frmForeignKey(a, path);
+                                break;
+                            case 4:
+                                binaryTree = new frmBinaryTree(a, path, fileName);
+                                break;
+                            case 5:
+                                staticHash = new frmStaticHash(a, path);
+                                break;
                         }
                         if (a.indexType == 1)
                             en.cve_busqueda++;
@@ -537,6 +558,24 @@ namespace ProyectoArchivos
             }
         }
 
+        public void UpdateGridAttributes()
+        {
+            gridAttributes.Rows.Clear();
+            Entity en = FindEntity(gridEntities.SelectedRows[0].Cells["id"].Value.ToString());
+            foreach (var a in en.attributes)
+            {
+                GridViewRowInfo row = gridAttributes.Rows.AddNew();
+                row.Cells["id"].Value = a.id;
+                row.Cells["name"].Value = a.name;
+                row.Cells["dataType"].Value = a.dataType.ToString();
+                row.Cells["length"].Value = a.length;
+                row.Cells["address"].Value = a.address;
+                row.Cells["indexType"].Value = a.indexType.ToString();
+                row.Cells["indexAddress"].Value = a.indexAddress;
+                row.Cells["nextAttributeAddress"].Value = a.nextAttributeAddress;
+            }
+        }
+
         private void gridEntities_CellClick(object sender, GridViewCellEventArgs e)
         {
             string entity = gridEntities.SelectedRows[0].Cells["id"].Value.ToString();
@@ -569,10 +608,20 @@ namespace ProyectoArchivos
                         
                         foreach (var a in en.attributes)
                         {
-                            if (a.indexType == 4)
+                            switch(a.indexType)
                             {
-                                binaryTree = new frmBinaryTree(a, path, fileName, en);
-                                binaryTree.Archivo_existente_dx();
+                                case 3:
+                                    foreignKey = new frmForeignKey(a, path);
+                                    foreignKey.OpenFile();
+                                    break;
+                                case 4:
+                                    binaryTree = new frmBinaryTree(a, path, fileName);
+                                    binaryTree.ExistingFile();
+                                    break;
+                                case 5:
+                                    staticHash = new frmStaticHash(a, path);
+                                    staticHash.OpenFile();
+                                    break;
                             }
                         }
                         allowWrite = true;
@@ -666,35 +715,43 @@ namespace ProyectoArchivos
             ca.Width = 75;
             gridRegisters.MasterTemplate.Columns.Add(c);
             gridAddRegister.MasterTemplate.Columns.Add(ca);
-
+            
             string p = Path.Combine(path, en.id + ".dat");
             FileStream file = new FileStream(p, FileMode.Open, FileAccess.Read, FileShare.None);
             BinaryReader br = new BinaryReader(file);
-            while (file.Position < file.Length)
+            if (file.Length > 0)
             {
-                GridViewRowInfo row = gridRegisters.Rows.AddNew();
-
-                row.Cells[0].Value = br.ReadInt64().ToString();
-                foreach (Attributes a in en.attributes)
+                long next = en.dataAddress;
+                while (next != -1)
                 {
-                    if (a.dataType == 'C')
+                    GridViewRowInfo row = gridRegisters.Rows.AddNew();
+                    file.Seek(next, SeekOrigin.Begin);
+                    row.Cells[0].Value = br.ReadInt64().ToString();
+                    foreach (Attributes a in en.attributes)
                     {
-                        row.Cells[a.name].Value = Encoding.ASCII.GetString(br.ReadBytes(a.length));
+                        if (a.dataType == 'C')
+                        {
+                            row.Cells[a.name].Value = Encoding.ASCII.GetString(br.ReadBytes(a.length));
+                        }
+                        else
+                        {
+                            row.Cells[a.name].Value = br.ReadInt32();
+                        }
                     }
-                    else
-                    {
-                        row.Cells[a.name].Value = br.ReadInt32();
-                    }
+
+                    next = br.ReadInt64();
+                    row.Cells["sig"].Value = next.ToString();
                 }
-                row.Cells["sig"].Value = br.ReadInt64().ToString();
             }
-            file.Close();
+
+            
             allowWrite = true;
 
             gridAddRegister.Rows.Clear();
             gridAddRegister.Rows.AddNew();
-            gridAddRegister.Rows[0].Cells[0].Value = gridRegisters.RowCount * size;
+            gridAddRegister.Rows[0].Cells[0].Value = file.Length;
             gridAddRegister.Rows[0].Cells[gridAddRegister.ColumnCount - 1].Value = -1;
+            file.Close();
         }
 
         private void btnDataFile_Click(object sender, EventArgs e)
@@ -784,10 +841,11 @@ namespace ProyectoArchivos
                     gridAddRegister.MasterTemplate.Columns.Add(ca);
                 }
             }
-            file.Close();
+            
             gridAddRegister.Rows.Clear();
             gridAddRegister.Rows.AddNew();
-            gridAddRegister.Rows[0].Cells[0].Value = gridRegisters.RowCount * size;
+            gridAddRegister.Rows[0].Cells[0].Value = file.Length;
+            file.Close();
             gridAddRegister.Rows[0].Cells[gridAddRegister.ColumnCount - 1].Value = -1;
         }
 
@@ -816,21 +874,18 @@ namespace ProyectoArchivos
                     case 2:
                         PrimaryKey(en);
                         break;
-                    case 3:
-                        ForeignKey(en);
-                        break;
                 }
             }
             if (gridRegisters.RowCount > 1)
             {
-                for (int i = 0; i < gridRegisters.RowCount- 1; i++)
+                for (int i = 0; i < gridRegisters.RowCount - 1; i++)
                 {
                     gridRegisters.Rows[i].Cells[gridRegisters.ColumnCount - 1].Value = gridRegisters.Rows[i + 1].Cells[0].Value;
+                    if(i + 1 == gridRegisters.RowCount - 1)
+                    {
+                        gridRegisters.Rows[i + 1].Cells[gridRegisters.ColumnCount - 1].Value = -1;
+                    }
                 }
-            }
-            else
-            {
-                //gridRegisters.Rows[0].Cells[gridRegisters.ColumnCount - 1].Value = -1;
             }
             allowWrite = true;
         }
@@ -1092,34 +1147,76 @@ namespace ProyectoArchivos
             }
             gridAddRegister.Rows.Clear();
             gridAddRegister.Rows.AddNew();
-            gridAddRegister.Rows[0].Cells[0].Value = gridRegisters.RowCount * size;
+            file.Close();
             gridAddRegister.Rows[0].Cells[gridAddRegister.ColumnCount - 1].Value = -1;
 
             int count = 1;
             foreach (var a in en.attributes)
             {
-                if(a.indexType == 4)
+                switch (a.indexType)
                 {
-                    binaryTree.Inserta_ArbolPrimario(Convert.ToInt32(row.Cells[count].Value), Convert.ToInt64(row.Cells[0].Value));
+                    case 3:
+                        foreignKey.Insert(row.Cells[count].Value, Convert.ToInt64(row.Cells[0].Value));
+                        break;
+                    case 4:
+                        binaryTree.Insert(Convert.ToInt32(row.Cells[count].Value), Convert.ToInt64(row.Cells[0].Value));
+                        break;
+                    case 5:
+                        staticHash.Insert(Convert.ToInt32(row.Cells[count].Value), Convert.ToInt64(row.Cells[0].Value));
+                        break;
                 }
-                else
-                {
-                    count++;
-                }
+                count++;
             }
             RegistersNextAddrs(en);
             WriteRegister(size);
+            UpdateGridAttributes();
+
+            string p = Path.Combine(path, en.id + ".dat");
+            file = new FileStream(p, FileMode.Open, FileAccess.Read, FileShare.None);
+            BinaryReader br = new BinaryReader(file);
+            gridAddRegister.Rows[0].Cells[0].Value = file.Length;
+            file.Close();
         }
 
         private void gridRegisters_CellEndEdit(object sender, GridViewCellEventArgs e)
         {
+            List<object> newRegister = new List<object>();
+            for (int i = 0; i < gridRegisters.ColumnCount; i++)
+            {
+                newRegister.Add(e.Row.Cells[i].Value);
+            }
             Entity en = FindEntity(gridEntities.SelectedRows[0].Cells[0].Value.ToString());
+            int count = 1;
             foreach(Attributes a in en.attributes)
             {
-                if(a.indexType == 1)
+                switch (a.indexType)
                 {
-                    RegistersNextAddrs(en);
+                    case 1://Clave de busqueda
+                        RegistersNextAddrs(en);
+                        break;
+                    case 3://Clave secundaria
+                        if (oldRegister[count].ToString() != newRegister[count].ToString())
+                        {
+                            foreignKey.Delete(oldRegister[count], Convert.ToInt64(oldRegister[0]));
+                            foreignKey.Insert(newRegister[count], Convert.ToInt64(newRegister[0]));
+                        }
+                        break;
+                    case 4://Arbol binario
+                        if (Convert.ToInt32(oldRegister[count]) != Convert.ToInt32(newRegister[count]))
+                        {
+                            binaryTree.Delete(Convert.ToInt32(oldRegister[count]), Convert.ToInt64(oldRegister[0]));
+                            binaryTree.Insert(Convert.ToInt32(newRegister[count]), Convert.ToInt64(newRegister[0]));
+                        }
+                        break;
+                    case 5://Hash estatica
+                        if (Convert.ToInt32(oldRegister[count]) != Convert.ToInt32(newRegister[count]))
+                        {
+                            staticHash.Delete(Convert.ToInt32(oldRegister[count]), Convert.ToInt64(oldRegister[0]));
+                            staticHash.Insert(Convert.ToInt32(newRegister[count]), Convert.ToInt64(newRegister[0]));
+                        }
+                        break;
                 }
+                count++;
             }
             int size = 16;
 
@@ -1142,9 +1239,29 @@ namespace ProyectoArchivos
                 {
                     if (gridRegisters.SelectedRows[0].Cells[0].Value == gridRegisters.Rows[i].Cells[0].Value)
                     {
+                        Entity en = FindEntity(gridEntities.SelectedRows[0].Cells["id"].Value.ToString());
+                        int indexer = 1;
+                        foreach (var a in en.attributes)
+                        {
+                            switch(a.indexType)
+                            {
+                                case 4:
+                                    binaryTree.Delete(Convert.ToInt32(gridRegisters.SelectedRows[0].Cells[indexer].Value), Convert.ToInt64(gridRegisters.SelectedRows[0].Cells[0].Value));
+                                    break;
+
+                                case 3:
+                                    foreignKey.Delete(gridRegisters.SelectedRows[0].Cells[indexer].Value, Convert.ToInt64(gridRegisters.SelectedRows[0].Cells[0].Value));
+                                    break;
+
+                                case 5:
+                                    staticHash.Delete(Convert.ToInt32(gridRegisters.SelectedRows[0].Cells[indexer].Value), Convert.ToInt64(gridRegisters.SelectedRows[0].Cells[0].Value));
+                                    break;
+                            }
+                            indexer++;
+                        }
                         gridRegisters.Rows.RemoveAt(i);
                         int size = 16;
-                        Entity en = FindEntity(gridEntities.SelectedRows[0].Cells["id"].Value.ToString());
+                        
                         foreach (Attributes a in en.attributes)
                         {
                             if (a.dataType == 'C')
@@ -1152,24 +1269,44 @@ namespace ProyectoArchivos
                             else
                                 size += 4;
                         }
-                        for (int j = 0; j < gridRegisters.RowCount; j++)
-                        {
-                            gridRegisters.Rows[j].Cells[0].Value = j * size;
-                        }
-                        gridAddRegister.Rows[0].Cells[0].Value = gridRegisters.RowCount * size;
+                        //for (int j = 0; j < gridRegisters.RowCount; j++)
+                        //{
+                        //    gridRegisters.Rows[j].Cells[0].Value = j * size;
+                        //}
+                        if (gridRegisters.RowCount > 0)
+                            en.dataAddress = Convert.ToInt64(gridRegisters.Rows[0].Cells[0].Value);
+                        else
+                            en.dataAddress = -1;
+                        WriteEntity(en);
+                        gridEntities.SelectedRows[0].Cells["dataAddress"].Value = en.dataAddress;
                         string p = Path.Combine(path, en.id + ".dat");
-                        FileStream file = new FileStream(p, FileMode.Create, FileAccess.Write, FileShare.None);
+                        FileStream file = new FileStream(p, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
                         file.Close();
                         RegistersNextAddrs(en);
                         WriteRegister(size);
                         return;
                     }
                 }
+                UpdateGridAttributes();
             }
             else
             {
                 MessageBox.Show("Error", "Antes de eliminar un registro, agrega uno o abre un archivo que contenga registros", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            
+        }
+
+        public int NextAddress(int size)
+        {
+            int max = 0;
+            for (int i = 0; i < gridRegisters.RowCount; i++)
+            {
+                if(Convert.ToInt64(gridRegisters.Rows[i].Cells[0].Value) > max)
+                {
+                    max = Convert.ToInt32(gridRegisters.Rows[i].Cells[0].Value);
+                }
+            }
+            return max + size;
         }
 
         private void btnPK_Click(object sender, EventArgs e)
@@ -1263,71 +1400,10 @@ namespace ProyectoArchivos
 
         private void btnFK_Click(object sender, EventArgs e)
         {
-            bool fk = false;
-            Entity en = FindEntity(gridEntities.SelectedRows[0].Cells["id"].Value.ToString());
-            foreach (var a in en.attributes)
+            if (foreignKey != null)
             {
-                if (a.indexType == 3)
-                {
-                    fk = true;
-                    break;
-                }
+                foreignKey.ShowDialog();
             }
-            if(fk)
-            {
-                int sizeDat = 0;
-                int indexFK = 1;
-                foreach (var a in en.attributes)
-                {
-                    if (a.indexType == 3)
-                    {
-                        sizeDat = a.length;
-                        break;
-                    }
-                    else
-                        indexFK++;
-                }
-                List<Register> lr = new List<Register>();
-                for (int i = 0; i < gridRegisters.RowCount; i++)
-                {
-                    Register r = new Register();
-                    r.dir = Convert.ToInt64(gridRegisters.Rows[i].Cells[0].Value);
-                    r.val = gridRegisters.Rows[i].Cells[indexFK].Value;
-                    lr.Add(r);
-                }
-                string p = Path.Combine(path, en.id + ".fk");
-                frmForeignKey frmFK = new frmForeignKey(lr, p, sizeDat);
-                frmFK.ShowDialog();
-            }
-            else
-                MessageBox.Show("Esta entidad no contiene ningun atributo de tipo índice secundario", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-
-        private void ForeignKey(Entity en)
-        {
-            int sizeDat = 0;
-            int indexFK = 1;
-            foreach (var a in en.attributes)
-            {
-                if (a.indexType == 3)
-                {
-                    sizeDat = a.length;
-                    break;
-                }
-                else
-                    indexFK++;
-            }
-            List<Register> lr = new List<Register>();
-            for (int i = 0; i < gridRegisters.RowCount; i++)
-            {
-                Register r = new Register();
-                r.dir = Convert.ToInt64(gridRegisters.Rows[i].Cells[0].Value);
-                r.val = gridRegisters.Rows[i].Cells[indexFK].Value;
-                lr.Add(r);
-            }
-            string p = Path.Combine(path, en.id + ".fk");
-            frmForeignKey frmFK = new frmForeignKey(lr, p, sizeDat);
-            frmFK.WriteFile();
         }
 
         private void btnBinaryTree_Click(object sender, EventArgs e)
@@ -1335,6 +1411,23 @@ namespace ProyectoArchivos
             if(binaryTree != null)
             {
                 binaryTree.ShowDialog();
+            }
+        }
+
+        private void btnHash_Click(object sender, EventArgs e)
+        {
+            if (staticHash != null)
+            {
+                staticHash.ShowDialog();
+            }
+        }
+
+        private void gridRegisters_CellClick(object sender, GridViewCellEventArgs e)
+        {
+            oldRegister = new List<object>();
+            for (int i = 0; i < gridRegisters.ColumnCount; i++)
+            {
+                oldRegister.Add(e.Row.Cells[i].Value);
             }
         }
     }

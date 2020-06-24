@@ -73,8 +73,7 @@
     <Compile Include="MainApp\Classes\Attributes.cs" />
     <Compile Include="MainApp\Classes\Entity.cs" />
     <Compile Include="MainApp\Classes\genericItem.cs" />
-    <Compile Include="MainApp\Classes\Nodo.cs" />
-    <Compile Include="MainApp\Classes\Ordenadas.cs" />
+    <Compile Include="MainApp\Classes\Node.cs" />
     <Compile Include="MainApp\Classes\Register.cs" />
     <Compile Include="MainApp\Create\frmCreateAttribute.cs">
       <SubType>Form</SubType>
@@ -118,6 +117,12 @@
     <Compile Include="MainApp\Index\frmPrimaryKey.Designer.cs">
       <DependentUpon>frmPrimaryKey.cs</DependentUpon>
     </Compile>
+    <Compile Include="MainApp\Index\frmStaticHash.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainApp\Index\frmStaticHash.Designer.cs">
+      <DependentUpon>frmStaticHash.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainApp\Create\frmCreateAttribute.resx">
@@ -141,6 +146,9 @@
     <EmbeddedResource Include="MainApp\Index\frmPrimaryKey.resx">
       <DependentUpon>frmPrimaryKey.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MainApp\Index\frmStaticHash.resx">
+      <DependentUpon>frmStaticHash.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -151,6 +159,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\DataSources\ProyectoArchivos.MainApp.Classes.genericItem.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -39,6 +39,7 @@
             Telerik.WinControls.UI.RadListDataItem radListDataItem9 = new Telerik.WinControls.UI.RadListDataItem();
             Telerik.WinControls.UI.RadListDataItem radListDataItem10 = new Telerik.WinControls.UI.RadListDataItem();
             Telerik.WinControls.UI.RadListDataItem radListDataItem11 = new Telerik.WinControls.UI.RadListDataItem();
+            Telerik.WinControls.UI.RadListDataItem radListDataItem12 = new Telerik.WinControls.UI.RadListDataItem();
             this.radLabel1 = new Telerik.WinControls.UI.RadLabel();
             this.radLabel2 = new Telerik.WinControls.UI.RadLabel();
             this.radLabel3 = new Telerik.WinControls.UI.RadLabel();
@@ -150,11 +151,13 @@
             radListDataItem5.Text = "2-Índice primario";
             radListDataItem6.Text = "3-Indice secundario";
             radListDataItem7.Text = "4-Árbol primario";
+            radListDataItem8.Text = "5-Hash estática";
             this.ddlIndexType.Items.Add(radListDataItem3);
             this.ddlIndexType.Items.Add(radListDataItem4);
             this.ddlIndexType.Items.Add(radListDataItem5);
             this.ddlIndexType.Items.Add(radListDataItem6);
             this.ddlIndexType.Items.Add(radListDataItem7);
+            this.ddlIndexType.Items.Add(radListDataItem8);
             this.ddlIndexType.Location = new System.Drawing.Point(79, 121);
             this.ddlIndexType.Name = "ddlIndexType";
             this.ddlIndexType.Size = new System.Drawing.Size(201, 24);
@@ -214,14 +217,14 @@
             // 
             this.ddlEntidad.DisplayMember = "name";
             this.ddlEntidad.DropDownAnimationEnabled = false;
-            radListDataItem8.Text = "Sin tipo de indice";
-            radListDataItem9.Text = "Clave de busqueda";
-            radListDataItem10.Text = "Indice primario";
-            radListDataItem11.Text = "Indice secundario";
-            this.ddlEntidad.Items.Add(radListDataItem8);
+            radListDataItem9.Text = "Sin tipo de indice";
+            radListDataItem10.Text = "Clave de busqueda";
+            radListDataItem11.Text = "Indice primario";
+            radListDataItem12.Text = "Indice secundario";
             this.ddlEntidad.Items.Add(radListDataItem9);
             this.ddlEntidad.Items.Add(radListDataItem10);
             this.ddlEntidad.Items.Add(radListDataItem11);
+            this.ddlEntidad.Items.Add(radListDataItem12);
             this.ddlEntidad.Location = new System.Drawing.Point(79, 1);
             this.ddlEntidad.Name = "ddlEntidad";
             this.ddlEntidad.Size = new System.Drawing.Size(201, 24);
