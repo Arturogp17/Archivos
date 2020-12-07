@@ -266,6 +266,7 @@ namespace ProyectoArchivos
             if (gridAttributes.Rows.Count > 0)
                 id = Convert.ToInt32(gridAttributes.Rows[gridAttributes.Rows.Count - 1].Cells["id"].Value) + 1;
             frmCreateAttribute ca = new frmCreateAttribute(entities, id);
+
             if(ca.ShowDialog() == DialogResult.OK)
             {
                 Attributes a = new Attributes();
@@ -651,11 +652,13 @@ namespace ProyectoArchivos
             c.Name = "dir";
             c.ReadOnly = true;
             c.Width = 75;
+            c.IsVisible = false;
             GridViewTextBoxColumn ca = new GridViewTextBoxColumn();
             ca.HeaderText = "Dirección";
             ca.Name = "dir";
             ca.ReadOnly = true;
             ca.Width = 75;
+            ca.IsVisible = false;
             gridRegisters.MasterTemplate.Columns.Add(c);
             gridAddRegister.MasterTemplate.Columns.Add(ca);
             foreach (Attributes a in en.attributes)
@@ -708,11 +711,13 @@ namespace ProyectoArchivos
             c.Name = "sig";
             c.ReadOnly = true;
             c.Width = 75;
+            c.IsVisible = false;
             ca = new GridViewTextBoxColumn();
             ca.HeaderText = "Sig.registro";
             ca.Name = "sig";
             ca.ReadOnly = true;
             ca.Width = 75;
+            ca.IsVisible = false;
             gridRegisters.MasterTemplate.Columns.Add(c);
             gridAddRegister.MasterTemplate.Columns.Add(ca);
             

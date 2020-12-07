@@ -185,7 +185,7 @@
             this.btnCreateEntity.Name = "btnCreateEntity";
             this.btnCreateEntity.Size = new System.Drawing.Size(110, 38);
             this.btnCreateEntity.TabIndex = 1;
-            this.btnCreateEntity.Text = "Crear entidad";
+            this.btnCreateEntity.Text = "Crear tabla";
             this.btnCreateEntity.ThemeName = "VisualStudio2012Light";
             this.btnCreateEntity.Click += new System.EventHandler(this.btnCreateEntity_Click);
             // 
@@ -218,7 +218,7 @@
             this.btnDeleteEntity.Name = "btnDeleteEntity";
             this.btnDeleteEntity.Size = new System.Drawing.Size(110, 38);
             this.btnDeleteEntity.TabIndex = 3;
-            this.btnDeleteEntity.Text = "Eliminar entidad";
+            this.btnDeleteEntity.Text = "Eliminar tabla";
             this.btnDeleteEntity.ThemeName = "VisualStudio2012Light";
             this.btnDeleteEntity.Click += new System.EventHandler(this.btnDeleteEntity_Click);
             // 
@@ -233,35 +233,41 @@
             this.gridEntities.MasterTemplate.AllowColumnReorder = false;
             this.gridEntities.MasterTemplate.AllowDragToGroup = false;
             this.gridEntities.MasterTemplate.AllowRowResize = false;
+            this.gridEntities.MasterTemplate.AutoSizeColumnsMode = Telerik.WinControls.UI.GridViewAutoSizeColumnsMode.Fill;
             gridViewTextBoxColumn1.FieldName = "id";
             gridViewTextBoxColumn1.HeaderText = "ID";
+            gridViewTextBoxColumn1.IsVisible = false;
             gridViewTextBoxColumn1.Name = "id";
             gridViewTextBoxColumn1.ReadOnly = true;
             gridViewTextBoxColumn2.FieldName = "name";
             gridViewTextBoxColumn2.HeaderText = "Nombre";
             gridViewTextBoxColumn2.Name = "name";
-            gridViewTextBoxColumn2.Width = 200;
+            gridViewTextBoxColumn2.Width = 382;
             gridViewTextBoxColumn3.DataType = typeof(long);
             gridViewTextBoxColumn3.FieldName = "address";
             gridViewTextBoxColumn3.HeaderText = "Dirección";
+            gridViewTextBoxColumn3.IsVisible = false;
             gridViewTextBoxColumn3.Name = "address";
             gridViewTextBoxColumn3.ReadOnly = true;
             gridViewTextBoxColumn3.Width = 85;
             gridViewTextBoxColumn4.DataType = typeof(long);
             gridViewTextBoxColumn4.FieldName = "attributeAddress";
             gridViewTextBoxColumn4.HeaderText = "Dir. atributo";
+            gridViewTextBoxColumn4.IsVisible = false;
             gridViewTextBoxColumn4.Name = "attributeAddress";
             gridViewTextBoxColumn4.ReadOnly = true;
             gridViewTextBoxColumn4.Width = 85;
             gridViewTextBoxColumn5.DataType = typeof(long);
             gridViewTextBoxColumn5.FieldName = "dataAddress";
             gridViewTextBoxColumn5.HeaderText = "Dir. datos";
+            gridViewTextBoxColumn5.IsVisible = false;
             gridViewTextBoxColumn5.Name = "dataAddress";
             gridViewTextBoxColumn5.ReadOnly = true;
             gridViewTextBoxColumn5.Width = 85;
             gridViewTextBoxColumn6.DataType = typeof(long);
             gridViewTextBoxColumn6.FieldName = "nextEntityAddress";
             gridViewTextBoxColumn6.HeaderText = "Sig. entidad";
+            gridViewTextBoxColumn6.IsVisible = false;
             gridViewTextBoxColumn6.Name = "nextEntityAddress";
             gridViewTextBoxColumn6.ReadOnly = true;
             gridViewTextBoxColumn6.Width = 85;
@@ -275,7 +281,7 @@
             this.gridEntities.MasterTemplate.ViewDefinition = tableViewDefinition2;
             this.gridEntities.Name = "gridEntities";
             this.gridEntities.ShowGroupPanel = false;
-            this.gridEntities.Size = new System.Drawing.Size(607, 253);
+            this.gridEntities.Size = new System.Drawing.Size(402, 253);
             this.gridEntities.TabIndex = 7;
             this.gridEntities.ThemeName = "VisualStudio2012Light";
             this.gridEntities.CellEndEdit += new Telerik.WinControls.UI.GridViewCellEventHandler(this.gridEntities_CellEndEdit);
@@ -291,29 +297,32 @@
             this.gridAttributes.MasterTemplate.AllowAddNewRow = false;
             this.gridAttributes.MasterTemplate.AllowColumnReorder = false;
             this.gridAttributes.MasterTemplate.AllowDeleteRow = false;
+            this.gridAttributes.MasterTemplate.AutoSizeColumnsMode = Telerik.WinControls.UI.GridViewAutoSizeColumnsMode.Fill;
             gridViewTextBoxColumn7.FieldName = "id";
             gridViewTextBoxColumn7.HeaderText = "ID";
+            gridViewTextBoxColumn7.IsVisible = false;
             gridViewTextBoxColumn7.Name = "id";
             gridViewTextBoxColumn7.ReadOnly = true;
             gridViewTextBoxColumn8.FieldName = "name";
             gridViewTextBoxColumn8.HeaderText = "Nombre";
             gridViewTextBoxColumn8.Name = "name";
             gridViewTextBoxColumn8.ReadOnly = true;
-            gridViewTextBoxColumn8.Width = 150;
+            gridViewTextBoxColumn8.Width = 262;
             gridViewTextBoxColumn9.FieldName = "dataType";
             gridViewTextBoxColumn9.HeaderText = "Tipo";
             gridViewTextBoxColumn9.Name = "dataType";
             gridViewTextBoxColumn9.ReadOnly = true;
-            gridViewTextBoxColumn9.Width = 82;
+            gridViewTextBoxColumn9.Width = 143;
             gridViewTextBoxColumn10.DataType = typeof(int);
             gridViewTextBoxColumn10.FieldName = "length";
             gridViewTextBoxColumn10.HeaderText = "Longitud";
             gridViewTextBoxColumn10.Name = "length";
             gridViewTextBoxColumn10.ReadOnly = true;
-            gridViewTextBoxColumn10.Width = 82;
+            gridViewTextBoxColumn10.Width = 143;
             gridViewTextBoxColumn11.DataType = typeof(long);
             gridViewTextBoxColumn11.FieldName = "address";
             gridViewTextBoxColumn11.HeaderText = "Dirección";
+            gridViewTextBoxColumn11.IsVisible = false;
             gridViewTextBoxColumn11.Name = "address";
             gridViewTextBoxColumn11.ReadOnly = true;
             gridViewTextBoxColumn11.Width = 82;
@@ -321,16 +330,18 @@
             gridViewTextBoxColumn12.HeaderText = "Tipo índice";
             gridViewTextBoxColumn12.Name = "indexType";
             gridViewTextBoxColumn12.ReadOnly = true;
-            gridViewTextBoxColumn12.Width = 82;
+            gridViewTextBoxColumn12.Width = 144;
             gridViewTextBoxColumn13.DataType = typeof(long);
             gridViewTextBoxColumn13.FieldName = "indexAddress";
             gridViewTextBoxColumn13.HeaderText = "Dir. indice";
+            gridViewTextBoxColumn13.IsVisible = false;
             gridViewTextBoxColumn13.Name = "indexAddress";
             gridViewTextBoxColumn13.ReadOnly = true;
             gridViewTextBoxColumn13.Width = 82;
             gridViewTextBoxColumn14.DataType = typeof(long);
             gridViewTextBoxColumn14.FieldName = "nextAttributeAddress";
             gridViewTextBoxColumn14.HeaderText = "Sig. atributo";
+            gridViewTextBoxColumn14.IsVisible = false;
             gridViewTextBoxColumn14.Name = "nextAttributeAddress";
             gridViewTextBoxColumn14.ReadOnly = true;
             gridViewTextBoxColumn14.Width = 82;
@@ -357,18 +368,18 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(12, 154);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(174, 13);
+            this.label2.Size = new System.Drawing.Size(84, 13);
             this.label2.TabIndex = 9;
-            this.label2.Text = "Diccionario de datos - Entidades";
+            this.label2.Text = "Tablas en la BD";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(12, 442);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(171, 13);
+            this.label3.Size = new System.Drawing.Size(112, 13);
             this.label3.TabIndex = 10;
-            this.label3.Text = "Diccionario de datos - Atributos";
+            this.label3.Text = "Atributos de la tabla";
             // 
             // groupBox1
             // 
@@ -379,7 +390,7 @@
             this.groupBox1.Size = new System.Drawing.Size(129, 112);
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Entidad";
+            this.groupBox1.Text = "Tabla";
             // 
             // groupBox2
             // 
@@ -400,6 +411,7 @@
             this.label1.Size = new System.Drawing.Size(54, 13);
             this.label1.TabIndex = 13;
             this.label1.Text = "Cabecera";
+            this.label1.Visible = false;
             // 
             // txtHeader
             // 
@@ -409,6 +421,7 @@
             this.txtHeader.Size = new System.Drawing.Size(58, 24);
             this.txtHeader.TabIndex = 14;
             this.txtHeader.ThemeName = "VisualStudio2012Light";
+            this.txtHeader.Visible = false;
             // 
             // groupBox3
             // 
@@ -514,7 +527,7 @@
             // 
             // btnHash
             // 
-            this.btnHash.Location = new System.Drawing.Point(122, 65);
+            this.btnHash.Location = new System.Drawing.Point(122, 21);
             this.btnHash.Name = "btnHash";
             this.btnHash.Size = new System.Drawing.Size(110, 38);
             this.btnHash.TabIndex = 4;
@@ -524,12 +537,13 @@
             // 
             // btnBinaryTree
             // 
-            this.btnBinaryTree.Location = new System.Drawing.Point(122, 21);
+            this.btnBinaryTree.Location = new System.Drawing.Point(122, 65);
             this.btnBinaryTree.Name = "btnBinaryTree";
             this.btnBinaryTree.Size = new System.Drawing.Size(110, 38);
             this.btnBinaryTree.TabIndex = 3;
             this.btnBinaryTree.Text = "Árbol primario";
             this.btnBinaryTree.ThemeName = "VisualStudio2012Light";
+            this.btnBinaryTree.Visible = false;
             this.btnBinaryTree.Click += new System.EventHandler(this.btnBinaryTree_Click);
             // 
             // btnFK
@@ -538,7 +552,7 @@
             this.btnFK.Name = "btnFK";
             this.btnFK.Size = new System.Drawing.Size(110, 38);
             this.btnFK.TabIndex = 3;
-            this.btnFK.Text = "Índice secundario";
+            this.btnFK.Text = "Llave secundaria";
             this.btnFK.ThemeName = "VisualStudio2012Light";
             this.btnFK.Click += new System.EventHandler(this.btnFK_Click);
             // 
@@ -548,7 +562,7 @@
             this.btnPK.Name = "btnPK";
             this.btnPK.Size = new System.Drawing.Size(110, 38);
             this.btnPK.TabIndex = 2;
-            this.btnPK.Text = "Índice primario";
+            this.btnPK.Text = "Llave primaria";
             this.btnPK.ThemeName = "VisualStudio2012Light";
             this.btnPK.Click += new System.EventHandler(this.btnPK_Click);
             // 

@@ -40,6 +40,13 @@
             Telerik.WinControls.UI.RadListDataItem radListDataItem10 = new Telerik.WinControls.UI.RadListDataItem();
             Telerik.WinControls.UI.RadListDataItem radListDataItem11 = new Telerik.WinControls.UI.RadListDataItem();
             Telerik.WinControls.UI.RadListDataItem radListDataItem12 = new Telerik.WinControls.UI.RadListDataItem();
+            Telerik.WinControls.UI.RadListDataItem radListDataItem13 = new Telerik.WinControls.UI.RadListDataItem();
+            Telerik.WinControls.UI.RadListDataItem radListDataItem14 = new Telerik.WinControls.UI.RadListDataItem();
+            Telerik.WinControls.UI.RadListDataItem radListDataItem15 = new Telerik.WinControls.UI.RadListDataItem();
+            Telerik.WinControls.UI.RadListDataItem radListDataItem16 = new Telerik.WinControls.UI.RadListDataItem();
+            Telerik.WinControls.UI.RadListDataItem radListDataItem17 = new Telerik.WinControls.UI.RadListDataItem();
+            Telerik.WinControls.UI.RadListDataItem radListDataItem18 = new Telerik.WinControls.UI.RadListDataItem();
+            Telerik.WinControls.UI.RadListDataItem radListDataItem19 = new Telerik.WinControls.UI.RadListDataItem();
             this.radLabel1 = new Telerik.WinControls.UI.RadLabel();
             this.radLabel2 = new Telerik.WinControls.UI.RadLabel();
             this.radLabel3 = new Telerik.WinControls.UI.RadLabel();
@@ -54,6 +61,10 @@
             this.ntxtLength = new Telerik.WinControls.UI.RadSpinEditor();
             this.radLabel7 = new Telerik.WinControls.UI.RadLabel();
             this.ddlEntidad = new Telerik.WinControls.UI.RadDropDownList();
+            this.ddlTablaDestino = new Telerik.WinControls.UI.RadDropDownList();
+            this.radLabel5 = new Telerik.WinControls.UI.RadLabel();
+            this.radTextBox1 = new Telerik.WinControls.UI.RadTextBox();
+            this.radLabel8 = new Telerik.WinControls.UI.RadLabel();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel3)).BeginInit();
@@ -68,6 +79,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.ntxtLength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ddlEntidad)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ddlTablaDestino)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radTextBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             this.SuspendLayout();
             // 
@@ -132,8 +147,10 @@
             this.ddlDataType.DropDownAnimationEnabled = false;
             radListDataItem1.Text = "Cadena";
             radListDataItem2.Text = "Entero";
+            radListDataItem3.Text = "Float";
             this.ddlDataType.Items.Add(radListDataItem1);
             this.ddlDataType.Items.Add(radListDataItem2);
+            this.ddlDataType.Items.Add(radListDataItem3);
             this.ddlDataType.Location = new System.Drawing.Point(79, 91);
             this.ddlDataType.Name = "ddlDataType";
             this.ddlDataType.Size = new System.Drawing.Size(201, 24);
@@ -146,18 +163,18 @@
             // 
             this.ddlIndexType.DisplayMember = "Text";
             this.ddlIndexType.DropDownAnimationEnabled = false;
-            radListDataItem3.Text = "0-Sin tipo de índice";
-            radListDataItem4.Text = "1-Clave de busqueda";
-            radListDataItem5.Text = "2-Índice primario";
-            radListDataItem6.Text = "3-Indice secundario";
-            radListDataItem7.Text = "4-Árbol primario";
-            radListDataItem8.Text = "5-Hash estática";
-            this.ddlIndexType.Items.Add(radListDataItem3);
+            radListDataItem4.Text = "0-Sin tipo de índice";
+            radListDataItem5.Text = "1-Clave de busqueda";
+            radListDataItem6.Text = "2-Índice primario";
+            radListDataItem7.Text = "3-Indice secundario";
+            radListDataItem8.Text = "4-Árbol primario";
+            radListDataItem9.Text = "5-Hash estática";
             this.ddlIndexType.Items.Add(radListDataItem4);
             this.ddlIndexType.Items.Add(radListDataItem5);
             this.ddlIndexType.Items.Add(radListDataItem6);
             this.ddlIndexType.Items.Add(radListDataItem7);
             this.ddlIndexType.Items.Add(radListDataItem8);
+            this.ddlIndexType.Items.Add(radListDataItem9);
             this.ddlIndexType.Location = new System.Drawing.Point(79, 121);
             this.ddlIndexType.Name = "ddlIndexType";
             this.ddlIndexType.Size = new System.Drawing.Size(201, 24);
@@ -167,7 +184,8 @@
             // 
             // btnCreate
             // 
-            this.btnCreate.Location = new System.Drawing.Point(53, 189);
+            this.btnCreate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCreate.Location = new System.Drawing.Point(353, 189);
             this.btnCreate.Name = "btnCreate";
             this.btnCreate.Size = new System.Drawing.Size(110, 24);
             this.btnCreate.TabIndex = 6;
@@ -177,8 +195,9 @@
             // 
             // btnCancel
             // 
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(169, 189);
+            this.btnCancel.Location = new System.Drawing.Point(469, 189);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(110, 24);
             this.btnCancel.TabIndex = 7;
@@ -217,14 +236,14 @@
             // 
             this.ddlEntidad.DisplayMember = "name";
             this.ddlEntidad.DropDownAnimationEnabled = false;
-            radListDataItem9.Text = "Sin tipo de indice";
-            radListDataItem10.Text = "Clave de busqueda";
-            radListDataItem11.Text = "Indice primario";
-            radListDataItem12.Text = "Indice secundario";
-            this.ddlEntidad.Items.Add(radListDataItem9);
+            radListDataItem10.Text = "Sin tipo de indice";
+            radListDataItem11.Text = "Clave de busqueda";
+            radListDataItem12.Text = "Indice primario";
+            radListDataItem13.Text = "Indice secundario";
             this.ddlEntidad.Items.Add(radListDataItem10);
             this.ddlEntidad.Items.Add(radListDataItem11);
             this.ddlEntidad.Items.Add(radListDataItem12);
+            this.ddlEntidad.Items.Add(radListDataItem13);
             this.ddlEntidad.Location = new System.Drawing.Point(79, 1);
             this.ddlEntidad.Name = "ddlEntidad";
             this.ddlEntidad.Size = new System.Drawing.Size(201, 24);
@@ -232,13 +251,67 @@
             this.ddlEntidad.ThemeName = "VisualStudio2012Light";
             this.ddlEntidad.ValueMember = "id";
             // 
+            // ddlTablaDestino
+            // 
+            this.ddlTablaDestino.AccessibleName = "ddlTablaDestino";
+            this.ddlTablaDestino.DisplayMember = "Text";
+            this.ddlTablaDestino.DropDownAnimationEnabled = false;
+            radListDataItem14.Text = "0-Sin tipo de índice";
+            radListDataItem15.Text = "1-Clave de busqueda";
+            radListDataItem16.Text = "2-Índice primario";
+            radListDataItem17.Text = "3-Indice secundario";
+            radListDataItem18.Text = "4-Árbol primario";
+            radListDataItem19.Text = "5-Hash estática";
+            this.ddlTablaDestino.Items.Add(radListDataItem14);
+            this.ddlTablaDestino.Items.Add(radListDataItem15);
+            this.ddlTablaDestino.Items.Add(radListDataItem16);
+            this.ddlTablaDestino.Items.Add(radListDataItem17);
+            this.ddlTablaDestino.Items.Add(radListDataItem18);
+            this.ddlTablaDestino.Items.Add(radListDataItem19);
+            this.ddlTablaDestino.Location = new System.Drawing.Point(378, 121);
+            this.ddlTablaDestino.Name = "ddlTablaDestino";
+            this.ddlTablaDestino.Size = new System.Drawing.Size(201, 24);
+            this.ddlTablaDestino.TabIndex = 10;
+            this.ddlTablaDestino.ThemeName = "VisualStudio2012Light";
+            this.ddlTablaDestino.ValueMember = "Index";
+            // 
+            // radLabel5
+            // 
+            this.radLabel5.Location = new System.Drawing.Point(299, 124);
+            this.radLabel5.Name = "radLabel5";
+            this.radLabel5.Size = new System.Drawing.Size(73, 18);
+            this.radLabel5.TabIndex = 9;
+            this.radLabel5.Text = "Tabla destino";
+            this.radLabel5.ThemeName = "VisualStudio2012Light";
+            // 
+            // radTextBox1
+            // 
+            this.radTextBox1.Location = new System.Drawing.Point(378, 151);
+            this.radTextBox1.Name = "radTextBox1";
+            this.radTextBox1.Size = new System.Drawing.Size(201, 24);
+            this.radTextBox1.TabIndex = 4;
+            this.radTextBox1.ThemeName = "VisualStudio2012Light";
+            // 
+            // radLabel8
+            // 
+            this.radLabel8.Location = new System.Drawing.Point(291, 154);
+            this.radLabel8.Name = "radLabel8";
+            this.radLabel8.Size = new System.Drawing.Size(88, 18);
+            this.radLabel8.TabIndex = 3;
+            this.radLabel8.Text = "Atributo destino";
+            this.radLabel8.ThemeName = "VisualStudio2012Light";
+            // 
             // frmCreateAttribute
             // 
             this.AcceptButton = this.btnCreate;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(292, 225);
+            this.ClientSize = new System.Drawing.Size(586, 225);
+            this.Controls.Add(this.radTextBox1);
+            this.Controls.Add(this.radLabel8);
+            this.Controls.Add(this.ddlTablaDestino);
+            this.Controls.Add(this.radLabel5);
             this.Controls.Add(this.ddlEntidad);
             this.Controls.Add(this.radLabel7);
             this.Controls.Add(this.ntxtLength);
@@ -276,6 +349,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.ntxtLength)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ddlEntidad)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ddlTablaDestino)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radTextBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -298,5 +375,9 @@
         private Telerik.WinControls.UI.RadSpinEditor ntxtLength;
         private Telerik.WinControls.UI.RadLabel radLabel7;
         private Telerik.WinControls.UI.RadDropDownList ddlEntidad;
+        private Telerik.WinControls.UI.RadDropDownList ddlTablaDestino;
+        private Telerik.WinControls.UI.RadLabel radLabel5;
+        private Telerik.WinControls.UI.RadTextBox radTextBox1;
+        private Telerik.WinControls.UI.RadLabel radLabel8;
     }
 }
