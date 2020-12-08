@@ -52,7 +52,7 @@
             this.radLabel1.Name = "radLabel1";
             this.radLabel1.Size = new System.Drawing.Size(62, 19);
             this.radLabel1.TabIndex = 0;
-            this.radLabel1.Text = "Id Entidad";
+            this.radLabel1.Text = "Id Tabla";
             this.radLabel1.ThemeName = "VisualStudio2012Light";
             // 
             // lblID
@@ -123,7 +123,7 @@
             // 
             this.RootElement.ApplyShapeToControl = true;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = " Crear nueva entidad";
+            this.Text = " Crear nueva Tabla";
             this.ThemeName = "VisualStudio2012Light";
             ((System.ComponentModel.ISupportInitialize)(this.radLabel1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblID)).EndInit();

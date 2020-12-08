@@ -108,7 +108,7 @@
             this.radLabel3.Name = "radLabel3";
             this.radLabel3.Size = new System.Drawing.Size(61, 18);
             this.radLabel3.TabIndex = 3;
-            this.radLabel3.Text = "Tipo indice";
+            this.radLabel3.Text = "Tipo Clave";
             this.radLabel3.ThemeName = "VisualStudio2012Light";
             // 
             // radLabel4
@@ -162,8 +162,8 @@
             this.ddlIndexType.DisplayMember = "Text";
             this.ddlIndexType.DropDownAnimationEnabled = false;
             radListDataItem4.Text = "0-Sin tipo de índice";
-            radListDataItem5.Text = "2-Índice primario";
-            radListDataItem6.Text = "3-Indice secundario";
+            radListDataItem5.Text = "2-Clave primaria";
+            radListDataItem6.Text = "3-Clave secundaria";
             radListDataItem7.Text = "5-Hash estática";
             this.ddlIndexType.Items.Add(radListDataItem4);
             this.ddlIndexType.Items.Add(radListDataItem5);
