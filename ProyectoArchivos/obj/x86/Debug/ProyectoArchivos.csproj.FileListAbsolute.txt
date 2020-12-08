@@ -108,3 +108,33 @@ C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinContro
 C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.Themes.TelerikMetro.dll
 C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.Themes.VisualStudio2012Light.dll
 C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.UI.xml
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\bin\Debug\ProyectoArchivos.exe.config
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\bin\Debug\ProyectoArchivos.exe
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\bin\Debug\ProyectoArchivos.pdb
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.dll
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.GridView.dll
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.Themes.Office2013Light.dll
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.Themes.TelerikMetro.dll
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.Themes.VisualStudio2012Light.dll
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.UI.dll
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\bin\Debug\TelerikCommon.dll
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.xml
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.GridView.xml
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.UI.xml
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.csprojAssemblyReference.cache
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.frmStart.resources
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Create.frmCreateAttribute.resources
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Create.frmCreateEntity.resources
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Delete.frmDeleteAttribute.resources
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Delete.frmDeleteEntity.resources
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Index.frmBinaryTree.resources
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Index.frmForeignKey.resources
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Index.frmPrimaryKey.resources
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Index.frmStaticHash.resources
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.Properties.Resources.resources
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.csproj.GenerateResource.cache
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.exe.licenses
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.csproj.CoreCompileInputs.cache
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.csproj.CopyComplete
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.exe
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.pdb
