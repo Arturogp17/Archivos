@@ -85,6 +85,7 @@
             this.btnFK = new Telerik.WinControls.UI.RadButton();
             this.btnPK = new Telerik.WinControls.UI.RadButton();
             this.genericItemBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.delete = new Telerik.WinControls.UI.RadMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.radMenu1)).BeginInit();
             this.radMenu1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.radGridView1)).BeginInit();
@@ -154,16 +155,17 @@
             this.radMenuItem1.Items.AddRange(new Telerik.WinControls.RadItem[] {
             this.newFile,
             this.open,
-            this.Save});
+            this.Save,
+            this.delete});
             this.radMenuItem1.Name = "radMenuItem1";
-            this.radMenuItem1.Text = "Archivo";
+            this.radMenuItem1.Text = "Base de Datos";
             // 
             // newFile
             // 
             this.newFile.AccessibleDescription = "newFile";
             this.newFile.AccessibleName = "newFile";
             this.newFile.Name = "newFile";
-            this.newFile.Text = "Nuevo";
+            this.newFile.Text = "Nueva BD";
             this.newFile.Click += new System.EventHandler(this.newFile_Click);
             // 
             // open
@@ -171,13 +173,14 @@
             this.open.AccessibleDescription = "open";
             this.open.AccessibleName = "open";
             this.open.Name = "open";
-            this.open.Text = "Abrir";
+            this.open.Text = "Abrir BD";
             this.open.Click += new System.EventHandler(this.open_Click);
             // 
             // Save
             // 
             this.Save.Name = "Save";
             this.Save.Text = "Guardar";
+            this.Save.Visibility = Telerik.WinControls.ElementVisibility.Collapsed;
             // 
             // btnCreateEntity
             // 
@@ -524,6 +527,7 @@
             this.groupBox5.TabIndex = 15;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Indices";
+            this.groupBox5.Visible = false;
             // 
             // btnHash
             // 
@@ -570,6 +574,13 @@
             // 
             this.genericItemBindingSource.DataSource = typeof(ProyectoArchivos.MainApp.Classes.genericItem);
             // 
+            // delete
+            // 
+            this.delete.AccessibleName = "delete";
+            this.delete.Name = "delete";
+            this.delete.Text = "Eliminar BD";
+            this.delete.Click += new System.EventHandler(this.delete_Click);
+            // 
             // frmStart
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -595,7 +606,7 @@
             // 
             // 
             this.RootElement.ApplyShapeToControl = true;
-            this.Text = "Diccionario de datos";
+            this.Text = "Base de Datos SQL Super Pro Full Max";
             this.ThemeName = "VisualStudio2012Light";
             ((System.ComponentModel.ISupportInitialize)(this.radMenu1)).EndInit();
             this.radMenu1.ResumeLayout(false);
@@ -672,5 +683,6 @@
         private Telerik.WinControls.UI.RadButton btnPK;
         private Telerik.WinControls.UI.RadButton btnBinaryTree;
         private Telerik.WinControls.UI.RadButton btnHash;
+        private Telerik.WinControls.UI.RadMenuItem delete;
     }
 }

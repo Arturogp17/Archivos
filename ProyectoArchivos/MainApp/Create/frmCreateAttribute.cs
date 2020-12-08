@@ -16,13 +16,16 @@ namespace ProyectoArchivos.MainApp.Create
         public string indexType;
         public int id = 0;
         public int length;
-
+        public string idEntityFK;
+        public string idAttrFK;
+        public string idEntDestFK;
         public frmCreateAttribute(List<Entity> e, int id)
         {
             InitializeComponent();
             this.id = id;
             entities = e;
             ddlEntidad.DataSource = entities;
+            
             lblIdD.Text = Convert.ToString(String.Format("{0:00000}", id));
         }
 
@@ -56,6 +59,20 @@ namespace ProyectoArchivos.MainApp.Create
                 dataType = ddlDataType.SelectedItem.Text[0];
                 indexType = ddlIndexType.SelectedItem.Text[0].ToString();
                 length = Convert.ToInt32(ntxtLength.Value);
+                if (indexType == "3")
+                {
+                    idEntityFK = ddlEntidad.SelectedValue.ToString();
+                    idAttrFK = lblIdD.Text;
+                    if (ddlTablaDestino.SelectedValue == null)
+                    {
+                        MessageBox.Show("Selecciona una tabla destino para la llave foranea", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    else
+                    {
+                        idEntDestFK = ddlTablaDestino.SelectedValue.ToString();
+                    }
+                }
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
@@ -67,14 +84,19 @@ namespace ProyectoArchivos.MainApp.Create
 
         private void ddlDataType_SelectedIndexChanged(object sender, Telerik.WinControls.UI.Data.PositionChangedEventArgs e)
         {
-            if(ddlDataType.SelectedItem.Text == "Cadena")
+            switch (ddlDataType.SelectedItem.Text)
             {
-                ntxtLength.Enabled = true;
-            }
-            else
-            {
-                ntxtLength.Value = 4;
-                ntxtLength.Enabled = false;
+                case "Cadena":
+                    ntxtLength.Enabled = true;
+                    break;
+                case "Entero":
+                    ntxtLength.Value = 4;
+                    ntxtLength.Enabled = false;
+                    break;
+                case "Decimal":
+                    ntxtLength.Value = 4;
+                    ntxtLength.Enabled = false;
+                    break;
             }
         }
 
@@ -94,9 +116,54 @@ namespace ProyectoArchivos.MainApp.Create
             return false;
         }
 
+        private void ddlIndexType_SelectedIndexChanged(object sender, Telerik.WinControls.UI.Data.PositionChangedEventArgs e)
+        {
+            List<Entity> selEntities = new List<Entity>();
+            if(ddlIndexType.SelectedItem != null)
+            {
+                if(ddlIndexType.SelectedItem.Text.Contains("3"))
+                {
+                    ddlTablaDestino.Enabled = true;
+                    foreach (var en in entities)
+                    {
+                        if (en.id != idEntity)
+                        {
+                            foreach (var a in en.attributes)
+                            {
+                                if (a.indexType == 2)
+                                    selEntities.Add(en);
+                            }
+                        }
+                    }
+                }
+            }
+            ddlTablaDestino.DataSource = selEntities;
+        }
+
+        private void ddlTablaDestino_SelectedIndexChanged(object sender, Telerik.WinControls.UI.Data.PositionChangedEventArgs e)
+        {
+            string text = string.Empty;
+            if(ddlTablaDestino.SelectedValue != null)
+            {
+                foreach (var en in entities)
+                {
+                    if(ddlTablaDestino.SelectedValue.ToString() == en.id)
+                    {
+                        foreach (var a in en.attributes)
+                        {
+                            if (a.indexType == 2)
+                                text = a.name;
+                        }
+                    }
+                }
+            }
+            txtAttDestino.Text = text;
+        }
+
         private void frmCreateAttribute_Load(object sender, EventArgs e)
         {
-
+            ddlEntidad.SelectedValue = idEntity;
+            ddlEntidad.Enabled = false;
         }
     }
 }
