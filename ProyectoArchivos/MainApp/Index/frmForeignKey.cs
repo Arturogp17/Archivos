@@ -31,6 +31,7 @@ namespace ProyectoArchivos.MainApp.Index
             headers = new List<Register>();
             this.path = path;
             pathFK = Path.Combine(path, fkAttribute.id + ".fk");
+            CreateFile();
         }
 
         public bool Insert(Object value, long dir)

@@ -45,8 +45,6 @@
             Telerik.WinControls.UI.RadListDataItem radListDataItem15 = new Telerik.WinControls.UI.RadListDataItem();
             Telerik.WinControls.UI.RadListDataItem radListDataItem16 = new Telerik.WinControls.UI.RadListDataItem();
             Telerik.WinControls.UI.RadListDataItem radListDataItem17 = new Telerik.WinControls.UI.RadListDataItem();
-            Telerik.WinControls.UI.RadListDataItem radListDataItem18 = new Telerik.WinControls.UI.RadListDataItem();
-            Telerik.WinControls.UI.RadListDataItem radListDataItem19 = new Telerik.WinControls.UI.RadListDataItem();
             this.radLabel1 = new Telerik.WinControls.UI.RadLabel();
             this.radLabel2 = new Telerik.WinControls.UI.RadLabel();
             this.radLabel3 = new Telerik.WinControls.UI.RadLabel();
@@ -63,7 +61,7 @@
             this.ddlEntidad = new Telerik.WinControls.UI.RadDropDownList();
             this.ddlTablaDestino = new Telerik.WinControls.UI.RadDropDownList();
             this.radLabel5 = new Telerik.WinControls.UI.RadLabel();
-            this.radTextBox1 = new Telerik.WinControls.UI.RadTextBox();
+            this.txtAttDestino = new Telerik.WinControls.UI.RadTextBox();
             this.radLabel8 = new Telerik.WinControls.UI.RadLabel();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel2)).BeginInit();
@@ -81,14 +79,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.ddlEntidad)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ddlTablaDestino)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.radTextBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtAttDestino)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             this.SuspendLayout();
             // 
             // radLabel1
             // 
-            this.radLabel1.Location = new System.Drawing.Point(12, 34);
+            this.radLabel1.Location = new System.Drawing.Point(38, 35);
             this.radLabel1.Name = "radLabel1";
             this.radLabel1.Size = new System.Drawing.Size(59, 18);
             this.radLabel1.TabIndex = 0;
@@ -97,7 +95,7 @@
             // 
             // radLabel2
             // 
-            this.radLabel2.Location = new System.Drawing.Point(12, 64);
+            this.radLabel2.Location = new System.Drawing.Point(49, 65);
             this.radLabel2.Name = "radLabel2";
             this.radLabel2.Size = new System.Drawing.Size(48, 18);
             this.radLabel2.TabIndex = 1;
@@ -106,7 +104,7 @@
             // 
             // radLabel3
             // 
-            this.radLabel3.Location = new System.Drawing.Point(12, 124);
+            this.radLabel3.Location = new System.Drawing.Point(36, 155);
             this.radLabel3.Name = "radLabel3";
             this.radLabel3.Size = new System.Drawing.Size(61, 18);
             this.radLabel3.TabIndex = 3;
@@ -116,7 +114,7 @@
             // radLabel4
             // 
             this.radLabel4.AutoSize = false;
-            this.radLabel4.Location = new System.Drawing.Point(12, 94);
+            this.radLabel4.Location = new System.Drawing.Point(42, 95);
             this.radLabel4.Name = "radLabel4";
             this.radLabel4.Size = new System.Drawing.Size(55, 18);
             this.radLabel4.TabIndex = 2;
@@ -125,7 +123,7 @@
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(79, 61);
+            this.txtName.Location = new System.Drawing.Point(99, 62);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(201, 24);
             this.txtName.TabIndex = 2;
@@ -135,7 +133,7 @@
             // 
             this.lblIdD.AutoSize = false;
             this.lblIdD.BackColor = System.Drawing.Color.White;
-            this.lblIdD.Location = new System.Drawing.Point(79, 31);
+            this.lblIdD.Location = new System.Drawing.Point(99, 32);
             this.lblIdD.Name = "lblIdD";
             this.lblIdD.Size = new System.Drawing.Size(201, 20);
             this.lblIdD.TabIndex = 8;
@@ -147,11 +145,11 @@
             this.ddlDataType.DropDownAnimationEnabled = false;
             radListDataItem1.Text = "Cadena";
             radListDataItem2.Text = "Entero";
-            radListDataItem3.Text = "Float";
+            radListDataItem3.Text = "Decimal";
             this.ddlDataType.Items.Add(radListDataItem1);
             this.ddlDataType.Items.Add(radListDataItem2);
             this.ddlDataType.Items.Add(radListDataItem3);
-            this.ddlDataType.Location = new System.Drawing.Point(79, 91);
+            this.ddlDataType.Location = new System.Drawing.Point(99, 92);
             this.ddlDataType.Name = "ddlDataType";
             this.ddlDataType.Size = new System.Drawing.Size(201, 24);
             this.ddlDataType.TabIndex = 3;
@@ -164,28 +162,25 @@
             this.ddlIndexType.DisplayMember = "Text";
             this.ddlIndexType.DropDownAnimationEnabled = false;
             radListDataItem4.Text = "0-Sin tipo de índice";
-            radListDataItem5.Text = "1-Clave de busqueda";
-            radListDataItem6.Text = "2-Índice primario";
-            radListDataItem7.Text = "3-Indice secundario";
-            radListDataItem8.Text = "4-Árbol primario";
-            radListDataItem9.Text = "5-Hash estática";
+            radListDataItem5.Text = "2-Índice primario";
+            radListDataItem6.Text = "3-Indice secundario";
+            radListDataItem7.Text = "5-Hash estática";
             this.ddlIndexType.Items.Add(radListDataItem4);
             this.ddlIndexType.Items.Add(radListDataItem5);
             this.ddlIndexType.Items.Add(radListDataItem6);
             this.ddlIndexType.Items.Add(radListDataItem7);
-            this.ddlIndexType.Items.Add(radListDataItem8);
-            this.ddlIndexType.Items.Add(radListDataItem9);
-            this.ddlIndexType.Location = new System.Drawing.Point(79, 121);
+            this.ddlIndexType.Location = new System.Drawing.Point(99, 152);
             this.ddlIndexType.Name = "ddlIndexType";
             this.ddlIndexType.Size = new System.Drawing.Size(201, 24);
             this.ddlIndexType.TabIndex = 4;
             this.ddlIndexType.ThemeName = "VisualStudio2012Light";
             this.ddlIndexType.ValueMember = "Index";
+            this.ddlIndexType.SelectedIndexChanged += new Telerik.WinControls.UI.Data.PositionChangedEventHandler(this.ddlIndexType_SelectedIndexChanged);
             // 
             // btnCreate
             // 
             this.btnCreate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCreate.Location = new System.Drawing.Point(353, 189);
+            this.btnCreate.Location = new System.Drawing.Point(68, 256);
             this.btnCreate.Name = "btnCreate";
             this.btnCreate.Size = new System.Drawing.Size(110, 24);
             this.btnCreate.TabIndex = 6;
@@ -197,7 +192,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(469, 189);
+            this.btnCancel.Location = new System.Drawing.Point(184, 256);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(110, 24);
             this.btnCancel.TabIndex = 7;
@@ -206,7 +201,7 @@
             // 
             // radLabel6
             // 
-            this.radLabel6.Location = new System.Drawing.Point(12, 154);
+            this.radLabel6.Location = new System.Drawing.Point(46, 125);
             this.radLabel6.Name = "radLabel6";
             this.radLabel6.Size = new System.Drawing.Size(51, 18);
             this.radLabel6.TabIndex = 5;
@@ -216,7 +211,7 @@
             // ntxtLength
             // 
             this.ntxtLength.Enabled = false;
-            this.ntxtLength.Location = new System.Drawing.Point(79, 151);
+            this.ntxtLength.Location = new System.Drawing.Point(99, 122);
             this.ntxtLength.Name = "ntxtLength";
             this.ntxtLength.Size = new System.Drawing.Size(201, 24);
             this.ntxtLength.TabIndex = 5;
@@ -225,26 +220,26 @@
             // 
             // radLabel7
             // 
-            this.radLabel7.Location = new System.Drawing.Point(12, 4);
+            this.radLabel7.Location = new System.Drawing.Point(64, 5);
             this.radLabel7.Name = "radLabel7";
-            this.radLabel7.Size = new System.Drawing.Size(44, 18);
+            this.radLabel7.Size = new System.Drawing.Size(33, 18);
             this.radLabel7.TabIndex = 7;
-            this.radLabel7.Text = "Entidad";
+            this.radLabel7.Text = "Tabla";
             this.radLabel7.ThemeName = "VisualStudio2012Light";
             // 
             // ddlEntidad
             // 
             this.ddlEntidad.DisplayMember = "name";
             this.ddlEntidad.DropDownAnimationEnabled = false;
-            radListDataItem10.Text = "Sin tipo de indice";
-            radListDataItem11.Text = "Clave de busqueda";
-            radListDataItem12.Text = "Indice primario";
-            radListDataItem13.Text = "Indice secundario";
+            radListDataItem8.Text = "Sin tipo de indice";
+            radListDataItem9.Text = "Clave de busqueda";
+            radListDataItem10.Text = "Indice primario";
+            radListDataItem11.Text = "Indice secundario";
+            this.ddlEntidad.Items.Add(radListDataItem8);
+            this.ddlEntidad.Items.Add(radListDataItem9);
             this.ddlEntidad.Items.Add(radListDataItem10);
             this.ddlEntidad.Items.Add(radListDataItem11);
-            this.ddlEntidad.Items.Add(radListDataItem12);
-            this.ddlEntidad.Items.Add(radListDataItem13);
-            this.ddlEntidad.Location = new System.Drawing.Point(79, 1);
+            this.ddlEntidad.Location = new System.Drawing.Point(99, 2);
             this.ddlEntidad.Name = "ddlEntidad";
             this.ddlEntidad.Size = new System.Drawing.Size(201, 24);
             this.ddlEntidad.TabIndex = 1;
@@ -254,47 +249,50 @@
             // ddlTablaDestino
             // 
             this.ddlTablaDestino.AccessibleName = "ddlTablaDestino";
-            this.ddlTablaDestino.DisplayMember = "Text";
+            this.ddlTablaDestino.DisplayMember = "name";
             this.ddlTablaDestino.DropDownAnimationEnabled = false;
-            radListDataItem14.Text = "0-Sin tipo de índice";
-            radListDataItem15.Text = "1-Clave de busqueda";
-            radListDataItem16.Text = "2-Índice primario";
-            radListDataItem17.Text = "3-Indice secundario";
-            radListDataItem18.Text = "4-Árbol primario";
-            radListDataItem19.Text = "5-Hash estática";
+            this.ddlTablaDestino.Enabled = false;
+            radListDataItem12.Text = "0-Sin tipo de índice";
+            radListDataItem13.Text = "1-Clave de busqueda";
+            radListDataItem14.Text = "2-Índice primario";
+            radListDataItem15.Text = "3-Indice secundario";
+            radListDataItem16.Text = "4-Árbol primario";
+            radListDataItem17.Text = "5-Hash estática";
+            this.ddlTablaDestino.Items.Add(radListDataItem12);
+            this.ddlTablaDestino.Items.Add(radListDataItem13);
             this.ddlTablaDestino.Items.Add(radListDataItem14);
             this.ddlTablaDestino.Items.Add(radListDataItem15);
             this.ddlTablaDestino.Items.Add(radListDataItem16);
             this.ddlTablaDestino.Items.Add(radListDataItem17);
-            this.ddlTablaDestino.Items.Add(radListDataItem18);
-            this.ddlTablaDestino.Items.Add(radListDataItem19);
-            this.ddlTablaDestino.Location = new System.Drawing.Point(378, 121);
+            this.ddlTablaDestino.Location = new System.Drawing.Point(99, 182);
             this.ddlTablaDestino.Name = "ddlTablaDestino";
             this.ddlTablaDestino.Size = new System.Drawing.Size(201, 24);
             this.ddlTablaDestino.TabIndex = 10;
             this.ddlTablaDestino.ThemeName = "VisualStudio2012Light";
-            this.ddlTablaDestino.ValueMember = "Index";
+            this.ddlTablaDestino.ValueMember = "id";
+            this.ddlTablaDestino.SelectedIndexChanged += new Telerik.WinControls.UI.Data.PositionChangedEventHandler(this.ddlTablaDestino_SelectedIndexChanged);
             // 
             // radLabel5
             // 
-            this.radLabel5.Location = new System.Drawing.Point(299, 124);
+            this.radLabel5.Location = new System.Drawing.Point(24, 185);
             this.radLabel5.Name = "radLabel5";
             this.radLabel5.Size = new System.Drawing.Size(73, 18);
             this.radLabel5.TabIndex = 9;
             this.radLabel5.Text = "Tabla destino";
             this.radLabel5.ThemeName = "VisualStudio2012Light";
             // 
-            // radTextBox1
+            // txtAttDestino
             // 
-            this.radTextBox1.Location = new System.Drawing.Point(378, 151);
-            this.radTextBox1.Name = "radTextBox1";
-            this.radTextBox1.Size = new System.Drawing.Size(201, 24);
-            this.radTextBox1.TabIndex = 4;
-            this.radTextBox1.ThemeName = "VisualStudio2012Light";
+            this.txtAttDestino.Enabled = false;
+            this.txtAttDestino.Location = new System.Drawing.Point(99, 212);
+            this.txtAttDestino.Name = "txtAttDestino";
+            this.txtAttDestino.Size = new System.Drawing.Size(201, 24);
+            this.txtAttDestino.TabIndex = 4;
+            this.txtAttDestino.ThemeName = "VisualStudio2012Light";
             // 
             // radLabel8
             // 
-            this.radLabel8.Location = new System.Drawing.Point(291, 154);
+            this.radLabel8.Location = new System.Drawing.Point(9, 215);
             this.radLabel8.Name = "radLabel8";
             this.radLabel8.Size = new System.Drawing.Size(88, 18);
             this.radLabel8.TabIndex = 3;
@@ -307,8 +305,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(586, 225);
-            this.Controls.Add(this.radTextBox1);
+            this.ClientSize = new System.Drawing.Size(301, 292);
+            this.Controls.Add(this.txtAttDestino);
             this.Controls.Add(this.radLabel8);
             this.Controls.Add(this.ddlTablaDestino);
             this.Controls.Add(this.radLabel5);
@@ -351,7 +349,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.ddlEntidad)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ddlTablaDestino)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.radTextBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtAttDestino)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
             this.ResumeLayout(false);
@@ -375,9 +373,9 @@
         private Telerik.WinControls.UI.RadSpinEditor ntxtLength;
         private Telerik.WinControls.UI.RadLabel radLabel7;
         private Telerik.WinControls.UI.RadDropDownList ddlEntidad;
-        private Telerik.WinControls.UI.RadDropDownList ddlTablaDestino;
         private Telerik.WinControls.UI.RadLabel radLabel5;
-        private Telerik.WinControls.UI.RadTextBox radTextBox1;
         private Telerik.WinControls.UI.RadLabel radLabel8;
+        public Telerik.WinControls.UI.RadDropDownList ddlTablaDestino;
+        public Telerik.WinControls.UI.RadTextBox txtAttDestino;
     }
 }

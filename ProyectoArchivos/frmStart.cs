@@ -231,24 +231,32 @@ namespace ProyectoArchivos
 
         public void SetNextEntityDirection()
         {
-            entities = entities.OrderBy(o => o.name).ToList();
-            header = entities.First().address;
-            WriteHeader();
-            txtHeader.Text = header.ToString();
-            for(int i = 0; i < entities.Count - 1; i++)
+            if (entities.Count > 0)
             {
-                entities[i].nextEntityAddress = entities[i + 1].address;
-                WriteEntity(entities[i]);
+                entities = entities.OrderBy(o => o.name).ToList();
+                header = entities.First().address;
+                WriteHeader();
+                txtHeader.Text = header.ToString();
+                for (int i = 0; i < entities.Count - 1; i++)
+                {
+                    entities[i].nextEntityAddress = entities[i + 1].address;
+                    WriteEntity(entities[i]);
+                }
+                entities.Last().nextEntityAddress = -1;
+                WriteEntity(entities.Last());
+                entities = entities.OrderBy(o => o.id).ToList();
             }
-            entities.Last().nextEntityAddress = -1;
-            WriteEntity(entities.Last());
-            entities = entities.OrderBy(o => o.id).ToList();
         }
 
         public void RefreshGrids()
         {
             gridEntities.Rows.Clear();
-            foreach(Entity e in entities)
+            gridAttributes.Rows.Clear();
+            gridRegisters.Rows.Clear();
+            gridRegisters.Columns.Clear();
+            gridAddRegister.Rows.Clear();
+            gridAddRegister.Columns.Clear();
+            foreach (Entity e in entities)
             {
                 GridViewRowInfo row = gridEntities.Rows.AddNew();
                 row.Cells["id"].Value = e.id;
@@ -266,8 +274,8 @@ namespace ProyectoArchivos
             if (gridAttributes.Rows.Count > 0)
                 id = Convert.ToInt32(gridAttributes.Rows[gridAttributes.Rows.Count - 1].Cells["id"].Value) + 1;
             frmCreateAttribute ca = new frmCreateAttribute(entities, id);
-
-            if(ca.ShowDialog() == DialogResult.OK)
+            ca.idEntity = Convert.ToString(gridEntities.SelectedRows[0].Cells["id"].Value);
+            if (ca.ShowDialog() == DialogResult.OK)
             {
                 Attributes a = new Attributes();
                 a.id = Convert.ToString(String.Format("{0:00000}", id));
@@ -299,7 +307,8 @@ namespace ProyectoArchivos
                         switch(a.indexType)
                         {
                             case 3:
-                                foreignKey = new frmForeignKey(a, path);
+                                //foreignKey = new frmForeignKey(a, path);
+                                NewRelationship(ca.idEntityFK, ca.idAttrFK, ca.idEntDestFK);
                                 break;
                             case 4:
                                 binaryTree = new frmBinaryTree(a, path, fileName);
@@ -329,6 +338,17 @@ namespace ProyectoArchivos
             }
         }
 
+        private void NewRelationship(string tablaOrigen, string attrOrigen, string tablaDest)
+        {
+            FileStream file = new FileStream(fileName + ".rlt", FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
+            BinaryWriter bw = new BinaryWriter(file);
+            string text = tablaOrigen + "-" + attrOrigen + "-" + tablaDest;
+            byte[] id = new byte[17];
+            Encoding.ASCII.GetBytes(text, 0, 17, id, 0);
+            file.Seek(file.Length, SeekOrigin.Begin);
+            bw.Write(id);
+            file.Close();
+        }
         private void WriteHeader()
         {
             FileStream file = new FileStream(fileName, FileMode.Open, FileAccess.Write, FileShare.None);
@@ -492,6 +512,9 @@ namespace ProyectoArchivos
                 {
                     header = -1;
                     lastAddress = 8;
+                    file = new FileStream(fileName, FileMode.Create);
+                    file.Close();
+                    WriteHeader();
                 }
                 RefreshGrids();
             }
@@ -663,47 +686,82 @@ namespace ProyectoArchivos
             gridAddRegister.MasterTemplate.Columns.Add(ca);
             foreach (Attributes a in en.attributes)
             {
-                if (a.dataType == 'C')
+                string name = string.Empty;
+                switch (a.indexType)
                 {
-                    size += a.length;
-                    c = new GridViewTextBoxColumn();
-                    c.HeaderText = a.name;
-                    c.Name = a.name;
-                    c.ReadOnly = false;
-                    c.Width = 100;
-                    c.DataType = typeof(string);
-                    c.MaxLength = a.length;
-                    ca = new GridViewTextBoxColumn();
-                    ca.HeaderText = a.name;
-                    ca.Name = a.name;
-                    ca.ReadOnly = false;
-                    ca.Width = 100;
-                    ca.DataType = typeof(string);
-                    ca.MaxLength = a.length;
-                    gridRegisters.MasterTemplate.Columns.Add(c);
-                    gridAddRegister.MasterTemplate.Columns.Add(ca);
+                    
+                    case 2:
+                        name = a.name + "(PK)";
+                        break;
+                    case 3:
+                        name = a.name + "(FK)";
+                        break;
+                    default:
+                        name = a.name;
+                        break;
                 }
-                else
+                switch (a.dataType)
                 {
-                    size += 4;
-                    GridViewDecimalColumn d = new GridViewDecimalColumn();
-                    d.DecimalPlaces = 0;
-                    d.HeaderText = a.name;
-                    d.Name = a.name;
-                    d.Width = 100;
-                    d.ReadOnly = false;
-                    d.DataType = typeof(int);
-                    GridViewDecimalColumn da = new GridViewDecimalColumn();
-                    da.DecimalPlaces = 0;
-                    da.HeaderText = a.name;
-                    da.Name = a.name;
-                    da.Width = 100;
-                    da.ReadOnly = false;
-                    da.DataType = typeof(int);
-                    gridRegisters.MasterTemplate.Columns.Add(d);
-                    gridAddRegister.MasterTemplate.Columns.Add(da);
+                    case 'C':
+                        size += a.length;
+                        c = new GridViewTextBoxColumn();
+                        c.HeaderText = name;
+                        c.Name = a.name;
+                        c.ReadOnly = false;
+                        c.Width = 100;
+                        c.DataType = typeof(string);
+                        c.MaxLength = a.length;
+                        ca = new GridViewTextBoxColumn();
+                        ca.HeaderText = name;
+                        ca.Name = a.name;
+                        ca.ReadOnly = false;
+                        ca.Width = 100;
+                        ca.DataType = typeof(string);
+                        ca.MaxLength = a.length;
+                        gridRegisters.MasterTemplate.Columns.Add(c);
+                        gridAddRegister.MasterTemplate.Columns.Add(ca);
+                        break;
+                    case 'E':
+                        size += 4;
+                        GridViewDecimalColumn d = new GridViewDecimalColumn();
+                        d.DecimalPlaces = 0;
+                        d.HeaderText = name;
+                        d.Name = a.name;
+                        d.Width = 100;
+                        d.ReadOnly = false;
+                        d.DataType = typeof(int);
+                        GridViewDecimalColumn da = new GridViewDecimalColumn();
+                        da.DecimalPlaces = 0;
+                        da.HeaderText = name;
+                        da.Name = a.name;
+                        da.Width = 100;
+                        da.ReadOnly = false;
+                        da.DataType = typeof(int);
+                        gridRegisters.MasterTemplate.Columns.Add(d);
+                        gridAddRegister.MasterTemplate.Columns.Add(da);
+                        break;
+                    case 'D':
+                        size += 4;
+                        GridViewDecimalColumn e = new GridViewDecimalColumn();
+                        e.DecimalPlaces = 4;
+                        e.HeaderText = name;
+                        e.Name = a.name;
+                        e.Width = 100;
+                        e.ReadOnly = false;
+                        e.DataType = typeof(decimal);
+                        e.Step = 0.0001m;
+                        GridViewDecimalColumn ea = new GridViewDecimalColumn();
+                        ea.DecimalPlaces = 4;
+                        ea.HeaderText = name;
+                        ea.Name = a.name;
+                        ea.Width = 100;
+                        ea.ReadOnly = false;
+                        ea.DataType = typeof(decimal);
+                        ea.Step = 0.0001m;
+                        gridRegisters.MasterTemplate.Columns.Add(e);
+                        gridAddRegister.MasterTemplate.Columns.Add(ea);
+                        break;
                 }
-
             }
             
             c = new GridViewTextBoxColumn();
@@ -734,13 +792,17 @@ namespace ProyectoArchivos
                     row.Cells[0].Value = br.ReadInt64().ToString();
                     foreach (Attributes a in en.attributes)
                     {
-                        if (a.dataType == 'C')
+                        switch (a.dataType)
                         {
-                            row.Cells[a.name].Value = Encoding.ASCII.GetString(br.ReadBytes(a.length));
-                        }
-                        else
-                        {
-                            row.Cells[a.name].Value = br.ReadInt32();
+                            case 'C':
+                                row.Cells[a.name].Value = Encoding.ASCII.GetString(br.ReadBytes(a.length));
+                                break;
+                            case 'E':
+                                row.Cells[a.name].Value = br.ReadInt32();
+                                break;
+                            case 'D':
+                                row.Cells[a.name].Value = br.ReadDecimal();
+                                break;
                         }
                     }
 
@@ -790,47 +852,82 @@ namespace ProyectoArchivos
                     gridAddRegister.MasterTemplate.Columns.Add(ca);
                     foreach (Attributes a in en.attributes)
                     {
-                        if (a.dataType == 'C')
+                        string nameL = string.Empty;
+                        switch (a.indexType)
                         {
-                            size += a.length;
-                            c = new GridViewTextBoxColumn();
-                            c.HeaderText = a.name;
-                            c.Name = a.name;
-                            c.ReadOnly = false;
-                            c.Width = 100;
-                            c.DataType = typeof(string);
-                            c.MaxLength = a.length;
-                            ca = new GridViewTextBoxColumn();
-                            ca.HeaderText = a.name;
-                            ca.Name = a.name;
-                            ca.ReadOnly = false;
-                            ca.Width = 100;
-                            ca.DataType = typeof(string);
-                            ca.MaxLength = a.length;
-                            gridRegisters.MasterTemplate.Columns.Add(c);
-                            gridAddRegister.MasterTemplate.Columns.Add(ca);
+                            case 2:
+                                name = a.name + "(PK)";
+                                break;
+                            case 3:
+                                name = a.name + "(FK)";
+                                break;
+                            default:
+                                name = a.name;
+                                break;
                         }
-                        else
+                        switch (a.dataType)
                         {
-                            size += 4;
-                            GridViewDecimalColumn d = new GridViewDecimalColumn();
-                            d.DecimalPlaces = 0;
-                            d.HeaderText = a.name;
-                            d.Name = a.name;
-                            d.Width = 100;
-                            d.ReadOnly = false;
-                            d.DataType = typeof(int);
-                            GridViewDecimalColumn da = new GridViewDecimalColumn();
-                            da.DecimalPlaces = 0;
-                            da.HeaderText = a.name;
-                            da.Name = a.name;
-                            da.Width = 100;
-                            da.ReadOnly = false;
-                            da.DataType = typeof(int);
-                            gridRegisters.MasterTemplate.Columns.Add(d);
-                            gridAddRegister.MasterTemplate.Columns.Add(da);
+                            case 'C':
+                                size += a.length;
+                                c = new GridViewTextBoxColumn();
+                                c.HeaderText = nameL;
+                                c.Name = a.name;
+                                c.ReadOnly = false;
+                                c.Width = 100;
+                                c.DataType = typeof(string);
+                                c.MaxLength = a.length;
+                                ca = new GridViewTextBoxColumn();
+                                ca.HeaderText = nameL;
+                                ca.Name = a.name;
+                                ca.ReadOnly = false;
+                                ca.Width = 100;
+                                ca.DataType = typeof(string);
+                                ca.MaxLength = a.length;
+                                gridRegisters.MasterTemplate.Columns.Add(c);
+                                gridAddRegister.MasterTemplate.Columns.Add(ca);
+                                break;
+                            case 'E':
+                                size += 4;
+                                GridViewDecimalColumn d = new GridViewDecimalColumn();
+                                d.DecimalPlaces = 0;
+                                d.HeaderText = nameL;
+                                d.Name = a.name;
+                                d.Width = 100;
+                                d.ReadOnly = false;
+                                d.DataType = typeof(int);
+                                GridViewDecimalColumn da = new GridViewDecimalColumn();
+                                da.DecimalPlaces = 0;
+                                da.HeaderText = nameL;
+                                da.Name = a.name;
+                                da.Width = 100;
+                                da.ReadOnly = false;
+                                da.DataType = typeof(int);
+                                gridRegisters.MasterTemplate.Columns.Add(d);
+                                gridAddRegister.MasterTemplate.Columns.Add(da);
+                                break;
+                            case 'D':
+                                size += 4;
+                                GridViewDecimalColumn e1 = new GridViewDecimalColumn();
+                                e1.DecimalPlaces = 4;
+                                e1.HeaderText = nameL;
+                                e1.Name = a.name;
+                                e1.Width = 100;
+                                e1.ReadOnly = false;
+                                e1.DataType = typeof(decimal);
+                                e1.Step = 0.0001m;
+                                GridViewDecimalColumn ea = new GridViewDecimalColumn();
+                                ea.DecimalPlaces = 4;
+                                ea.HeaderText = nameL;
+                                ea.Name = a.name;
+                                ea.Width = 100;
+                                ea.ReadOnly = false;
+                                ea.DataType = typeof(decimal);
+                                ea.Step = 0.0001m;
+                                gridRegisters.MasterTemplate.Columns.Add(e1);
+                                gridAddRegister.MasterTemplate.Columns.Add(ea);
+                                break;
                         }
-                        
+
                     }
                     c = new GridViewTextBoxColumn();
                     c.HeaderText = "Sig.registro";
@@ -971,17 +1068,21 @@ namespace ProyectoArchivos
                         }
                         else
                         {
-                            if (en.attributes[j - 1].dataType == 'C')
+                            switch(en.attributes[j - 1].dataType)
                             {
-                                byte[] reg = new byte[en.attributes[j - 1].length];
-                                string val = Convert.ToString(gridRegisters.Rows[i].Cells[j].Value);
-                                int len = en.attributes[j - 1].length;
-                                Encoding.ASCII.GetBytes(val, 0, val.Length, reg, 0);
-                                bw.Write(reg);
-                            }
-                            else
-                            {
-                                bw.Write(Convert.ToInt32(gridRegisters.Rows[i].Cells[j].Value.ToString()));
+                                case 'C':
+                                    byte[] reg = new byte[en.attributes[j - 1].length];
+                                    string val = Convert.ToString(gridRegisters.Rows[i].Cells[j].Value);
+                                    int len = en.attributes[j - 1].length;
+                                    Encoding.ASCII.GetBytes(val, 0, val.Length, reg, 0);
+                                    bw.Write(reg);
+                                    break;
+                                case 'E':
+                                    bw.Write(Convert.ToInt32(gridRegisters.Rows[i].Cells[j].Value.ToString()));
+                                    break;
+                                case 'D':
+                                    bw.Write(Convert.ToDecimal(gridRegisters.Rows[i].Cells[j].Value.ToString()));
+                                    break;
                             }
                         }
                     }
@@ -1158,18 +1259,18 @@ namespace ProyectoArchivos
             int count = 1;
             foreach (var a in en.attributes)
             {
-                switch (a.indexType)
-                {
-                    case 3:
-                        foreignKey.Insert(row.Cells[count].Value, Convert.ToInt64(row.Cells[0].Value));
-                        break;
-                    case 4:
-                        binaryTree.Insert(Convert.ToInt32(row.Cells[count].Value), Convert.ToInt64(row.Cells[0].Value));
-                        break;
-                    case 5:
-                        staticHash.Insert(Convert.ToInt32(row.Cells[count].Value), Convert.ToInt64(row.Cells[0].Value));
-                        break;
-                }
+                //switch (a.indexType)
+                //{
+                //    case 3:
+                //        foreignKey.Insert(row.Cells[count].Value, Convert.ToInt64(row.Cells[0].Value));
+                //        break;
+                //    case 4:
+                //        binaryTree.Insert(Convert.ToInt32(row.Cells[count].Value), Convert.ToInt64(row.Cells[0].Value));
+                //        break;
+                //    case 5:
+                //        staticHash.Insert(Convert.ToInt32(row.Cells[count].Value), Convert.ToInt64(row.Cells[0].Value));
+                //        break;
+                //}
                 count++;
             }
             RegistersNextAddrs(en);
@@ -1194,33 +1295,33 @@ namespace ProyectoArchivos
             int count = 1;
             foreach(Attributes a in en.attributes)
             {
-                switch (a.indexType)
-                {
-                    case 1://Clave de busqueda
-                        RegistersNextAddrs(en);
-                        break;
-                    case 3://Clave secundaria
-                        if (oldRegister[count].ToString() != newRegister[count].ToString())
-                        {
-                            foreignKey.Delete(oldRegister[count], Convert.ToInt64(oldRegister[0]));
-                            foreignKey.Insert(newRegister[count], Convert.ToInt64(newRegister[0]));
-                        }
-                        break;
-                    case 4://Arbol binario
-                        if (Convert.ToInt32(oldRegister[count]) != Convert.ToInt32(newRegister[count]))
-                        {
-                            binaryTree.Delete(Convert.ToInt32(oldRegister[count]), Convert.ToInt64(oldRegister[0]));
-                            binaryTree.Insert(Convert.ToInt32(newRegister[count]), Convert.ToInt64(newRegister[0]));
-                        }
-                        break;
-                    case 5://Hash estatica
-                        if (Convert.ToInt32(oldRegister[count]) != Convert.ToInt32(newRegister[count]))
-                        {
-                            staticHash.Delete(Convert.ToInt32(oldRegister[count]), Convert.ToInt64(oldRegister[0]));
-                            staticHash.Insert(Convert.ToInt32(newRegister[count]), Convert.ToInt64(newRegister[0]));
-                        }
-                        break;
-                }
+                //switch (a.indexType)
+                //{
+                //    case 1://Clave de busqueda
+                //        RegistersNextAddrs(en);
+                //        break;
+                //    case 3://Clave secundaria
+                //        if (oldRegister[count].ToString() != newRegister[count].ToString())
+                //        {
+                //            foreignKey.Delete(oldRegister[count], Convert.ToInt64(oldRegister[0]));
+                //            foreignKey.Insert(newRegister[count], Convert.ToInt64(newRegister[0]));
+                //        }
+                //        break;
+                //    case 4://Arbol binario
+                //        if (Convert.ToInt32(oldRegister[count]) != Convert.ToInt32(newRegister[count]))
+                //        {
+                //            binaryTree.Delete(Convert.ToInt32(oldRegister[count]), Convert.ToInt64(oldRegister[0]));
+                //            binaryTree.Insert(Convert.ToInt32(newRegister[count]), Convert.ToInt64(newRegister[0]));
+                //        }
+                //        break;
+                //    case 5://Hash estatica
+                //        if (Convert.ToInt32(oldRegister[count]) != Convert.ToInt32(newRegister[count]))
+                //        {
+                //            staticHash.Delete(Convert.ToInt32(oldRegister[count]), Convert.ToInt64(oldRegister[0]));
+                //            staticHash.Insert(Convert.ToInt32(newRegister[count]), Convert.ToInt64(newRegister[0]));
+                //        }
+                //        break;
+                //}
                 count++;
             }
             int size = 16;
@@ -1248,20 +1349,20 @@ namespace ProyectoArchivos
                         int indexer = 1;
                         foreach (var a in en.attributes)
                         {
-                            switch(a.indexType)
-                            {
-                                case 4:
-                                    binaryTree.Delete(Convert.ToInt32(gridRegisters.SelectedRows[0].Cells[indexer].Value), Convert.ToInt64(gridRegisters.SelectedRows[0].Cells[0].Value));
-                                    break;
+                            //switch(a.indexType)
+                            //{
+                            //    case 4:
+                            //        binaryTree.Delete(Convert.ToInt32(gridRegisters.SelectedRows[0].Cells[indexer].Value), Convert.ToInt64(gridRegisters.SelectedRows[0].Cells[0].Value));
+                            //        break;
 
-                                case 3:
-                                    foreignKey.Delete(gridRegisters.SelectedRows[0].Cells[indexer].Value, Convert.ToInt64(gridRegisters.SelectedRows[0].Cells[0].Value));
-                                    break;
+                            //    case 3:
+                            //        foreignKey.Delete(gridRegisters.SelectedRows[0].Cells[indexer].Value, Convert.ToInt64(gridRegisters.SelectedRows[0].Cells[0].Value));
+                            //        break;
 
-                                case 5:
-                                    staticHash.Delete(Convert.ToInt32(gridRegisters.SelectedRows[0].Cells[indexer].Value), Convert.ToInt64(gridRegisters.SelectedRows[0].Cells[0].Value));
-                                    break;
-                            }
+                            //    case 5:
+                            //        staticHash.Delete(Convert.ToInt32(gridRegisters.SelectedRows[0].Cells[indexer].Value), Convert.ToInt64(gridRegisters.SelectedRows[0].Cells[0].Value));
+                            //        break;
+                            //}
                             indexer++;
                         }
                         gridRegisters.Rows.RemoveAt(i);
@@ -1434,6 +1535,36 @@ namespace ProyectoArchivos
             {
                 oldRegister.Add(e.Row.Cells[i].Value);
             }
+        }
+
+        private void delete_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Esta seguro que desea eliminar esta BD?", "Eliminar BD", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                foreach (var en in entities)
+                {
+                    DeleteEntity(en.id);
+                    foreach (var a in en.attributes)
+                    {
+                        DeleteAttribute(a.id);
+                    }
+                }
+                File.Delete(fileName);
+                File.Delete(fileName+".rlt");
+                ClearData();
+            }
+            else
+                return;
+        }
+
+        private void DeleteEntity(string name)
+        {
+            File.Delete(path + "\\" + name + ".dat");
+        }
+        private void DeleteAttribute(string name)
+        {
+            File.Delete(path + "\\" + name + ".pk");
+            File.Delete(path + "\\" + name + ".fk");
         }
     }
 }
