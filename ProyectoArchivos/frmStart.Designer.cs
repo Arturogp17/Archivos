@@ -45,9 +45,11 @@
             Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn12 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
             Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn13 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
             Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn14 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn15 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
             Telerik.WinControls.UI.TableViewDefinition tableViewDefinition3 = new Telerik.WinControls.UI.TableViewDefinition();
             Telerik.WinControls.UI.TableViewDefinition tableViewDefinition4 = new Telerik.WinControls.UI.TableViewDefinition();
             Telerik.WinControls.UI.TableViewDefinition tableViewDefinition5 = new Telerik.WinControls.UI.TableViewDefinition();
+            Telerik.WinControls.UI.TableViewDefinition tableViewDefinition6 = new Telerik.WinControls.UI.TableViewDefinition();
             this.radThemeManager1 = new Telerik.WinControls.RadThemeManager();
             this.telerikMetroTheme1 = new Telerik.WinControls.Themes.TelerikMetroTheme();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
@@ -59,6 +61,8 @@
             this.newFile = new Telerik.WinControls.UI.RadMenuItem();
             this.open = new Telerik.WinControls.UI.RadMenuItem();
             this.Save = new Telerik.WinControls.UI.RadMenuItem();
+            this.delete = new Telerik.WinControls.UI.RadMenuItem();
+            this.btnModifyDB = new Telerik.WinControls.UI.RadMenuItem();
             this.btnCreateEntity = new Telerik.WinControls.UI.RadButton();
             this.btnCreateAttribute = new Telerik.WinControls.UI.RadButton();
             this.btnDeleteAttribute = new Telerik.WinControls.UI.RadButton();
@@ -84,8 +88,13 @@
             this.btnBinaryTree = new Telerik.WinControls.UI.RadButton();
             this.btnFK = new Telerik.WinControls.UI.RadButton();
             this.btnPK = new Telerik.WinControls.UI.RadButton();
+            this.radPageView1 = new Telerik.WinControls.UI.RadPageView();
+            this.radPageViewPage1 = new Telerik.WinControls.UI.RadPageViewPage();
+            this.radPageViewPage2 = new Telerik.WinControls.UI.RadPageViewPage();
+            this.txtSQL = new Telerik.WinControls.UI.RadTextBox();
+            this.gridResultSQL = new Telerik.WinControls.UI.RadGridView();
+            this.btnExec = new System.Windows.Forms.Button();
             this.genericItemBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.delete = new Telerik.WinControls.UI.RadMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.radMenu1)).BeginInit();
             this.radMenu1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.radGridView1)).BeginInit();
@@ -115,6 +124,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.btnBinaryTree)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnFK)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnPK)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radPageView1)).BeginInit();
+            this.radPageView1.SuspendLayout();
+            this.radPageViewPage1.SuspendLayout();
+            this.radPageViewPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSQL)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridResultSQL)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridResultSQL.MasterTemplate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.genericItemBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             this.SuspendLayout();
@@ -130,7 +146,7 @@
             this.radMenuItem1});
             this.radMenu1.Location = new System.Drawing.Point(0, 0);
             this.radMenu1.Name = "radMenu1";
-            this.radMenu1.Size = new System.Drawing.Size(1421, 20);
+            this.radMenu1.Size = new System.Drawing.Size(1421, 23);
             this.radMenu1.TabIndex = 0;
             this.radMenu1.ThemeName = "VisualStudio2012Light";
             // 
@@ -152,11 +168,13 @@
             // 
             // radMenuItem1
             // 
+            this.radMenuItem1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
             this.radMenuItem1.Items.AddRange(new Telerik.WinControls.RadItem[] {
             this.newFile,
             this.open,
             this.Save,
-            this.delete});
+            this.delete,
+            this.btnModifyDB});
             this.radMenuItem1.Name = "radMenuItem1";
             this.radMenuItem1.Text = "Base de Datos";
             // 
@@ -181,6 +199,19 @@
             this.Save.Name = "Save";
             this.Save.Text = "Guardar";
             this.Save.Visibility = Telerik.WinControls.ElementVisibility.Collapsed;
+            // 
+            // delete
+            // 
+            this.delete.AccessibleName = "delete";
+            this.delete.Name = "delete";
+            this.delete.Text = "Eliminar BD";
+            this.delete.Click += new System.EventHandler(this.delete_Click);
+            // 
+            // btnModifyDB
+            // 
+            this.btnModifyDB.Name = "btnModifyDB";
+            this.btnModifyDB.Text = "Modificar BD";
+            this.btnModifyDB.Click += new System.EventHandler(this.btnModifyDB_Click);
             // 
             // btnCreateEntity
             // 
@@ -228,7 +259,7 @@
             // gridEntities
             // 
             this.gridEntities.AutoScroll = true;
-            this.gridEntities.Location = new System.Drawing.Point(12, 170);
+            this.gridEntities.Location = new System.Drawing.Point(0, 147);
             // 
             // 
             // 
@@ -289,11 +320,12 @@
             this.gridEntities.ThemeName = "VisualStudio2012Light";
             this.gridEntities.CellEndEdit += new Telerik.WinControls.UI.GridViewCellEventHandler(this.gridEntities_CellEndEdit);
             this.gridEntities.CellClick += new Telerik.WinControls.UI.GridViewCellEventHandler(this.gridEntities_CellClick);
+            this.gridEntities.Click += new System.EventHandler(this.gridEntities_Click);
             // 
             // gridAttributes
             // 
             this.gridAttributes.AutoScroll = true;
-            this.gridAttributes.Location = new System.Drawing.Point(9, 458);
+            this.gridAttributes.Location = new System.Drawing.Point(3, 435);
             // 
             // 
             // 
@@ -310,18 +342,18 @@
             gridViewTextBoxColumn8.HeaderText = "Nombre";
             gridViewTextBoxColumn8.Name = "name";
             gridViewTextBoxColumn8.ReadOnly = true;
-            gridViewTextBoxColumn8.Width = 262;
+            gridViewTextBoxColumn8.Width = 222;
             gridViewTextBoxColumn9.FieldName = "dataType";
             gridViewTextBoxColumn9.HeaderText = "Tipo";
             gridViewTextBoxColumn9.Name = "dataType";
             gridViewTextBoxColumn9.ReadOnly = true;
-            gridViewTextBoxColumn9.Width = 143;
+            gridViewTextBoxColumn9.Width = 121;
             gridViewTextBoxColumn10.DataType = typeof(int);
             gridViewTextBoxColumn10.FieldName = "length";
             gridViewTextBoxColumn10.HeaderText = "Longitud";
             gridViewTextBoxColumn10.Name = "length";
             gridViewTextBoxColumn10.ReadOnly = true;
-            gridViewTextBoxColumn10.Width = 143;
+            gridViewTextBoxColumn10.Width = 121;
             gridViewTextBoxColumn11.DataType = typeof(long);
             gridViewTextBoxColumn11.FieldName = "address";
             gridViewTextBoxColumn11.HeaderText = "Dirección";
@@ -331,9 +363,10 @@
             gridViewTextBoxColumn11.Width = 82;
             gridViewTextBoxColumn12.FieldName = "indexType";
             gridViewTextBoxColumn12.HeaderText = "Tipo índice";
+            gridViewTextBoxColumn12.IsVisible = false;
             gridViewTextBoxColumn12.Name = "indexType";
             gridViewTextBoxColumn12.ReadOnly = true;
-            gridViewTextBoxColumn12.Width = 144;
+            gridViewTextBoxColumn12.Width = 134;
             gridViewTextBoxColumn13.DataType = typeof(long);
             gridViewTextBoxColumn13.FieldName = "indexAddress";
             gridViewTextBoxColumn13.HeaderText = "Dir. indice";
@@ -348,6 +381,10 @@
             gridViewTextBoxColumn14.Name = "nextAttributeAddress";
             gridViewTextBoxColumn14.ReadOnly = true;
             gridViewTextBoxColumn14.Width = 82;
+            gridViewTextBoxColumn15.FieldName = "indiceString";
+            gridViewTextBoxColumn15.HeaderText = "Clave tipo";
+            gridViewTextBoxColumn15.Name = "indiceString";
+            gridViewTextBoxColumn15.Width = 120;
             this.gridAttributes.MasterTemplate.Columns.AddRange(new Telerik.WinControls.UI.GridViewDataColumn[] {
             gridViewTextBoxColumn7,
             gridViewTextBoxColumn8,
@@ -356,11 +393,12 @@
             gridViewTextBoxColumn11,
             gridViewTextBoxColumn12,
             gridViewTextBoxColumn13,
-            gridViewTextBoxColumn14});
+            gridViewTextBoxColumn14,
+            gridViewTextBoxColumn15});
             this.gridAttributes.MasterTemplate.ViewDefinition = tableViewDefinition3;
             this.gridAttributes.Name = "gridAttributes";
             this.gridAttributes.ShowGroupPanel = false;
-            this.gridAttributes.Size = new System.Drawing.Size(712, 253);
+            this.gridAttributes.Size = new System.Drawing.Size(604, 229);
             this.gridAttributes.TabIndex = 8;
             this.gridAttributes.ThemeName = "VisualStudio2012Light";
             this.gridAttributes.CellEndEdit += new Telerik.WinControls.UI.GridViewCellEventHandler(this.gridAttributes_CellEndEdit);
@@ -369,18 +407,18 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 154);
+            this.label2.Location = new System.Drawing.Point(0, 131);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(84, 13);
+            this.label2.Size = new System.Drawing.Size(103, 17);
             this.label2.TabIndex = 9;
             this.label2.Text = "Tablas en la BD";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 442);
+            this.label3.Location = new System.Drawing.Point(0, 419);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(112, 13);
+            this.label3.Size = new System.Drawing.Size(135, 17);
             this.label3.TabIndex = 10;
             this.label3.Text = "Atributos de la tabla";
             // 
@@ -388,7 +426,7 @@
             // 
             this.groupBox1.Controls.Add(this.btnCreateEntity);
             this.groupBox1.Controls.Add(this.btnDeleteEntity);
-            this.groupBox1.Location = new System.Drawing.Point(15, 26);
+            this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(129, 112);
             this.groupBox1.TabIndex = 11;
@@ -399,7 +437,7 @@
             // 
             this.groupBox2.Controls.Add(this.btnCreateAttribute);
             this.groupBox2.Controls.Add(this.btnDeleteAttribute);
-            this.groupBox2.Location = new System.Drawing.Point(150, 26);
+            this.groupBox2.Location = new System.Drawing.Point(138, 3);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(129, 112);
             this.groupBox2.TabIndex = 12;
@@ -409,16 +447,16 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(505, 149);
+            this.label1.Location = new System.Drawing.Point(480, 120);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(54, 13);
+            this.label1.Size = new System.Drawing.Size(63, 17);
             this.label1.TabIndex = 13;
             this.label1.Text = "Cabecera";
             this.label1.Visible = false;
             // 
             // txtHeader
             // 
-            this.txtHeader.Location = new System.Drawing.Point(561, 143);
+            this.txtHeader.Location = new System.Drawing.Point(549, 120);
             this.txtHeader.Name = "txtHeader";
             this.txtHeader.ReadOnly = true;
             this.txtHeader.Size = new System.Drawing.Size(58, 24);
@@ -429,17 +467,17 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.btnDataFile);
-            this.groupBox3.Location = new System.Drawing.Point(285, 26);
+            this.groupBox3.Location = new System.Drawing.Point(273, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(129, 112);
+            this.groupBox3.Size = new System.Drawing.Size(146, 112);
             this.groupBox3.TabIndex = 13;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Archivo de datos";
+            this.groupBox3.Text = "Archivo de registros";
             // 
             // btnDataFile
             // 
             this.btnDataFile.Enabled = false;
-            this.btnDataFile.Location = new System.Drawing.Point(6, 21);
+            this.btnDataFile.Location = new System.Drawing.Point(19, 24);
             this.btnDataFile.Name = "btnDataFile";
             this.btnDataFile.Size = new System.Drawing.Size(110, 38);
             this.btnDataFile.TabIndex = 2;
@@ -449,7 +487,8 @@
             // 
             // gridAddRegister
             // 
-            this.gridAddRegister.Location = new System.Drawing.Point(778, 149);
+            this.gridAddRegister.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.gridAddRegister.Location = new System.Drawing.Point(744, 125);
             // 
             // 
             // 
@@ -460,13 +499,14 @@
             this.gridAddRegister.MasterTemplate.EnableGrouping = false;
             this.gridAddRegister.MasterTemplate.ViewDefinition = tableViewDefinition4;
             this.gridAddRegister.Name = "gridAddRegister";
-            this.gridAddRegister.Size = new System.Drawing.Size(621, 81);
+            this.gridAddRegister.Size = new System.Drawing.Size(610, 81);
             this.gridAddRegister.TabIndex = 16;
             this.gridAddRegister.ThemeName = "VisualStudio2012Light";
             // 
             // btnAddReg
             // 
-            this.btnAddReg.Location = new System.Drawing.Point(1289, 236);
+            this.btnAddReg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAddReg.Location = new System.Drawing.Point(1255, 210);
             this.btnAddReg.Name = "btnAddReg";
             this.btnAddReg.Size = new System.Drawing.Size(110, 24);
             this.btnAddReg.TabIndex = 17;
@@ -476,9 +516,11 @@
             // 
             // gridRegisters
             // 
+            this.gridRegisters.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.gridRegisters.AutoScroll = true;
             this.gridRegisters.EnableCustomGrouping = true;
-            this.gridRegisters.Location = new System.Drawing.Point(778, 266);
+            this.gridRegisters.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.gridRegisters.Location = new System.Drawing.Point(748, 240);
             // 
             // 
             // 
@@ -487,9 +529,10 @@
             this.gridRegisters.MasterTemplate.AllowDragToGroup = false;
             this.gridRegisters.MasterTemplate.AutoSizeColumnsMode = Telerik.WinControls.UI.GridViewAutoSizeColumnsMode.Fill;
             this.gridRegisters.MasterTemplate.EnableCustomGrouping = true;
+            this.gridRegisters.MasterTemplate.EnableGrouping = false;
             this.gridRegisters.MasterTemplate.ViewDefinition = tableViewDefinition5;
             this.gridRegisters.Name = "gridRegisters";
-            this.gridRegisters.Size = new System.Drawing.Size(621, 441);
+            this.gridRegisters.Size = new System.Drawing.Size(621, 421);
             this.gridRegisters.TabIndex = 18;
             this.gridRegisters.ThemeName = "VisualStudio2012Light";
             this.gridRegisters.CellEndEdit += new Telerik.WinControls.UI.GridViewCellEventHandler(this.gridRegisters_CellEndEdit);
@@ -498,7 +541,7 @@
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.btnDelReg);
-            this.groupBox4.Location = new System.Drawing.Point(778, 26);
+            this.groupBox4.Location = new System.Drawing.Point(748, 7);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(129, 112);
             this.groupBox4.TabIndex = 14;
@@ -521,7 +564,7 @@
             this.groupBox5.Controls.Add(this.btnBinaryTree);
             this.groupBox5.Controls.Add(this.btnFK);
             this.groupBox5.Controls.Add(this.btnPK);
-            this.groupBox5.Location = new System.Drawing.Point(913, 26);
+            this.groupBox5.Location = new System.Drawing.Point(901, 3);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(240, 112);
             this.groupBox5.TabIndex = 15;
@@ -570,37 +613,114 @@
             this.btnPK.ThemeName = "VisualStudio2012Light";
             this.btnPK.Click += new System.EventHandler(this.btnPK_Click);
             // 
+            // radPageView1
+            // 
+            this.radPageView1.Controls.Add(this.radPageViewPage1);
+            this.radPageView1.Controls.Add(this.radPageViewPage2);
+            this.radPageView1.DefaultPage = this.radPageViewPage1;
+            this.radPageView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.radPageView1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
+            this.radPageView1.Location = new System.Drawing.Point(0, 23);
+            this.radPageView1.Name = "radPageView1";
+            this.radPageView1.SelectedPage = this.radPageViewPage1;
+            this.radPageView1.Size = new System.Drawing.Size(1421, 696);
+            this.radPageView1.TabIndex = 17;
+            this.radPageView1.ThemeName = "VisualStudio2012Light";
+            this.radPageView1.ViewMode = Telerik.WinControls.UI.PageViewMode.NavigationView;
+            // 
+            // radPageViewPage1
+            // 
+            this.radPageViewPage1.Controls.Add(this.groupBox1);
+            this.radPageViewPage1.Controls.Add(this.btnAddReg);
+            this.radPageViewPage1.Controls.Add(this.label3);
+            this.radPageViewPage1.Controls.Add(this.gridAddRegister);
+            this.radPageViewPage1.Controls.Add(this.groupBox5);
+            this.radPageViewPage1.Controls.Add(this.label2);
+            this.radPageViewPage1.Controls.Add(this.groupBox2);
+            this.radPageViewPage1.Controls.Add(this.gridEntities);
+            this.radPageViewPage1.Controls.Add(this.gridRegisters);
+            this.radPageViewPage1.Controls.Add(this.txtHeader);
+            this.radPageViewPage1.Controls.Add(this.groupBox3);
+            this.radPageViewPage1.Controls.Add(this.groupBox4);
+            this.radPageViewPage1.Controls.Add(this.gridAttributes);
+            this.radPageViewPage1.Controls.Add(this.label1);
+            this.radPageViewPage1.ItemSize = new System.Drawing.SizeF(8F, 8F);
+            this.radPageViewPage1.Location = new System.Drawing.Point(41, 25);
+            this.radPageViewPage1.Name = "radPageViewPage1";
+            this.radPageViewPage1.Size = new System.Drawing.Size(1379, 670);
+            this.radPageViewPage1.Text = "Estructura de la Base de Datos";
+            // 
+            // radPageViewPage2
+            // 
+            this.radPageViewPage2.Controls.Add(this.txtSQL);
+            this.radPageViewPage2.Controls.Add(this.gridResultSQL);
+            this.radPageViewPage2.Controls.Add(this.btnExec);
+            this.radPageViewPage2.ItemSize = new System.Drawing.SizeF(8F, 8F);
+            this.radPageViewPage2.Location = new System.Drawing.Point(281, 25);
+            this.radPageViewPage2.Name = "radPageViewPage2";
+            this.radPageViewPage2.Size = new System.Drawing.Size(1139, 670);
+            this.radPageViewPage2.Text = "Ejecutar SQL";
+            // 
+            // txtSQL
+            // 
+            this.txtSQL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSQL.Location = new System.Drawing.Point(-233, 3);
+            this.txtSQL.Multiline = true;
+            this.txtSQL.Name = "txtSQL";
+            // 
+            // 
+            // 
+            this.txtSQL.RootElement.StretchVertically = true;
+            this.txtSQL.Size = new System.Drawing.Size(1369, 78);
+            this.txtSQL.TabIndex = 20;
+            this.txtSQL.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSQL_KeyDown);
+            // 
+            // gridResultSQL
+            // 
+            this.gridResultSQL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.gridResultSQL.AutoScroll = true;
+            this.gridResultSQL.EnableCustomGrouping = true;
+            this.gridResultSQL.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.gridResultSQL.Location = new System.Drawing.Point(-233, 134);
+            // 
+            // 
+            // 
+            this.gridResultSQL.MasterTemplate.AllowAddNewRow = false;
+            this.gridResultSQL.MasterTemplate.AllowColumnReorder = false;
+            this.gridResultSQL.MasterTemplate.AllowDeleteRow = false;
+            this.gridResultSQL.MasterTemplate.AllowDragToGroup = false;
+            this.gridResultSQL.MasterTemplate.AutoSizeColumnsMode = Telerik.WinControls.UI.GridViewAutoSizeColumnsMode.Fill;
+            this.gridResultSQL.MasterTemplate.EnableCustomGrouping = true;
+            this.gridResultSQL.MasterTemplate.ViewDefinition = tableViewDefinition6;
+            this.gridResultSQL.Name = "gridResultSQL";
+            this.gridResultSQL.ReadOnly = true;
+            this.gridResultSQL.Size = new System.Drawing.Size(1369, 523);
+            this.gridResultSQL.TabIndex = 19;
+            this.gridResultSQL.ThemeName = "VisualStudio2012Light";
+            // 
+            // btnExec
+            // 
+            this.btnExec.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExec.Location = new System.Drawing.Point(1040, 87);
+            this.btnExec.Name = "btnExec";
+            this.btnExec.Size = new System.Drawing.Size(96, 30);
+            this.btnExec.TabIndex = 1;
+            this.btnExec.Text = "Ejecutar (F5)";
+            this.btnExec.UseVisualStyleBackColor = true;
+            this.btnExec.Click += new System.EventHandler(this.btnExec_Click);
+            // 
             // genericItemBindingSource
             // 
             this.genericItemBindingSource.DataSource = typeof(ProyectoArchivos.MainApp.Classes.genericItem);
-            // 
-            // delete
-            // 
-            this.delete.AccessibleName = "delete";
-            this.delete.Name = "delete";
-            this.delete.Text = "Eliminar BD";
-            this.delete.Click += new System.EventHandler(this.delete_Click);
             // 
             // frmStart
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1421, 719);
-            this.Controls.Add(this.groupBox5);
-            this.Controls.Add(this.groupBox4);
-            this.Controls.Add(this.gridRegisters);
-            this.Controls.Add(this.btnAddReg);
-            this.Controls.Add(this.gridAddRegister);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.txtHeader);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.gridAttributes);
-            this.Controls.Add(this.gridEntities);
+            this.Controls.Add(this.radPageView1);
             this.Controls.Add(this.radMenu1);
+            this.Font = new System.Drawing.Font("Segoe UI", 11.75F, System.Drawing.FontStyle.Bold);
             this.Name = "frmStart";
             // 
             // 
@@ -637,6 +757,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.btnBinaryTree)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnFK)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnPK)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radPageView1)).EndInit();
+            this.radPageView1.ResumeLayout(false);
+            this.radPageViewPage1.ResumeLayout(false);
+            this.radPageViewPage1.PerformLayout();
+            this.radPageViewPage2.ResumeLayout(false);
+            this.radPageViewPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSQL)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridResultSQL.MasterTemplate)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridResultSQL)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.genericItemBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
             this.ResumeLayout(false);
@@ -684,5 +813,12 @@
         private Telerik.WinControls.UI.RadButton btnBinaryTree;
         private Telerik.WinControls.UI.RadButton btnHash;
         private Telerik.WinControls.UI.RadMenuItem delete;
+        private Telerik.WinControls.UI.RadMenuItem btnModifyDB;
+        private Telerik.WinControls.UI.RadPageView radPageView1;
+        private Telerik.WinControls.UI.RadPageViewPage radPageViewPage1;
+        private Telerik.WinControls.UI.RadPageViewPage radPageViewPage2;
+        public Telerik.WinControls.UI.RadGridView gridResultSQL;
+        private System.Windows.Forms.Button btnExec;
+        private Telerik.WinControls.UI.RadTextBox txtSQL;
     }
 }

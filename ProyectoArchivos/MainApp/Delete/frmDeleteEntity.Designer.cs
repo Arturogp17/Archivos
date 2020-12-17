@@ -28,15 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn25 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
-            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn26 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
-            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn27 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
-            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn28 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
-            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn29 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
-            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn30 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
-            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn31 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
-            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn32 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
-            Telerik.WinControls.UI.TableViewDefinition tableViewDefinition4 = new Telerik.WinControls.UI.TableViewDefinition();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn9 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn10 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn11 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn12 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn13 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn14 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn15 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn16 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.TableViewDefinition tableViewDefinition2 = new Telerik.WinControls.UI.TableViewDefinition();
             this.visualStudio2012LightTheme1 = new Telerik.WinControls.Themes.VisualStudio2012LightTheme();
             this.radLabel1 = new Telerik.WinControls.UI.RadLabel();
             this.lblID = new Telerik.WinControls.UI.RadLabel();
@@ -94,59 +94,59 @@
             this.gridAttributes.MasterTemplate.AllowAddNewRow = false;
             this.gridAttributes.MasterTemplate.AllowColumnReorder = false;
             this.gridAttributes.MasterTemplate.AllowDeleteRow = false;
-            gridViewTextBoxColumn25.FieldName = "id";
-            gridViewTextBoxColumn25.HeaderText = "ID";
-            gridViewTextBoxColumn25.Name = "id";
-            gridViewTextBoxColumn25.ReadOnly = true;
-            gridViewTextBoxColumn26.FieldName = "name";
-            gridViewTextBoxColumn26.HeaderText = "Nombre";
-            gridViewTextBoxColumn26.Name = "name";
-            gridViewTextBoxColumn26.ReadOnly = true;
-            gridViewTextBoxColumn26.Width = 150;
-            gridViewTextBoxColumn27.FieldName = "dataType";
-            gridViewTextBoxColumn27.HeaderText = "Tipo";
-            gridViewTextBoxColumn27.Name = "dataType";
-            gridViewTextBoxColumn27.ReadOnly = true;
-            gridViewTextBoxColumn27.Width = 82;
-            gridViewTextBoxColumn28.DataType = typeof(int);
-            gridViewTextBoxColumn28.FieldName = "length";
-            gridViewTextBoxColumn28.HeaderText = "Longitud";
-            gridViewTextBoxColumn28.Name = "length";
-            gridViewTextBoxColumn28.ReadOnly = true;
-            gridViewTextBoxColumn28.Width = 82;
-            gridViewTextBoxColumn29.DataType = typeof(long);
-            gridViewTextBoxColumn29.FieldName = "address";
-            gridViewTextBoxColumn29.HeaderText = "Dirección";
-            gridViewTextBoxColumn29.Name = "address";
-            gridViewTextBoxColumn29.ReadOnly = true;
-            gridViewTextBoxColumn29.Width = 82;
-            gridViewTextBoxColumn30.FieldName = "indexType";
-            gridViewTextBoxColumn30.HeaderText = "Tipo índice";
-            gridViewTextBoxColumn30.Name = "indexType";
-            gridViewTextBoxColumn30.ReadOnly = true;
-            gridViewTextBoxColumn30.Width = 82;
-            gridViewTextBoxColumn31.DataType = typeof(long);
-            gridViewTextBoxColumn31.FieldName = "indexAddress";
-            gridViewTextBoxColumn31.HeaderText = "Dir. indice";
-            gridViewTextBoxColumn31.Name = "indexAddress";
-            gridViewTextBoxColumn31.ReadOnly = true;
-            gridViewTextBoxColumn31.Width = 82;
-            gridViewTextBoxColumn32.DataType = typeof(long);
-            gridViewTextBoxColumn32.FieldName = "nextAttributeAddress";
-            gridViewTextBoxColumn32.HeaderText = "Sig. atributo";
-            gridViewTextBoxColumn32.Name = "nextAttributeAddress";
-            gridViewTextBoxColumn32.ReadOnly = true;
-            gridViewTextBoxColumn32.Width = 82;
+            gridViewTextBoxColumn9.FieldName = "id";
+            gridViewTextBoxColumn9.HeaderText = "ID";
+            gridViewTextBoxColumn9.Name = "id";
+            gridViewTextBoxColumn9.ReadOnly = true;
+            gridViewTextBoxColumn10.FieldName = "name";
+            gridViewTextBoxColumn10.HeaderText = "Nombre";
+            gridViewTextBoxColumn10.Name = "name";
+            gridViewTextBoxColumn10.ReadOnly = true;
+            gridViewTextBoxColumn10.Width = 150;
+            gridViewTextBoxColumn11.FieldName = "dataType";
+            gridViewTextBoxColumn11.HeaderText = "Tipo";
+            gridViewTextBoxColumn11.Name = "dataType";
+            gridViewTextBoxColumn11.ReadOnly = true;
+            gridViewTextBoxColumn11.Width = 82;
+            gridViewTextBoxColumn12.DataType = typeof(int);
+            gridViewTextBoxColumn12.FieldName = "length";
+            gridViewTextBoxColumn12.HeaderText = "Longitud";
+            gridViewTextBoxColumn12.Name = "length";
+            gridViewTextBoxColumn12.ReadOnly = true;
+            gridViewTextBoxColumn12.Width = 82;
+            gridViewTextBoxColumn13.DataType = typeof(long);
+            gridViewTextBoxColumn13.FieldName = "address";
+            gridViewTextBoxColumn13.HeaderText = "Dirección";
+            gridViewTextBoxColumn13.Name = "address";
+            gridViewTextBoxColumn13.ReadOnly = true;
+            gridViewTextBoxColumn13.Width = 82;
+            gridViewTextBoxColumn14.FieldName = "indexType";
+            gridViewTextBoxColumn14.HeaderText = "Tipo índice";
+            gridViewTextBoxColumn14.Name = "indexType";
+            gridViewTextBoxColumn14.ReadOnly = true;
+            gridViewTextBoxColumn14.Width = 82;
+            gridViewTextBoxColumn15.DataType = typeof(long);
+            gridViewTextBoxColumn15.FieldName = "indexAddress";
+            gridViewTextBoxColumn15.HeaderText = "Dir. indice";
+            gridViewTextBoxColumn15.Name = "indexAddress";
+            gridViewTextBoxColumn15.ReadOnly = true;
+            gridViewTextBoxColumn15.Width = 82;
+            gridViewTextBoxColumn16.DataType = typeof(long);
+            gridViewTextBoxColumn16.FieldName = "nextAttributeAddress";
+            gridViewTextBoxColumn16.HeaderText = "Sig. atributo";
+            gridViewTextBoxColumn16.Name = "nextAttributeAddress";
+            gridViewTextBoxColumn16.ReadOnly = true;
+            gridViewTextBoxColumn16.Width = 82;
             this.gridAttributes.MasterTemplate.Columns.AddRange(new Telerik.WinControls.UI.GridViewDataColumn[] {
-            gridViewTextBoxColumn25,
-            gridViewTextBoxColumn26,
-            gridViewTextBoxColumn27,
-            gridViewTextBoxColumn28,
-            gridViewTextBoxColumn29,
-            gridViewTextBoxColumn30,
-            gridViewTextBoxColumn31,
-            gridViewTextBoxColumn32});
-            this.gridAttributes.MasterTemplate.ViewDefinition = tableViewDefinition4;
+            gridViewTextBoxColumn9,
+            gridViewTextBoxColumn10,
+            gridViewTextBoxColumn11,
+            gridViewTextBoxColumn12,
+            gridViewTextBoxColumn13,
+            gridViewTextBoxColumn14,
+            gridViewTextBoxColumn15,
+            gridViewTextBoxColumn16});
+            this.gridAttributes.MasterTemplate.ViewDefinition = tableViewDefinition2;
             this.gridAttributes.Name = "gridAttributes";
             this.gridAttributes.ReadOnly = true;
             this.gridAttributes.ShowGroupPanel = false;
@@ -177,6 +177,7 @@
             // ddlEntities
             // 
             this.ddlEntities.DisplayMember = "name";
+            this.ddlEntities.DropDownAnimationEnabled = false;
             this.ddlEntities.Location = new System.Drawing.Point(306, 7);
             this.ddlEntities.Name = "ddlEntities";
             this.ddlEntities.Size = new System.Drawing.Size(154, 24);
@@ -199,12 +200,13 @@
             this.Controls.Add(this.lblID);
             this.Controls.Add(this.radLabel4);
             this.Controls.Add(this.radLabel1);
+            this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
             this.Name = "frmDeleteEntity";
             // 
             // 
             // 
             this.RootElement.ApplyShapeToControl = true;
-            this.Text = "frmDeleteEntity";
+            this.Text = "Eliminar Entidad";
             this.ThemeName = "VisualStudio2012Light";
             ((System.ComponentModel.ISupportInitialize)(this.radLabel1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblID)).EndInit();

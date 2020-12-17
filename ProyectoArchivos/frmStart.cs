@@ -30,6 +30,8 @@ namespace ProyectoArchivos
         frmForeignKey foreignKey;
         frmStaticHash staticHash;
         List<Object> oldRegister;
+        List<Relation> relations;
+        bool errorSQL = false;
 
         public frmStart()
         {
@@ -58,6 +60,7 @@ namespace ProyectoArchivos
             gridEntities.Rows.Clear();
             gridRegisters.Rows.Clear();
             gridRegisters.Columns.Clear();
+            relations = new List<Relation>();
             if (binaryTree != null) binaryTree.Dispose();
             if (staticHash != null) staticHash.Dispose();
             if (foreignKey != null) foreignKey.Dispose();
@@ -76,15 +79,16 @@ namespace ProyectoArchivos
                 file.Close();
                 return 0;
             }
-                return 1;
+            return 1;
         }
 
         public void OpenFile()
         {
             OpenFileDialog open = new OpenFileDialog();
-            if(open.ShowDialog() == DialogResult.OK)
+            if (open.ShowDialog() == DialogResult.OK)
             {
                 entities.Clear();
+                relations = new List<Relation>();
                 fileName = open.FileName;
                 path = Path.GetDirectoryName(fileName);
                 file = File.Open(fileName, FileMode.Open, FileAccess.Read, FileShare.None);
@@ -93,26 +97,45 @@ namespace ProyectoArchivos
 
                 header = br.ReadInt64();
                 txtHeader.Text = header.ToString();
-                if(header != -1)
+                if (header != -1)
                 {
                     ReadNextEntity(header, br, file);
                     btnCreateAttribute.Enabled = false;
                     btnDeleteAttribute.Enabled = false;
                     btnDeleteEntity.Enabled = true;
                 }
-                foreach(Entity e in entities)
+                foreach (Entity e in entities)
                 {
                     if (e.address + 72 > lastAddress)
                         lastAddress = e.address + 72;
-                    foreach(Attributes a in e.attributes)
+                    foreach (Attributes a in e.attributes)
                     {
                         if (a.address + 73 > lastAddress)
                             lastAddress = a.address + 73;
                     }
                 }
                 file.Close();
+                ReadRelations();
                 entities = entities.OrderBy(o => o.id).ToList();
                 RefreshGrids();
+            }
+        }
+
+        private void ReadRelations()
+        {
+            if (File.Exists(fileName + ".rlt"))
+            {
+                file = File.Open(fileName + ".rlt", FileMode.Open, FileAccess.Read, FileShare.None);
+                BinaryReader br = new BinaryReader(file);
+                file.Seek(0, SeekOrigin.Begin);
+                while (file.Position < file.Length)
+                {
+                    string aux = Encoding.ASCII.GetString(br.ReadBytes(17));
+                    List<string> la = aux.Split('-').ToList();
+                    Relation r = new Relation(la);
+                    relations.Add(r);
+                }
+                file.Close();
             }
         }
 
@@ -163,7 +186,7 @@ namespace ProyectoArchivos
         private int GetNextEntityID()
         {
             int id = 0;
-            foreach(Entity e in entities)
+            foreach (Entity e in entities)
             {
                 if (Convert.ToInt32(e.id) > id)
                     id = Convert.ToInt32(e.id);
@@ -221,7 +244,7 @@ namespace ProyectoArchivos
 
         private bool Existe(string name)
         {
-            foreach(Entity e in entities)
+            foreach (Entity e in entities)
             {
                 if (e.name == name)
                     return true;
@@ -287,7 +310,7 @@ namespace ProyectoArchivos
                 a.indexType = Convert.ToInt32(ca.indexType);
                 a.indexAddress = -1;
                 a.nextAttributeAddress = -1;
-                foreach(Entity en in entities)
+                foreach (Entity en in entities)
                 {
                     if (en.id == ca.idEntity)
                     {
@@ -302,13 +325,15 @@ namespace ProyectoArchivos
                                     return;
                                 }
                             }
-                            
+
                         }
-                        switch(a.indexType)
+                        switch (a.indexType)
                         {
                             case 3:
                                 //foreignKey = new frmForeignKey(a, path);
                                 NewRelationship(ca.idEntityFK, ca.idAttrFK, ca.idEntDestFK);
+                                Relation r = new Relation(ca.idEntityFK, ca.idAttrFK, ca.idEntDestFK);
+                                relations.Add(r);
                                 break;
                             case 4:
                                 binaryTree = new frmBinaryTree(a, path, fileName);
@@ -329,7 +354,7 @@ namespace ProyectoArchivos
                         en.attributes.Add(a);
                         WriteEntity(en);
                         WriteAttribute(a);
-                        
+
                         gridEntities_CellClick(this, null);
                         break;
                     }
@@ -399,9 +424,9 @@ namespace ProyectoArchivos
         private void gridEntities_CellEndEdit(object sender, GridViewCellEventArgs e)
         {
             string name = e.Value.ToString();
-            foreach(Entity en in entities)
+            foreach (Entity en in entities)
             {
-                if(e.Row.Cells["id"].Value.ToString() == en.id)
+                if (e.Row.Cells["id"].Value.ToString() == en.id)
                 {
                     en.name = name;
                     SetNextEntityDirection();
@@ -409,16 +434,16 @@ namespace ProyectoArchivos
                     break;
                 }
             }
-            
+
         }
 
         private void gridAttributes_CellEndEdit(object sender, GridViewCellEventArgs e)
         {
-            foreach(Entity en in entities)
+            foreach (Entity en in entities)
             {
-                foreach(Attributes a in en.attributes)
+                foreach (Attributes a in en.attributes)
                 {
-                    if(e.Row.Cells["id"].Value.ToString() == a.id)
+                    if (e.Row.Cells["id"].Value.ToString() == a.id)
                     {
                         a.name = e.Row.Cells["name"].Value.ToString();
                         a.dataType = Convert.ToChar(e.Row.Cells["dataType"].Value);
@@ -456,8 +481,31 @@ namespace ProyectoArchivos
                     break;
             }
             frmCreateAttribute fe = new frmCreateAttribute(ent.name, at);
-            if(fe.ShowDialog() == DialogResult.OK)
+            if (fe.ShowDialog() == DialogResult.OK)
             {
+                if (at.indexType == 2)
+                {
+                    foreach (var item in relations)
+                    {
+                        if (item.tablaDestino == ent.id)
+                        {
+                            foreach (var en in entities)
+                            {
+                                if (en.id == item.tablaOrigen)
+                                {
+                                    foreach (var a in en.attributes)
+                                    {
+                                        if (a.id == item.attrOrigen)
+                                        {
+                                            a.name = fe.name;
+                                            WriteAttribute(a);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
                 at.name = fe.name;
                 at.dataType = fe.dataType;
                 at.length = fe.length;
@@ -466,7 +514,7 @@ namespace ProyectoArchivos
                 WriteEntity(ent);
                 gridEntities_CellClick(this, null);
             }
-            
+
         }
 
         private void btnDeleteEntity_Click(object sender, EventArgs e)
@@ -478,6 +526,11 @@ namespace ProyectoArchivos
                 {
                     if (entities[i].id == fd.lblID.Text)
                     {
+                        DeleteEntity(entities[i].id);
+                        foreach (var a in entities[i].attributes)
+                        {
+                            DeleteAttribute(a.id);
+                        }
                         entities[i].nextEntityAddress = -1;
                         entities[i].attributes.Clear();
                         entities.RemoveAt(i);
@@ -485,7 +538,7 @@ namespace ProyectoArchivos
                         break;
                     }
                 }
-                foreach(Entity en in entities)
+                foreach (Entity en in entities)
                 {
                     WriteEntity(en);
                 }
@@ -527,54 +580,98 @@ namespace ProyectoArchivos
 
         private void btnDeleteAttribute_Click(object sender, EventArgs e)
         {
-            List<Attributes> la = new List<Attributes>();
-            foreach(Entity en in entities)
+            if (gridEntities.SelectedRows.Count() == 0 || gridAttributes.SelectedRows.Count() == 0)
             {
-                foreach(Attributes a in en.attributes)
+                MessageBox.Show("Selecciona una tabla y un atributo para continuar", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            List<Attributes> la = new List<Attributes>();
+            foreach (Entity en in entities)
+            {
+                if (en.id == gridEntities.SelectedRows[0].Cells["id"].Value.ToString())
                 {
-                    Attributes an = new Attributes();
-                    an.entity = en.name;
-                    an.id = a.id;
-                    an.name = a.name;
-                    an.dataType = a.dataType;
-                    an.indexType = a.indexType;
-                    an.length = a.length;
-                    la.Add(an);
+                    foreach (Attributes a in en.attributes)
+                    {
+                        Attributes an = new Attributes();
+                        an.entity = en.name;
+                        an.id = a.id;
+                        an.name = a.name;
+                        an.dataType = a.dataType;
+                        an.indexType = a.indexType;
+                        an.length = a.length;
+                        la.Add(an);
+                    }
                 }
             }
             if (la.Count > 0)
             {
                 frmDeleteAttribute da = new frmDeleteAttribute(la);
+                da.entity = gridEntities.SelectedRows[0].Cells["name"].Value.ToString();
+                da.attr = gridAttributes.SelectedRows[0].Cells["id"].Value.ToString();
                 if (da.ShowDialog() == DialogResult.OK)
                 {
+                    switch (gridAttributes.SelectedRows[0].Cells["indexType"].Value.ToString())
+                    {
+                        case "2":
+                            foreach (var item in relations)
+                            {
+                                if (item.tablaDestino == gridEntities.SelectedRows[0].Cells["id"].Value.ToString())
+                                {
+                                    MessageBox.Show("No se puede eliminar este atributo ya que tiene una relacion con otra tabla", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return;
+                                }
+                            }
+                            break;
+                        case "3":
+                            for (int i = 0; i < relations.Count; i++)
+                            {
+                                if (relations[i].tablaOrigen == gridEntities.SelectedRows[0].Cells["id"].Value.ToString() &&
+                                    relations[i].attrOrigen == gridAttributes.SelectedRows[0].Cells["id"].Value.ToString())
+                                {
+                                    relations.RemoveAt(i);
+                                    FileStream file = new FileStream(fileName + ".rlt", FileMode.Create, FileAccess.Write, FileShare.None);
+                                    file.Close();
+                                    foreach (var item in relations)
+                                    {
+                                        NewRelationship(item.tablaOrigen, item.attrOrigen, item.tablaDestino);
+                                    }
+                                    break;
+                                }
+                            }
+                            break;
+                    }
+
                     foreach (Entity en in entities)
                     {
-                        for (int i = 0; i < en.attributes.Count; i++)
+                        if (en.id == gridEntities.SelectedRows[0].Cells["id"].Value.ToString())
                         {
-                            if (en.attributes[i].id == da.lblID.Text)
+                            for (int i = 0; i < en.attributes.Count; i++)
                             {
-                                if (i == 0)
+                                if (en.attributes[i].id == gridAttributes.SelectedRows[0].Cells["id"].Value.ToString())
                                 {
-                                    if (en.attributes.Count > 1)
-                                        en.attributeAddress = en.attributes[i + 1].address;
+                                    if (i == 0)
+                                    {
+                                        if (en.attributes.Count > 1)
+                                            en.attributeAddress = en.attributes[i + 1].address;
+                                        else
+                                            en.attributeAddress = -1;
+                                        WriteEntity(en);
+                                    }
                                     else
-                                        en.attributeAddress = -1;
-                                    WriteEntity(en);
+                                    {
+                                        if (en.attributes.Count > i + 1)
+                                            en.attributes[i - 1].nextAttributeAddress = en.attributes[i + 1].address;
+                                        else
+                                            en.attributes[i - 1].nextAttributeAddress = -1;
+                                        WriteAttribute(en.attributes[i - 1]);
+                                    }
+                                    en.attributes[i].nextAttributeAddress = -1;
+                                    WriteAttribute(en.attributes[i]);
+                                    en.attributes.RemoveAt(i);
+                                    da.Dispose();
+                                    gridEntities_CellClick(this, null);
+                                    return;
                                 }
-                                else
-                                {
-                                    if (en.attributes.Count > i + 1)
-                                        en.attributes[i - 1].nextAttributeAddress = en.attributes[i + 1].address;
-                                    else
-                                        en.attributes[i - 1].nextAttributeAddress = -1;
-                                    WriteAttribute(en.attributes[i - 1]);
-                                }
-                                en.attributes[i].nextAttributeAddress = -1;
-                                WriteAttribute(en.attributes[i]);
-                                en.attributes.RemoveAt(i);
-                                da.Dispose();
-                                gridEntities_CellClick(this, null);
-                                return;
                             }
                         }
                     }
@@ -597,17 +694,32 @@ namespace ProyectoArchivos
                 row.Cells["indexType"].Value = a.indexType.ToString();
                 row.Cells["indexAddress"].Value = a.indexAddress;
                 row.Cells["nextAttributeAddress"].Value = a.nextAttributeAddress;
+                switch (a.indexType)
+                {
+                    case 0:
+                        row.Cells["indiceString"].Value = "Sin tipo";
+                        break;
+                    case 2:
+                        row.Cells["indiceString"].Value = "Llave Primaria";
+                        break;
+                    case 3:
+                        row.Cells["indiceString"].Value = "Llave Foranea";
+                        break;
+                    case 5:
+                        row.Cells["indiceString"].Value = "Hash";
+                        break;
+                }
             }
         }
 
         private void gridEntities_CellClick(object sender, GridViewCellEventArgs e)
         {
             string entity = gridEntities.SelectedRows[0].Cells["id"].Value.ToString();
-            foreach(Entity en in entities)
+            foreach (Entity en in entities)
             {
-                if(en.id == entity)
-                { 
-                    if(en.attributes.Count > 0)
+                if (en.id == entity)
+                {
+                    if (en.attributes.Count > 0)
                         btnDataFile.Enabled = true;
                     else
                         btnDataFile.Enabled = false;
@@ -623,31 +735,46 @@ namespace ProyectoArchivos
                         row.Cells["indexType"].Value = a.indexType.ToString();
                         row.Cells["indexAddress"].Value = a.indexAddress;
                         row.Cells["nextAttributeAddress"].Value = a.nextAttributeAddress;
+                        switch (a.indexType)
+                        {
+                            case 0:
+                                row.Cells["indiceString"].Value = "Sin tipo";
+                                break;
+                            case 2:
+                                row.Cells["indiceString"].Value = "Llave Primaria";
+                                break;
+                            case 3:
+                                row.Cells["indiceString"].Value = "Llave Foranea";
+                                break;
+                            case 5:
+                                row.Cells["indiceString"].Value = "Hash";
+                                break;
+                        }
                     }
-                    if(en.dataAddress != -1)
+                    if (en.dataAddress != -1)
                     {
                         btnDataFile.Enabled = false;
                         allowWrite = false;
                         ReadRegisters(en);
-                        
-                        foreach (var a in en.attributes)
-                        {
-                            switch(a.indexType)
-                            {
-                                case 3:
-                                    foreignKey = new frmForeignKey(a, path);
-                                    foreignKey.OpenFile();
-                                    break;
-                                case 4:
-                                    binaryTree = new frmBinaryTree(a, path, fileName);
-                                    binaryTree.ExistingFile();
-                                    break;
-                                case 5:
-                                    staticHash = new frmStaticHash(a, path);
-                                    staticHash.OpenFile();
-                                    break;
-                            }
-                        }
+
+                        //foreach (var a in en.attributes)
+                        //{
+                        //    switch (a.indexType)
+                        //    {
+                        //        case 3:
+                        //            foreignKey = new frmForeignKey(a, path);
+                        //            foreignKey.OpenFile();
+                        //            break;
+                        //        case 4:
+                        //            binaryTree = new frmBinaryTree(a, path, fileName);
+                        //            binaryTree.ExistingFile();
+                        //            break;
+                        //        case 5:
+                        //            staticHash = new frmStaticHash(a, path);
+                        //            staticHash.OpenFile();
+                        //            break;
+                        //    }
+                        //}
                         allowWrite = true;
                     }
                     else
@@ -689,7 +816,7 @@ namespace ProyectoArchivos
                 string name = string.Empty;
                 switch (a.indexType)
                 {
-                    
+
                     case 2:
                         name = a.name + "(PK)";
                         break;
@@ -763,7 +890,7 @@ namespace ProyectoArchivos
                         break;
                 }
             }
-            
+
             c = new GridViewTextBoxColumn();
             c.HeaderText = "Sig.registro";
             c.Name = "sig";
@@ -778,7 +905,7 @@ namespace ProyectoArchivos
             ca.IsVisible = false;
             gridRegisters.MasterTemplate.Columns.Add(c);
             gridAddRegister.MasterTemplate.Columns.Add(ca);
-            
+
             string p = Path.Combine(path, en.id + ".dat");
             FileStream file = new FileStream(p, FileMode.Open, FileAccess.Read, FileShare.None);
             BinaryReader br = new BinaryReader(file);
@@ -811,7 +938,7 @@ namespace ProyectoArchivos
                 }
             }
 
-            
+
             allowWrite = true;
 
             gridAddRegister.Rows.Clear();
@@ -829,7 +956,7 @@ namespace ProyectoArchivos
             FileStream file = new FileStream(p, FileMode.Create);
             gridRegisters.Rows.Clear();
             gridRegisters.Columns.Clear();
-            
+
             gridAddRegister.Columns.Clear();
             gridAddRegister.Rows.Clear();
             foreach (Entity en in entities)
@@ -843,11 +970,13 @@ namespace ProyectoArchivos
                     c.Name = "dir";
                     c.ReadOnly = true;
                     c.Width = 50;
+                    c.IsVisible = false;
                     GridViewTextBoxColumn ca = new GridViewTextBoxColumn();
                     ca.HeaderText = "Dirección";
                     ca.Name = "dir";
                     ca.ReadOnly = true;
                     ca.Width = 50;
+                    ca.IsVisible = false;
                     gridRegisters.MasterTemplate.Columns.Add(c);
                     gridAddRegister.MasterTemplate.Columns.Add(ca);
                     foreach (Attributes a in en.attributes)
@@ -856,13 +985,13 @@ namespace ProyectoArchivos
                         switch (a.indexType)
                         {
                             case 2:
-                                name = a.name + "(PK)";
+                                nameL = a.name + "(PK)";
                                 break;
                             case 3:
-                                name = a.name + "(FK)";
+                                nameL = a.name + "(FK)";
                                 break;
                             default:
-                                name = a.name;
+                                nameL = a.name;
                                 break;
                         }
                         switch (a.dataType)
@@ -934,16 +1063,18 @@ namespace ProyectoArchivos
                     c.Name = "sig";
                     c.ReadOnly = true;
                     c.Width = 60;
+                    c.IsVisible = false;
                     ca = new GridViewTextBoxColumn();
                     ca.HeaderText = "Sig.registro";
                     ca.Name = "sig";
                     ca.ReadOnly = true;
                     ca.Width = 60;
+                    ca.IsVisible = false;
                     gridRegisters.MasterTemplate.Columns.Add(c);
                     gridAddRegister.MasterTemplate.Columns.Add(ca);
                 }
             }
-            
+
             gridAddRegister.Rows.Clear();
             gridAddRegister.Rows.AddNew();
             gridAddRegister.Rows[0].Cells[0].Value = file.Length;
@@ -953,37 +1084,37 @@ namespace ProyectoArchivos
 
         private Entity FindEntity(string id)
         {
-            foreach(Entity e in entities)
+            foreach (Entity e in entities)
             {
                 if (e.id == id)
                     return e;
             }
             return null;
         }
-        
+
 
         public void RegistersNextAddrs(Entity e)
         {
             allowWrite = false;
             Entity en = FindEntity(gridEntities.SelectedRows[0].Cells["id"].Value.ToString());
-            foreach (Attributes a in e.attributes)
-            {
-                switch (a.indexType)
-                {
-                    case 1:
-                        RegistersSearchKey(e);
-                        return;
-                    case 2:
-                        PrimaryKey(en);
-                        break;
-                }
-            }
+            //foreach (Attributes a in e.attributes)
+            //{
+            //    switch (a.indexType)
+            //    {
+            //        case 1:
+            //            RegistersSearchKey(e);
+            //            return;
+            //        case 2:
+            //            PrimaryKey(en);
+            //            break;
+            //    }
+            //}
             if (gridRegisters.RowCount > 1)
             {
                 for (int i = 0; i < gridRegisters.RowCount - 1; i++)
                 {
                     gridRegisters.Rows[i].Cells[gridRegisters.ColumnCount - 1].Value = gridRegisters.Rows[i + 1].Cells[0].Value;
-                    if(i + 1 == gridRegisters.RowCount - 1)
+                    if (i + 1 == gridRegisters.RowCount - 1)
                     {
                         gridRegisters.Rows[i + 1].Cells[gridRegisters.ColumnCount - 1].Value = -1;
                     }
@@ -996,7 +1127,7 @@ namespace ProyectoArchivos
         {
             int indice = 1;
             int type = 0;
-            foreach(Attributes a in e.attributes)
+            foreach (Attributes a in e.attributes)
             {
                 if (a.indexType == 1)
                 {
@@ -1043,7 +1174,7 @@ namespace ProyectoArchivos
             }
         }
 
-        private void WriteRegister (int size)
+        private void WriteRegister(int size)
         {
             if (gridRegisters.RowCount > 0)
             {
@@ -1068,7 +1199,7 @@ namespace ProyectoArchivos
                         }
                         else
                         {
-                            switch(en.attributes[j - 1].dataType)
+                            switch (en.attributes[j - 1].dataType)
                             {
                                 case 'C':
                                     byte[] reg = new byte[en.attributes[j - 1].length];
@@ -1163,7 +1294,7 @@ namespace ProyectoArchivos
                             }
                         }
                     }
-                    
+
                 }
                 else
                 {
@@ -1203,11 +1334,11 @@ namespace ProyectoArchivos
 
                 for (int k = 0; k < lr.Count - 1 && lr.Count > 1; k++)
                 {
-                    lr[k][lr[k].Count - 1] = lr[k+1][0];
+                    lr[k][lr[k].Count - 1] = lr[k + 1][0];
                 }
 
                 lr[lr.Count - 1][lr[lr.Count - 1].Count - 1] = "-1";
-                
+
                 for (int i = 0; i < lr.Count; i++)
                 {
                     GridViewRowInfo row = gridRegisters.Rows[i];
@@ -1224,27 +1355,80 @@ namespace ProyectoArchivos
                 allowWrite = true;
             }
         }
-        
+
         private void btnAddReg_Click(object sender, EventArgs e)
         {
             Entity en = FindEntity(gridEntities.SelectedRows[0].Cells["id"].Value.ToString());
-            
+
             for (int i = 0; i < gridAddRegister.ColumnCount; i++)
             {
-                if(String.IsNullOrWhiteSpace(Convert.ToString(gridAddRegister.Rows[0].Cells[i].Value)))
+                if (String.IsNullOrWhiteSpace(Convert.ToString(gridAddRegister.Rows[0].Cells[i].Value)))
                 {
                     MessageBox.Show("No se puede agregar un registro hasta que la informacion este completa", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
             }
+
+            int count = 1;
+            foreach (var a in en.attributes)
+            {
+                if (a.indexType == 3)
+                {
+                    foreach (var item in relations)
+                    {
+                        if (item.tablaOrigen == en.id && item.attrOrigen == a.id)
+                        {
+                            if (!CheckData(FindEntity(item.tablaDestino), gridAddRegister.SelectedRows[0].Cells[count].Value))
+                            {
+                                MessageBox.Show("La clave foranea que estas instentando ingresar no existe", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+                        }
+                    }
+                }
+                count++;
+            }
+
+            for (int i = 0; i < gridRegisters.RowCount; i++)
+            {
+                bool repeated = true;
+                for (int j = 1; j < gridRegisters.ColumnCount - 1; j++)
+                {
+                    if (gridAddRegister.Rows[0].Cells[j].Value.ToString() != gridRegisters.Rows[i].Cells[j].Value.ToString().Trim('\0'))
+                        repeated = false;
+                }
+                if (repeated)
+                {
+                    MessageBox.Show("El Registro que estas intentando insertar ya existe", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+
+            count = 1;
+            foreach (var item in en.attributes)
+            {
+                if (item.indexType == 2)
+                {
+                    for (int i = 0; i < gridRegisters.RowCount; i++)
+                    {
+                        if (gridRegisters.Rows[i].Cells[count].Value.ToString() == gridAddRegister.Rows[0].Cells[count].Value.ToString())
+                        {
+                            MessageBox.Show("Esta clave primaria ya existe", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                    }
+                }
+                count++;
+            }
+
             GridViewRowInfo row = gridRegisters.Rows.AddNew();
             for (int i = 0; i < gridAddRegister.ColumnCount; i++)
             {
                 row.Cells[i].Value = gridAddRegister.Rows[0].Cells[i].Value;
             }
             int size = 16;
-            
-            foreach(Attributes a in en.attributes)
+
+            foreach (Attributes a in en.attributes)
             {
                 if (a.dataType == 'C')
                     size += a.length;
@@ -1256,7 +1440,7 @@ namespace ProyectoArchivos
             file.Close();
             gridAddRegister.Rows[0].Cells[gridAddRegister.ColumnCount - 1].Value = -1;
 
-            int count = 1;
+            count = 1;
             foreach (var a in en.attributes)
             {
                 //switch (a.indexType)
@@ -1284,6 +1468,201 @@ namespace ProyectoArchivos
             file.Close();
         }
 
+        private bool CheckData(Entity en, object val)
+        {
+            bool result = false;
+
+            if (File.Exists(Path.Combine(path, en.id + ".dat")))
+            {
+                List<List<object>> registers = new List<List<object>>();
+                string p = Path.Combine(path, en.id + ".dat");
+                FileStream file = new FileStream(p, FileMode.Open, FileAccess.Read, FileShare.None);
+                BinaryReader br = new BinaryReader(file);
+                if (file.Length > 0)
+                {
+                    long next = en.dataAddress;
+                    while (next != -1)
+                    {
+                        List<object> lo = new List<object>();
+                        file.Seek(next, SeekOrigin.Begin);
+                        lo.Add(br.ReadInt64().ToString());
+                        foreach (Attributes a in en.attributes)
+                        {
+                            switch (a.dataType)
+                            {
+                                case 'C':
+                                    lo.Add(Encoding.ASCII.GetString(br.ReadBytes(a.length)));
+                                    break;
+                                case 'E':
+                                    lo.Add(br.ReadInt32());
+                                    break;
+                                case 'D':
+                                    lo.Add(br.ReadDecimal());
+                                    break;
+                            }
+                        }
+
+                        next = br.ReadInt64();
+                        lo.Add(next.ToString());
+                        registers.Add(lo);
+                    }
+                }
+                file.Close();
+                int count = 1;
+                Attributes attr = new Attributes();
+                foreach (var at in en.attributes)
+                {
+                    if (at.indexType == 2)
+                    {
+                        attr = at;
+                        break;
+                    }
+                    count++;
+                }
+                foreach (var list in registers)
+                {
+                    switch (attr.dataType)
+                    {
+                        case 'C':
+                            if (list[count].ToString() == val.ToString())
+                                return true;
+                            break;
+                        case 'E':
+                            if (Convert.ToInt32(list[count]) == Convert.ToInt32(val))
+                                return true;
+                            break;
+                        case 'D':
+                            if (Convert.ToDecimal(list[count]) == Convert.ToDecimal(val))
+                                return true;
+                            break;
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        private void ModifyRegisters(Entity en, string attrID, object newValue, object oldValue)
+        {
+            if (File.Exists(Path.Combine(path, en.id + ".dat")))
+            {
+                List<List<object>> registers = new List<List<object>>();
+                string p = Path.Combine(path, en.id + ".dat");
+                FileStream file = new FileStream(p, FileMode.Open, FileAccess.Read, FileShare.None);
+                BinaryReader br = new BinaryReader(file);
+                if (file.Length > 0)
+                {
+                    long next = en.dataAddress;
+                    while (next != -1)
+                    {
+                        List<object> lo = new List<object>();
+                        file.Seek(next, SeekOrigin.Begin);
+                        lo.Add(br.ReadInt64().ToString());
+                        foreach (Attributes a in en.attributes)
+                        {
+                            switch (a.dataType)
+                            {
+                                case 'C':
+                                    lo.Add(Encoding.ASCII.GetString(br.ReadBytes(a.length)));
+                                    break;
+                                case 'E':
+                                    lo.Add(br.ReadInt32());
+                                    break;
+                                case 'D':
+                                    lo.Add(br.ReadDecimal());
+                                    break;
+                            }
+                        }
+
+                        next = br.ReadInt64();
+                        lo.Add(next.ToString());
+                        registers.Add(lo);
+                    }
+                }
+                file.Close();
+                int count = 1;
+                Attributes at = new Attributes();
+                foreach (var item in en.attributes)
+                {
+                    if (item.id == attrID)
+                    {
+                        at = item;
+                        break;
+                    }
+                    count++;
+                }
+                foreach (List<object> list in registers)
+                {
+                    switch (at.dataType)
+                    {
+                        case 'C':
+                            if (list[count].ToString() == oldValue.ToString())
+                            {
+                                list[count] = newValue.ToString();
+                                WriteRegister(list, en);
+                            }
+                            break;
+                        case 'E':
+                            if (Convert.ToInt32(list[count]) == Convert.ToInt32(oldValue))
+                            {
+                                list[count] = Convert.ToInt32(newValue);
+                                WriteRegister(list, en);
+                            }
+                            break;
+                        case 'D':
+                            if (Convert.ToDecimal(list[count]) == Convert.ToDecimal(oldValue))
+                            {
+                                list[count] = Convert.ToDecimal(newValue);
+                                WriteRegister(list, en);
+                            }
+                            break;
+                    }
+                }
+            }
+        }
+
+        private void WriteRegister(List<object> lo, Entity en)
+        {
+            string p = Path.Combine(path, en.id + ".dat");
+            FileStream file = new FileStream(p, FileMode.Open, FileAccess.Write, FileShare.None);
+            BinaryWriter bw = new BinaryWriter(file);
+            file.Seek(Convert.ToInt64(lo[0]), SeekOrigin.Begin);
+            for (int j = 0; j < lo.Count; j++)
+            {
+                if (j == 0 || j == lo.Count - 1)
+                {
+                    long id;
+                    if (Convert.ToString(lo[j]) != "")
+                        id = Convert.ToInt64(lo[j]);
+                    else
+                        id = 0;
+
+                    bw.Write(id);
+                }
+                else
+                {
+                    switch (en.attributes[j - 1].dataType)
+                    {
+                        case 'C':
+                            byte[] reg = new byte[en.attributes[j - 1].length];
+                            string val = Convert.ToString(lo[j]);
+                            int len = en.attributes[j - 1].length;
+                            Encoding.ASCII.GetBytes(val, 0, val.Length, reg, 0);
+                            bw.Write(reg);
+                            break;
+                        case 'E':
+                            bw.Write(Convert.ToInt32(lo[j]));
+                            break;
+                        case 'D':
+                            bw.Write(Convert.ToDecimal(lo[j]));
+                            break;
+                    }
+                }
+            }
+            file.Close();
+
+        }
+
         private void gridRegisters_CellEndEdit(object sender, GridViewCellEventArgs e)
         {
             List<object> newRegister = new List<object>();
@@ -1293,8 +1672,25 @@ namespace ProyectoArchivos
             }
             Entity en = FindEntity(gridEntities.SelectedRows[0].Cells[0].Value.ToString());
             int count = 1;
-            foreach(Attributes a in en.attributes)
+            foreach (Attributes a in en.attributes)
             {
+                switch (a.indexType)
+                {
+                    case 2:
+                        List<Entity> checkList = new List<Entity>();
+                        foreach (var item in relations)
+                        {
+                            if (item.tablaDestino == en.id)
+                            {
+                                Entity auxEnt = FindEntity(item.tablaOrigen);
+                                ModifyRegisters(auxEnt, item.attrOrigen, newRegister[count], oldRegister[count]);
+                            }
+                        }
+
+                        break;
+                    case 3:
+                        break;
+                }
                 //switch (a.indexType)
                 //{
                 //    case 1://Clave de busqueda
@@ -1337,6 +1733,123 @@ namespace ProyectoArchivos
             WriteRegister(size);
         }
 
+        private void DeletePrimaryReg(Entity ent, Attributes attr, object val)
+        {
+            List<string> ents = new List<string>();
+            List<string> attrs = new List<string>();
+            foreach (var item in relations)
+            {
+                if (item.tablaDestino == ent.id)
+                {
+                    ents.Add(item.tablaOrigen);
+                    attrs.Add(item.attrOrigen);
+                }
+            }
+            for (int i = 0; i < ents.Count; i++)
+            {
+                Entity en = FindEntity(ents[i]);
+                if (File.Exists(Path.Combine(path, en.id + ".dat")))
+                {
+                    List<List<object>> registers = new List<List<object>>();
+                    string p = Path.Combine(path, en.id + ".dat");
+                    FileStream file = new FileStream(p, FileMode.Open, FileAccess.Read, FileShare.None);
+                    BinaryReader br = new BinaryReader(file);
+                    if (file.Length > 0)
+                    {
+                        long next = en.dataAddress;
+                        while (next != -1)
+                        {
+                            List<object> lo = new List<object>();
+                            file.Seek(next, SeekOrigin.Begin);
+                            lo.Add(br.ReadInt64().ToString());
+                            foreach (Attributes a in en.attributes)
+                            {
+                                switch (a.dataType)
+                                {
+                                    case 'C':
+                                        lo.Add(Encoding.ASCII.GetString(br.ReadBytes(a.length)));
+                                        break;
+                                    case 'E':
+                                        lo.Add(br.ReadInt32());
+                                        break;
+                                    case 'D':
+                                        lo.Add(br.ReadDecimal());
+                                        break;
+                                }
+                            }
+
+                            next = br.ReadInt64();
+                            lo.Add(next.ToString());
+                            registers.Add(lo);
+                        }
+                    }
+                    file.Close();
+                    int indexer = 1;
+                    Attributes at = new Attributes();
+                    foreach (var a in en.attributes)
+                    {
+                        if (a.id == attrs[i])
+                        {
+                            at = a;
+                            break;
+                        }
+                        indexer++;
+                    }
+                    List<int> deleteIndex = new List<int>();
+                    for (int j = 0; j < registers.Count; j++)
+                    {
+                        switch (at.dataType)
+                        {
+                            case 'C':
+                                if (registers[j][indexer].ToString() == val.ToString())
+                                    deleteIndex.Add(i);
+                                break;
+                            case 'E':
+                                if (Convert.ToInt32(registers[j][indexer]) == Convert.ToInt32(val))
+                                    deleteIndex.Add(i);
+                                break;
+                            case 'D':
+                                if (Convert.ToDecimal(registers[j][indexer]) == Convert.ToDecimal(val))
+                                    deleteIndex.Add(i);
+                                break;
+                        }
+                    }
+                    foreach (var del in deleteIndex)
+                    {
+                        registers.RemoveAt(del);
+                    }
+                    if (registers.Count > 0)
+                        en.dataAddress = Convert.ToInt64(registers[0][0]);
+                    else
+                        en.dataAddress = -1;
+                    WriteEntity(en);
+                    p = Path.Combine(path, en.id + ".dat");
+                    file = new FileStream(p, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
+                    file.Close();
+                    RegistersNextAddrs(en, registers);
+                    foreach (var reg in registers)
+                    {
+                        WriteRegister(reg, en);
+                    }
+                }
+            }
+        }
+
+        public void RegistersNextAddrs(Entity e, List<List<Object>> lo)
+        {
+            if (lo.Count > 1)
+            {
+                for (int i = 0; i < lo.Count - 1; i++)
+                {
+                    lo[i][lo[i].Count - 1] = lo[i + 1][0];
+                    if (i + 1 == lo.Count - 1)
+                    {
+                        lo[i + 1][lo[i].Count - 1] = -1;
+                    }
+                }
+            }
+        }
+
         private void btnDelReg_Click(object sender, EventArgs e)
         {
             if (gridRegisters.RowCount > 0)
@@ -1349,25 +1862,33 @@ namespace ProyectoArchivos
                         int indexer = 1;
                         foreach (var a in en.attributes)
                         {
-                            //switch(a.indexType)
-                            //{
-                            //    case 4:
-                            //        binaryTree.Delete(Convert.ToInt32(gridRegisters.SelectedRows[0].Cells[indexer].Value), Convert.ToInt64(gridRegisters.SelectedRows[0].Cells[0].Value));
-                            //        break;
+                            switch (a.indexType)
+                            {
+                                case 2:
+                                    if (MessageBox.Show("Esta seguro que desea eliminar este registro con PK? Todos los registros que tengan relacion con este tambien seran eliminados", "Eliminar registro", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                                    {
+                                        DeletePrimaryReg(en, a, gridRegisters.SelectedRows[0].Cells[indexer].Value);
+                                    }
+                                    else
+                                        return;
+                                    break;
+                                    //case 4:
+                                    //    binaryTree.Delete(Convert.ToInt32(gridRegisters.SelectedRows[0].Cells[indexer].Value), Convert.ToInt64(gridRegisters.SelectedRows[0].Cells[0].Value));
+                                    //    break;
 
-                            //    case 3:
-                            //        foreignKey.Delete(gridRegisters.SelectedRows[0].Cells[indexer].Value, Convert.ToInt64(gridRegisters.SelectedRows[0].Cells[0].Value));
-                            //        break;
+                                    //case 3:
+                                    //    foreignKey.Delete(gridRegisters.SelectedRows[0].Cells[indexer].Value, Convert.ToInt64(gridRegisters.SelectedRows[0].Cells[0].Value));
+                                    //    break;
 
-                            //    case 5:
-                            //        staticHash.Delete(Convert.ToInt32(gridRegisters.SelectedRows[0].Cells[indexer].Value), Convert.ToInt64(gridRegisters.SelectedRows[0].Cells[0].Value));
-                            //        break;
-                            //}
+                                    //case 5:
+                                    //    staticHash.Delete(Convert.ToInt32(gridRegisters.SelectedRows[0].Cells[indexer].Value), Convert.ToInt64(gridRegisters.SelectedRows[0].Cells[0].Value));
+                                    //    break;
+                            }
                             indexer++;
                         }
                         gridRegisters.Rows.RemoveAt(i);
                         int size = 16;
-                        
+
                         foreach (Attributes a in en.attributes)
                         {
                             if (a.dataType == 'C')
@@ -1390,16 +1911,16 @@ namespace ProyectoArchivos
                         file.Close();
                         RegistersNextAddrs(en);
                         WriteRegister(size);
+                        gridEntities_CellClick(this, null);
                         return;
                     }
                 }
-                UpdateGridAttributes();
             }
             else
             {
                 MessageBox.Show("Error", "Antes de eliminar un registro, agrega uno o abre un archivo que contenga registros", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
+
         }
 
         public int NextAddress(int size)
@@ -1407,7 +1928,7 @@ namespace ProyectoArchivos
             int max = 0;
             for (int i = 0; i < gridRegisters.RowCount; i++)
             {
-                if(Convert.ToInt64(gridRegisters.Rows[i].Cells[0].Value) > max)
+                if (Convert.ToInt64(gridRegisters.Rows[i].Cells[0].Value) > max)
                 {
                     max = Convert.ToInt32(gridRegisters.Rows[i].Cells[0].Value);
                 }
@@ -1421,13 +1942,13 @@ namespace ProyectoArchivos
             Entity en = FindEntity(gridEntities.SelectedRows[0].Cells["id"].Value.ToString());
             foreach (var a in en.attributes)
             {
-                if(a.indexType == 2)
+                if (a.indexType == 2)
                 {
                     pk = true;
                     break;
                 }
             }
-            if(pk)
+            if (pk)
             {
                 frmPrimaryKey fpk = new frmPrimaryKey(PrimaryKey(en));
                 fpk.ShowDialog();
@@ -1514,7 +2035,7 @@ namespace ProyectoArchivos
 
         private void btnBinaryTree_Click(object sender, EventArgs e)
         {
-            if(binaryTree != null)
+            if (binaryTree != null)
             {
                 binaryTree.ShowDialog();
             }
@@ -1550,7 +2071,7 @@ namespace ProyectoArchivos
                     }
                 }
                 File.Delete(fileName);
-                File.Delete(fileName+".rlt");
+                File.Delete(fileName + ".rlt");
                 ClearData();
             }
             else
@@ -1565,6 +2086,893 @@ namespace ProyectoArchivos
         {
             File.Delete(path + "\\" + name + ".pk");
             File.Delete(path + "\\" + name + ".fk");
+        }
+
+        private void btnModifyDB_Click(object sender, EventArgs e)
+        {
+            frmModifyName frmMN = new frmModifyName();
+            frmMN.name = Path.GetFileName(fileName);
+            if (frmMN.ShowDialog() == DialogResult.OK)
+            {
+                string fileNameAux = path + "\\" + frmMN.name;
+                File.Move(fileName, fileNameAux);
+                fileName = fileNameAux;
+            }
+        }
+
+        private void txtSQL_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F5)
+                btnExec_Click(this, null);
+        }
+
+        private string TableExists(string name)
+        {
+            foreach (var en in entities)
+            {
+                if (en.name.ToLower() == name)
+                    return en.id;
+            }
+            return string.Empty;
+        }
+
+        private string FormatText(string text)
+        {
+            string txt = text;
+            List<int> remove = new List<int>();
+
+            for (int i = 0; i < text.Length; i++)
+            {
+                if (text[i] == '(' || text[i] == ')' || text[i] == ',')
+                    remove.Add(i);
+            }
+            for (int i = remove.Count - 1; i >= 0; i--)
+            {
+                txt = txt.Remove(remove[i], 1);
+            }
+            return txt;
+        }
+        string Table = string.Empty;
+        string TableJoin = string.Empty;
+        List<string> attrTable = new List<string>();
+        List<string> attrJoin = new List<string>();
+        string condicion;
+        string condicionJoin;
+        Entity enJoin = new Entity();
+        Entity enTable = new Entity();
+        public bool SeparateText(string text)
+        {
+            text = FormatText(text);
+            Table = string.Empty;
+            TableJoin = string.Empty;
+            attrTable = new List<string>();
+            attrJoin = new List<string>();
+            condicion = string.Empty;
+            condicionJoin = string.Empty;
+            enJoin = new Entity();
+            enTable = new Entity();
+            List<string> auxAttr = new List<string>();
+            int remove = 0;
+
+            List<string> texto = text.Split(' ').ToList();
+            texto.RemoveAt(0);
+
+            for (int i = 0; i < texto.Count; i++)
+            {
+                if (texto[i] == "from")
+                {
+                    remove = i;
+                    break;
+                }
+                auxAttr.Add(texto[i]);
+            }
+            for (int i = remove; i >= 0; i--)
+                texto.RemoveAt(i);
+            Table = texto[0];
+            texto.RemoveAt(0);
+            if (texto.Count > 0)
+            {
+                if (texto[0] == "inner")
+                    texto.RemoveAt(0);
+                if (texto[0] == "join")
+                {
+                    texto.RemoveAt(0);
+                    TableJoin = texto[0];
+                    texto.RemoveAt(0);
+                    string cond = string.Empty;
+                    if (texto[0] == "on")
+                    {
+                        texto.RemoveAt(0);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Query invalido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
+                    int index = 0;
+                    for (; index < texto.Count && texto[index] != "where"; index++)
+                    {
+                        cond += texto[index] + " ";
+                    }
+                    condicionJoin = cond;
+                    cond = string.Empty;
+                    for (int i = index - 1; i >= 0; i--)
+                    {
+                        texto.RemoveAt(i);
+                    }
+                }
+            }
+            if (texto.Count > 0)
+            {
+                if (texto[0] == "where")
+                {
+                    string cond = string.Empty;
+                    texto.RemoveAt(0);
+                    int index = 0;
+                    for (; index < texto.Count; index++)
+                    {
+                        cond += texto[index] + " ";
+                    }
+                    condicion = cond;
+                    for (int i = 0; i < index; i++)
+                    {
+                        texto.RemoveAt(0);
+                    }
+                }
+            }
+            if (texto.Count > 0)
+            {
+                MessageBox.Show("Query invalido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            else
+            {
+                foreach (var item in auxAttr)
+                {
+                    if (item == "*")
+                    {
+                        attrJoin.Add(item);
+                        attrTable.Add(item);
+                        break;
+                    }
+                    if (item.Contains("."))
+                    {
+                        List<string> attr = item.Split('.').ToList();
+                        if (attr.Count == 2)
+                        {
+                            if (attr[0] == Table)
+                            {
+                                if(attrExists(FindEntity(TableExists(Table)), attr[1]) && !attrTable.Contains(attr[1]))
+                                    attrTable.Add(attr[1]);
+                                else
+                                {
+                                    MessageBox.Show("Query invalido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return false;
+                                }
+                            }
+                            else
+                            {
+                                if (attr[0] == TableJoin)
+                                {
+                                    if (attrExists(FindEntity(TableExists(TableJoin)), attr[1]) && !attrJoin.Contains(attr[1]))
+                                        attrJoin.Add(attr[1]);
+                                    else
+                                    {
+                                        MessageBox.Show("Query invalido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        return false;
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Query invalido, no se reconoce la tabla '" + attr[0] + "'", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return false;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Query invalido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return false;
+                        }
+                    }
+                    else
+                    {
+
+                        if (attrExists(FindEntity(TableExists(Table)), item))
+                        {
+                            if (!string.IsNullOrWhiteSpace(TableJoin) && attrExists(FindEntity(TableExists(TableJoin)), item))
+                            {
+                                MessageBox.Show("Query invalido, el atributo '" + item + "' existe en multiples tablas", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return false;
+                            }
+                            if(attrTable.Contains(item))
+                            {
+                                MessageBox.Show("Query invalido, el atributo '" + item + "' se repite", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return false;
+                            }
+                                attrTable.Add(item);
+                        }
+                        else
+                        {
+                            if ( !string.IsNullOrWhiteSpace(TableJoin) && attrExists(FindEntity(TableExists(TableJoin)), item))
+                                attrJoin.Add(item);
+                            else
+                            {
+                                MessageBox.Show("Query invalido, el atributo '" + item + "' no existe", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return false;
+                            }
+                        }
+                    }
+                }
+                enTable = FindEntity(TableExists(Table));
+                if (enTable == null)
+                {
+                    MessageBox.Show("Query invalido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+                if (TableJoin != string.Empty)
+                {
+                    enJoin = FindEntity(TableExists(TableJoin));
+                    if (enJoin == null)
+                    {
+                        MessageBox.Show("Query invalido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
+                }
+                //if(!(attrTable.Contains("*")))
+                //{
+                //    if (!attrExists(enTable, attrTable))
+                //    {
+                //        MessageBox.Show("Query invalido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //        return;
+                //    }
+                //}
+                if (enJoin != null && !(attrTable.Contains("*")))
+                {
+                    if (!attrExists(enJoin, attrJoin))
+                    {
+                        MessageBox.Show("Query invalido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
+                }
+            }
+            if(!string.IsNullOrWhiteSpace(condicionJoin))
+            {
+                List<string> lt = condicionJoin.Trim().Split(' ').ToList();
+                if(lt.Count == 3 && lt[1] == "=")
+                {
+                    if(!attrExists(FindEntity(TableExists(Table)), lt[0]) )
+                    {
+                        MessageBox.Show("Query invalido, no existe el atributo '" + lt[0] + "'", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
+                    if (!attrExists(FindEntity(TableExists(TableJoin)), lt[2]))
+                    {
+                        MessageBox.Show("Query invalido, no existe el atributo '" + lt[2] + "'", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        private bool attrExists(Entity en, List<string> attr)
+        {
+            bool result = true;
+            foreach (var at in attr)
+            {
+                bool find = false;
+                foreach (var a in en.attributes)
+                {
+                    if (a.name.ToLower() == at)
+                    {
+                        find = true;
+                        break;
+                    }
+                }
+                if (!find)
+                    return false;
+            }
+            return result;
+        }
+        private bool attrExists(Entity en, string at)
+        {
+            bool result = true;
+                bool find = false;
+                foreach (var a in en.attributes)
+                {
+                    if (a.name.ToLower() == at)
+                    {
+                        find = true;
+                        break;
+                    }
+                }
+                if (!find)
+                    return false;
+            return result;
+        }
+        private void btnExec_Click(object sender, EventArgs e)
+        {
+            string text = txtSQL.Text.ToLower();
+            text = text.Trim(new char[] { '(', ')', ',' });
+
+            string join = string.Empty;
+            List<string> atributos = new List<string>();
+            string condicion = string.Empty;
+            string joinCond = string.Empty;
+            List<string> ls = new List<string>();
+            ls = text.Split(' ').ToList();
+            if (ls.Count >= 4)
+            {
+                if (ls[0] == "select")
+                {
+                    if (ls.Contains("from"))
+                    {
+
+                        string entID = string.Empty;
+                        for (int i = ls.Count - 1; i >= 1; i--)
+                        {
+                            if (ls[i - 1] == "from")
+                                entID = ls[i];
+                            if (ls[i - 1] == "join")
+                                join = ls[i];
+                        }
+                        if (ls.Contains("where"))
+                        {
+                            int index = ls.IndexOf("where");
+                            index++;
+                            for (; index < ls.Count; index++)
+                            {
+                                condicion += ls[index] + " ";
+                            }
+                            condicion = condicion.TrimEnd();
+                            if (condicion.Split(' ').Count() != 3)
+                            {
+                                MessageBox.Show("Query invalido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+                            switch (condicion.Split(' ')[1])
+                            {
+                                case "=":
+                                case "<":
+                                case ">":
+                                case ">=":
+                                case "<=":
+                                case "<>":
+                                    break;
+                                default:
+                                    MessageBox.Show("Query invalido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return;
+                            }
+                            int valorNumerico;
+                            if (!int.TryParse(condicion.Split(' ')[2], out valorNumerico))
+                            {
+                                MessageBox.Show("Query invalido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+                            if (!int.TryParse(condicion.Split(' ')[2], out valorNumerico))
+                            {
+                                MessageBox.Show("Query invalido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+                        }
+                        Entity en = FindEntity(TableExists(entID));
+                        if (en == null)
+                        {
+                            MessageBox.Show("No existe la tabla '" + ls[ls.Count - 1] + "'", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+
+                        for (int i = 1; i < ls.Count && ls[i] != "from"; i++)
+                        {
+                            atributos.Add(ls[i]);
+                        }
+                        if (!SeparateText(text))
+                            return;
+                        List<List<Object>> registers = ExecuteSQLSimple(enTable, attrTable, condicion, attrJoin, condicionJoin, enJoin);
+                        //List<List<Object>> registers = ExecuteSQLSimple(en, atributos, condicion);
+
+                        gridResultSQL.Rows.Clear();
+                        gridResultSQL.Columns.Clear();
+                        if (atributos.Contains("*"))
+                        {
+                            foreach (var r in en.attributes)
+                            {
+                                
+                                GridViewTextBoxColumn c = new GridViewTextBoxColumn();
+                                c.HeaderText = r.name;
+                                c.Name = r.name;
+                                c.ReadOnly = true;
+                                c.Width = 100;
+                                c.DataType = typeof(string);
+                                gridResultSQL.MasterTemplate.Columns.Add(c);
+
+                            }
+                            if(enJoin != null)
+                            {
+                                foreach (var r in enJoin.attributes)
+                                {
+                                    int longitud = 7;
+                                    Guid miGuid = Guid.NewGuid();
+                                    string token = miGuid.ToString().Replace("-", string.Empty).Substring(0, longitud);
+                                    GridViewTextBoxColumn c = new GridViewTextBoxColumn();
+                                    c.HeaderText = r.name;
+                                    c.Name = token;
+                                    c.ReadOnly = true;
+                                    c.Width = 100;
+                                    c.DataType = typeof(string);
+                                    gridResultSQL.MasterTemplate.Columns.Add(c);
+
+                                }
+                            }
+                        }
+                        else
+                        {
+                            foreach (var r in attrTable)
+                            {
+                                GridViewTextBoxColumn c = new GridViewTextBoxColumn();
+                                c.HeaderText = r;
+                                c.Name = r;
+                                c.ReadOnly = true;
+                                c.Width = 100;
+                                c.DataType = typeof(string);
+                                gridResultSQL.MasterTemplate.Columns.Add(c);
+                            }
+                            if(enJoin != null)
+                            {
+                                foreach (var r in attrJoin)
+                                {
+                                    int longitud = 7;
+                                    Guid miGuid = Guid.NewGuid();
+                                    string token = miGuid.ToString().Replace("-", string.Empty).Substring(0, longitud);
+                                    GridViewTextBoxColumn c = new GridViewTextBoxColumn();
+                                    c.HeaderText = r;
+                                    c.Name = token;
+                                    c.ReadOnly = true;
+                                    c.Width = 100;
+                                    c.DataType = typeof(string);
+                                    gridResultSQL.MasterTemplate.Columns.Add(c);
+                                }
+                            }
+                        }
+                        foreach (var reg in registers)
+                        {
+                            GridViewRowInfo row = gridResultSQL.Rows.AddNew();
+                            for (int i = 0; i < reg.Count; i++)
+                            {
+                                row.Cells[i].Value = reg[i].ToString();
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Query invalido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("No se reconoce el comando '" + text.Split(' ')[0] + "'", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Query invalido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+        }
+
+        private List<List<Object>> ExecuteSQLSimple(Entity en, List<string> atributos, string condicion = null, List<string> atributosJoin = null, string condicionJoin = null, Entity enJoin = null)
+        {
+            List<List<Object>> result = new List<List<object>>();
+            if (File.Exists(Path.Combine(path, en.id + ".dat")))
+            {
+                List<List<object>> registers = new List<List<object>>();
+                string p = Path.Combine(path, en.id + ".dat");
+                FileStream file = new FileStream(p, FileMode.Open, FileAccess.Read, FileShare.None);
+                BinaryReader br = new BinaryReader(file);
+                if (file.Length > 0)
+                {
+                    long next = en.dataAddress;
+                    while (next != -1)
+                    {
+                        List<object> lo = new List<object>();
+                        file.Seek(next, SeekOrigin.Begin);
+                        lo.Add(br.ReadInt64().ToString());
+                        foreach (Attributes a in en.attributes)
+                        {
+                            switch (a.dataType)
+                            {
+                                case 'C':
+                                    lo.Add(Encoding.ASCII.GetString(br.ReadBytes(a.length)));
+                                    break;
+                                case 'E':
+                                    lo.Add(br.ReadInt32());
+                                    break;
+                                case 'D':
+                                    lo.Add(br.ReadDecimal());
+                                    break;
+                            }
+                        }
+
+                        next = br.ReadInt64();
+                        lo.Add(next.ToString());
+                        registers.Add(lo);
+                    }
+                }
+                file.Close();
+                List<string> cond = condicion.Split(' ').ToList();
+                int index = 1;
+                int indexL = -1;
+                int indexR = -1;
+
+                List<int> remove = new List<int>();
+                if (!string.IsNullOrWhiteSpace(condicion))
+                {
+                    foreach (var a in en.attributes)
+                    {
+                        if (a.name.ToLower() == cond[0])
+                        {
+                            indexL = index;
+                        }
+                        if (a.name.ToLower() == cond[2])
+                        {
+                            indexR = index;
+                        }
+                        index++;
+                    }
+                    for (int i = 0; i < registers.Count; i++)
+                    {
+                        switch (cond[1])
+                        {
+                            case "=":
+                                if (indexL != -1 && indexR != -1)
+                                {
+                                    if (!(Convert.ToDecimal(registers[i][indexL]) == Convert.ToDecimal(registers[i][indexR])))
+                                        remove.Add(i);
+                                }
+                                if (indexL == -1 && indexR != -1)
+                                {
+                                    if (!(Convert.ToDecimal(cond[0]) == Convert.ToDecimal(registers[i][indexR])))
+                                        remove.Add(i);
+                                }
+                                if (indexL != -1 && indexR == -1)
+                                {
+                                    if (!(Convert.ToDecimal(registers[i][indexL]) == Convert.ToDecimal(cond[2])))
+                                        remove.Add(i);
+                                }
+                                if (indexL == -1 && indexR == -1)
+                                {
+                                    if (!(Convert.ToDecimal(cond[0]) == Convert.ToDecimal(cond[2])))
+                                        remove.Add(i);
+                                }
+                                break;
+                            case ">":
+                                if (indexL != -1 && indexR != -1)
+                                {
+                                    if (!(Convert.ToDecimal(registers[i][indexL]) > Convert.ToDecimal(registers[i][indexR])))
+                                        remove.Add(i);
+                                }
+                                if (indexL == -1 && indexR != -1)
+                                {
+                                    if (!(Convert.ToDecimal(cond[0]) > Convert.ToDecimal(registers[i][indexR])))
+                                        remove.Add(i);
+                                }
+                                if (indexL != -1 && indexR == -1)
+                                {
+                                    if (!(Convert.ToDecimal(registers[i][indexL]) > Convert.ToDecimal(cond[2])))
+                                        remove.Add(i);
+                                }
+                                if (indexL == -1 && indexR == -1)
+                                {
+                                    if (!(Convert.ToDecimal(cond[0]) > Convert.ToDecimal(cond[2])))
+                                        remove.Add(i);
+                                }
+                                break;
+                            case "<":
+                                if (indexL != -1 && indexR != -1)
+                                {
+                                    if (!(Convert.ToDecimal(registers[i][indexL]) < Convert.ToDecimal(registers[i][indexR])))
+                                        remove.Add(i);
+                                }
+                                if (indexL == -1 && indexR != -1)
+                                {
+                                    if (!(Convert.ToDecimal(cond[0]) < Convert.ToDecimal(registers[i][indexR])))
+                                        remove.Add(i);
+                                }
+                                if (indexL != -1 && indexR == -1)
+                                {
+                                    if (!(Convert.ToDecimal(registers[i][indexL]) < Convert.ToDecimal(cond[2])))
+                                        remove.Add(i);
+                                }
+                                if (indexL == -1 && indexR == -1)
+                                {
+                                    if (!(Convert.ToDecimal(cond[0]) < Convert.ToDecimal(cond[2])))
+                                        remove.Add(i);
+                                }
+                                break;
+                            case ">=":
+                                if (indexL != -1 && indexR != -1)
+                                {
+                                    if (!(Convert.ToDecimal(registers[i][indexL]) >= Convert.ToDecimal(registers[i][indexR])))
+                                        remove.Add(i);
+                                }
+                                if (indexL == -1 && indexR != -1)
+                                {
+                                    if (!(Convert.ToDecimal(cond[0]) >= Convert.ToDecimal(registers[i][indexR])))
+                                        remove.Add(i);
+                                }
+                                if (indexL != -1 && indexR == -1)
+                                {
+                                    if (!(Convert.ToDecimal(registers[i][indexL]) >= Convert.ToDecimal(cond[2])))
+                                        remove.Add(i);
+                                }
+                                if (indexL == -1 && indexR == -1)
+                                {
+                                    if (!(Convert.ToDecimal(cond[0]) >= Convert.ToDecimal(cond[2])))
+                                        remove.Add(i);
+                                }
+                                break;
+                            case "<=":
+                                if (indexL != -1 && indexR != -1)
+                                {
+                                    if (!(Convert.ToDecimal(registers[i][indexL]) <= Convert.ToDecimal(registers[i][indexR])))
+                                        remove.Add(i);
+                                }
+                                if (indexL == -1 && indexR != -1)
+                                {
+                                    if (!(Convert.ToDecimal(cond[0]) <= Convert.ToDecimal(registers[i][indexR])))
+                                        remove.Add(i);
+                                }
+                                if (indexL != -1 && indexR == -1)
+                                {
+                                    if (!(Convert.ToDecimal(registers[i][indexL]) <= Convert.ToDecimal(cond[2])))
+                                        remove.Add(i);
+                                }
+                                if (indexL == -1 && indexR == -1)
+                                {
+                                    if (!(Convert.ToDecimal(cond[0]) <= Convert.ToDecimal(cond[2])))
+                                        remove.Add(i);
+                                }
+                                break;
+                            case "<>":
+                                if (indexL != -1 && indexR != -1)
+                                {
+                                    if (!(Convert.ToDecimal(registers[i][indexL]) != Convert.ToDecimal(registers[i][indexR])))
+                                        remove.Add(i);
+                                }
+                                if (indexL == -1 && indexR != -1)
+                                {
+                                    if (!(Convert.ToDecimal(cond[0]) != Convert.ToDecimal(registers[i][indexR])))
+                                        remove.Add(i);
+                                }
+                                if (indexL != -1 && indexR == -1)
+                                {
+                                    if (!(Convert.ToDecimal(registers[i][indexL]) != Convert.ToDecimal(cond[2])))
+                                        remove.Add(i);
+                                }
+                                if (indexL == -1 && indexR == -1)
+                                {
+                                    if (!(Convert.ToDecimal(cond[0]) != Convert.ToDecimal(cond[2])))
+                                        remove.Add(i);
+                                }
+                                break;
+                        }
+                    }
+                    for (int i = remove.Count - 1; i >= 0; i--)
+                    {
+                        registers.RemoveAt(remove[i]);
+                    }
+                    remove.Clear();
+                }
+                for (int i = 0; i < registers.Count; i++)
+                {
+                    registers[i].RemoveAt(0);
+                    registers[i].RemoveAt(registers[i].Count - 1);
+                }
+                if (enJoin != null && !string.IsNullOrWhiteSpace(enJoin.id))
+                    registers = ExecuteJoin(registers, enJoin, attrJoin, condicionJoin, en);
+                if (enJoin != null)
+                {
+                    if (!attrJoin.Contains("*"))
+                    {
+                        index = 0;
+                        remove.Clear();
+                        foreach (var a in enJoin.attributes)
+                        {
+                            if (!attrJoin.Contains(a.name.ToLower()))
+                                remove.Add(index);
+                            index++;
+                        }
+                        remove.Sort();
+                        for (int i = 0; i < registers.Count; i++)
+                        {
+                            for (int j = remove.Count - 1; j >= 0; j--)
+                            {
+                                registers[i].RemoveAt(en.attributes.Count + remove[j]);
+                            }
+                        }
+                    }
+                }
+                if (!atributos.Contains("*"))
+                {
+                    
+                    remove.Clear();
+                    index = 0;
+                    foreach (var a in en.attributes)
+                    {
+                        if (!atributos.Contains(a.name.ToLower()))
+                            remove.Add(index);
+                        index++;
+                    }
+                    remove.Sort();
+                    for (int i = 0; i < registers.Count; i++)
+                    {
+                        for (int j = remove.Count - 1; j >= 0; j--)
+                        {
+                            registers[i].RemoveAt(remove[j]);
+                        }
+                    }
+                }
+
+
+                result = registers;
+            }
+            return result;
+        }
+
+        private List<List<Object>> CopyList (List<List<Object>> l)
+        {
+            List<List<Object>> result = new List<List<object>>();
+            foreach (var item in l)
+            {
+                List<Object> lo = new List<object>();
+                foreach (var o in item)
+                {
+                    Object ob = new object();
+                    ob = o;
+                    lo.Add(ob);
+                }
+                result.Add(lo);
+            }
+            return result;
+        }
+
+        private List<List<Object>> ExecuteJoin(List<List<Object>> regs, Entity enJoin, List<string> attrJoin, string condicion, Entity eTable)
+        {
+            List<List<Object>> result = new List<List<object>>();
+            if (File.Exists(Path.Combine(path, enJoin.id + ".dat")))
+            {
+                List<List<object>> registers = new List<List<object>>();
+                string p = Path.Combine(path, enJoin.id + ".dat");
+                FileStream file = new FileStream(p, FileMode.Open, FileAccess.Read, FileShare.None);
+                BinaryReader br = new BinaryReader(file);
+                if (file.Length > 0)
+                {
+                    long next = enJoin.dataAddress;
+                    while (next != -1)
+                    {
+                        List<object> lo = new List<object>();
+                        file.Seek(next, SeekOrigin.Begin);
+                        lo.Add(br.ReadInt64().ToString());
+                        foreach (Attributes a in enJoin.attributes)
+                        {
+                            switch (a.dataType)
+                            {
+                                case 'C':
+                                    lo.Add(Encoding.ASCII.GetString(br.ReadBytes(a.length)));
+                                    break;
+                                case 'E':
+                                    lo.Add(br.ReadInt32());
+                                    break;
+                                case 'D':
+                                    lo.Add(br.ReadDecimal());
+                                    break;
+                            }
+                        }
+
+                        next = br.ReadInt64();
+                        lo.Add(next.ToString());
+                        registers.Add(lo);
+                    }
+                }
+                file.Close();
+                List<string> cond = condicion.Trim().Split(' ').ToList();
+                foreach (var item in registers)
+                {
+                    item.RemoveAt(0);
+                    item.RemoveAt(item.Count - 1);
+                }
+                
+                if (cond.Count == 3)
+                {
+                    int indexTable = -1;
+                    int indexJoin = -1;
+                    int index = 0;
+                    if (cond[2].Contains("."))
+                    {
+                        cond[2] = cond[2].Split('.')[1];
+                    }
+                    foreach (var item in enJoin.attributes)
+                    {
+                        if (item.name.ToLower() == cond[2])
+                            break;
+                        index++;
+                    }
+                    indexJoin = index;
+                    
+                    index = 0;
+                    if(cond[0].Contains("."))
+                    {
+                        cond[0] = cond[0].Split('.')[1];
+                    }
+                    foreach (var item in eTable.attributes)
+                    {
+                        if (item.name.ToLower() == cond[0])
+                            break;
+                        index++;
+                    }
+                    indexTable = index;
+
+                    foreach (var reg in regs)
+                    {
+                        List<List<Object>> lAux = CopyList(registers);
+                        switch (cond[1])
+                        {
+                            case "=":
+                                index = 0;
+                                List<int> del = new List<int>();
+                                foreach (var rj in lAux)
+                                {
+                                    if (!(Convert.ToDecimal(reg[indexTable]) == Convert.ToDecimal(rj[indexJoin])))
+                                        del.Add(index);
+                                    index++;
+                                }
+                                for (int i = del.Count -1; i >= 0; i--)
+                                {
+                                    lAux.RemoveAt(del[i]);
+                                }
+                                foreach (var r in lAux)
+                                {
+                                    List<Object> lo = new List<object>();
+                                    foreach (var rt in reg)
+                                    {
+                                        lo.Add(rt);
+                                    }
+                                    foreach (var rj in r)
+                                    {
+                                        lo.Add(rj);
+                                    }
+                                    result.Add(lo);
+                                }
+                                break;
+                            case ">":
+
+                                break;
+                            case "<":
+
+                                break;
+                            case ">=":
+
+                                break;
+                            case "<=":
+
+                                break;
+                            case "<>":
+
+                                break;
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
+        private void gridEntities_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

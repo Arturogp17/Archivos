@@ -36,16 +36,35 @@ namespace ProyectoArchivos.MainApp.Create
             ddlEntidad.Enabled = false;
             lblIdD.Text = a.id;
             txtName.Text = a.name;
-            ddlIndexType.SelectedItem = (RadListDataItem)ddlIndexType.Items[a.indexType];
-            if (a.dataType == 'C')
+            switch(a.indexType)
             {
-                ddlDataType.SelectedItem = (RadListDataItem)ddlDataType.Items[0];
-                ntxtLength.Enabled = true;
+                case 0:
+                    ddlIndexType.SelectedItem = (RadListDataItem)ddlIndexType.Items[0];
+                    break;
+                case 2:
+                    ddlIndexType.SelectedItem = (RadListDataItem)ddlIndexType.Items[1];
+                    break;
+                case 3:
+                    ddlIndexType.SelectedItem = (RadListDataItem)ddlIndexType.Items[2];
+                    break;
+                case 5:
+                    ddlIndexType.SelectedItem = (RadListDataItem)ddlIndexType.Items[3];
+                    break;
             }
-            else
+            switch(a.dataType)
             {
-                ddlDataType.SelectedItem = (RadListDataItem)ddlDataType.Items[1];
-                ntxtLength.Enabled = false;
+                case 'C':
+                    ddlDataType.SelectedItem = (RadListDataItem)ddlDataType.Items[0];
+                    ntxtLength.Enabled = true;
+                    break;
+                case 'E':
+                    ddlDataType.SelectedItem = (RadListDataItem)ddlDataType.Items[1];
+                    ntxtLength.Enabled = false;
+                    break;
+                case 'D':
+                    ddlDataType.SelectedItem = (RadListDataItem)ddlDataType.Items[2];
+                    ntxtLength.Enabled = false;
+                    break;
             }
             ntxtLength.Value = a.length;
         }

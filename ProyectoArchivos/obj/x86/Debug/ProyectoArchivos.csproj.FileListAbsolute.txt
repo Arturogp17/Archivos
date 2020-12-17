@@ -108,3 +108,6 @@ C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinContro
 C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.Themes.TelerikMetro.dll
 C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.Themes.VisualStudio2012Light.dll
 C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.UI.xml
+C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Create.frmModifyName.resources
+C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.RichTextEditor.dll
+C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.RichTextEditor.xml

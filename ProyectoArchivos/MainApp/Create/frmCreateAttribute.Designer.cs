@@ -162,8 +162,8 @@
             this.ddlIndexType.DisplayMember = "Text";
             this.ddlIndexType.DropDownAnimationEnabled = false;
             radListDataItem4.Text = "0-Sin tipo de índice";
-            radListDataItem5.Text = "2-Índice primario";
-            radListDataItem6.Text = "3-Indice secundario";
+            radListDataItem5.Text = "2-Llave primaria";
+            radListDataItem6.Text = "3-Llave primaria";
             radListDataItem7.Text = "5-Hash estática";
             this.ddlIndexType.Items.Add(radListDataItem4);
             this.ddlIndexType.Items.Add(radListDataItem5);
@@ -324,6 +324,7 @@
             this.Controls.Add(this.radLabel2);
             this.Controls.Add(this.radLabel4);
             this.Controls.Add(this.radLabel1);
+            this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
             this.Name = "frmCreateAttribute";
             // 
             // 

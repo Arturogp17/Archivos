@@ -14,6 +14,8 @@ namespace ProyectoArchivos.MainApp.Delete
     public partial class frmDeleteAttribute : Form
     {
         List<Attributes> at = new List<Attributes>();
+        public string entity = string.Empty;
+        public string attr = string.Empty;
         public frmDeleteAttribute(List<Attributes> la)
         {
             InitializeComponent();
@@ -23,13 +25,14 @@ namespace ProyectoArchivos.MainApp.Delete
         private void frmDeleteAttribute_Load(object sender, EventArgs e)
         {
             ddlAttributes.DataSource = at;
+            lblEntity.Text = entity;
+            ddlAttributes.SelectedValue = attr;
+            ddlAttributes.Enabled = false;
         }
 
         private void ddlAttributes_SelectedIndexChanged(object sender, Telerik.WinControls.UI.Data.PositionChangedEventArgs e)
         {
             int position = e.Position;
-            lblID.Text = at[position].id;
-            lblEntity.Text = at[position].entity;
             if (at[position].dataType == 'C')
                 lblDataType.Text = "Cadena";
             else
@@ -37,16 +40,13 @@ namespace ProyectoArchivos.MainApp.Delete
             switch(at[position].indexType)
             {
                 case 0:
-                    lblIndexType.Text = "0 - Sin tipo de índice";
-                    break;
-                case 1:
-                    lblIndexType.Text = "1 - Clave de busqueda";
+                    lblIndexType.Text = "0 - Sin tipo";
                     break;
                 case 2:
-                    lblIndexType.Text = "2 - Índice primario";
+                    lblIndexType.Text = "2 - LLave primaria";
                     break;
                 case 3:
-                    lblIndexType.Text = "3 - Índice secundario";
+                    lblIndexType.Text = "3 - Llave foranea";
                     break;
             }
             lblLenght.Text = at[position].length.ToString();

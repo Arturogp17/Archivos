@@ -34,7 +34,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,6 +53,7 @@
       <HintPath>..\lib\RCWF\2020.3.1020.40\Telerik.WinControls.GridView.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Telerik.WinControls.RichTextEditor, Version=2020.3.1020.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL" />
     <Reference Include="Telerik.WinControls.Themes.Office2013Light, Version=2020.3.1020.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
       <HintPath>..\lib\RCWF\2020.3.1020.40\Telerik.WinControls.Themes.Office2013Light.dll</HintPath>
       <Private>True</Private>
@@ -87,6 +90,7 @@
     <Compile Include="MainApp\Classes\genericItem.cs" />
     <Compile Include="MainApp\Classes\Node.cs" />
     <Compile Include="MainApp\Classes\Register.cs" />
+    <Compile Include="MainApp\Classes\Relation.cs" />
     <Compile Include="MainApp\Create\frmCreateAttribute.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -98,6 +102,12 @@
     </Compile>
     <Compile Include="MainApp\Create\frmCreateEntity.Designer.cs">
       <DependentUpon>frmCreateEntity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainApp\Create\frmModifyName.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainApp\Create\frmModifyName.Designer.cs">
+      <DependentUpon>frmModifyName.cs</DependentUpon>
     </Compile>
     <Compile Include="MainApp\Delete\frmDeleteAttribute.cs">
       <SubType>Form</SubType>
@@ -142,6 +152,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainApp\Create\frmCreateEntity.resx">
       <DependentUpon>frmCreateEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainApp\Create\frmModifyName.resx">
+      <DependentUpon>frmModifyName.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainApp\Delete\frmDeleteAttribute.resx">
       <DependentUpon>frmDeleteAttribute.cs</DependentUpon>
