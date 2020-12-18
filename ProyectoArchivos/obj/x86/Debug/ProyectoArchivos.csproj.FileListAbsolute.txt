@@ -1,0 +1,140 @@
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\ProyectoArchivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.csprojAssemblyReference.cache
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\ProyectoArchivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.frmStart.resources
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\ProyectoArchivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.Properties.Resources.resources
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\ProyectoArchivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.csproj.GenerateResource.cache
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\ProyectoArchivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.exe.licenses
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\ProyectoArchivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.csproj.CoreCompileInputs.cache
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\ProyectoArchivos\ProyectoArchivos\bin\Debug\ProyectoArchivos.exe.config
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\ProyectoArchivos\ProyectoArchivos\bin\Debug\ProyectoArchivos.exe
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\ProyectoArchivos\ProyectoArchivos\bin\Debug\ProyectoArchivos.pdb
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\ProyectoArchivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.dll
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\ProyectoArchivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.Themes.Office2013Light.dll
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\ProyectoArchivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.Themes.TelerikMetro.dll
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\ProyectoArchivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.Themes.VisualStudio2012Light.dll
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\ProyectoArchivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.UI.dll
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\ProyectoArchivos\ProyectoArchivos\bin\Debug\TelerikCommon.dll
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\ProyectoArchivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.xml
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\ProyectoArchivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.csproj.CopyComplete
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\ProyectoArchivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.exe
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\ProyectoArchivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.pdb
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\ProyectoArchivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Create.frmCreateAttribute.resources
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\ProyectoArchivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Create.frmCreateEntity.resources
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\ProyectoArchivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.GridView.dll
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\ProyectoArchivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.GridView.xml
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\ProyectoArchivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Delete.frmDeleteEntity.resources
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\Archivos\ProyectoArchivos\bin\Debug\ProyectoArchivos.exe.config
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\Archivos\ProyectoArchivos\bin\Debug\ProyectoArchivos.exe
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\Archivos\ProyectoArchivos\bin\Debug\ProyectoArchivos.pdb
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.dll
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.GridView.dll
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.Themes.Office2013Light.dll
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.Themes.TelerikMetro.dll
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.Themes.VisualStudio2012Light.dll
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.UI.dll
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\Archivos\ProyectoArchivos\bin\Debug\TelerikCommon.dll
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.xml
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.GridView.xml
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.csprojAssemblyReference.cache
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.frmStart.resources
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Create.frmCreateAttribute.resources
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Create.frmCreateEntity.resources
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Delete.frmDeleteEntity.resources
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.Properties.Resources.resources
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.csproj.GenerateResource.cache
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.exe.licenses
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.csproj.CoreCompileInputs.cache
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.csproj.CopyComplete
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.exe
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.pdb
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Delete.frmDeleteAttribute.resources
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Index.frmForeignKey.resources
+\\Mac\Home\Documents\UASLP\Estructuras de archivos\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Index.frmPrimaryKey.resources
+C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.csprojAssemblyReference.cache
+C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.frmStart.resources
+C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Create.frmCreateAttribute.resources
+C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Create.frmCreateEntity.resources
+C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Delete.frmDeleteAttribute.resources
+C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Delete.frmDeleteEntity.resources
+C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Index.frmForeignKey.resources
+C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Index.frmPrimaryKey.resources
+C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.Properties.Resources.resources
+C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.csproj.GenerateResource.cache
+C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.exe.licenses
+C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.csproj.CoreCompileInputs.cache
+C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.exe
+C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.pdb
+C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Index.frmBinaryTree.resources
+C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\bin\Debug\ProyectoArchivos.exe.config
+C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\bin\Debug\ProyectoArchivos.exe
+C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\bin\Debug\ProyectoArchivos.pdb
+C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.dll
+C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.GridView.dll
+C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.Themes.Office2013Light.dll
+C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.Themes.TelerikMetro.dll
+C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.Themes.VisualStudio2012Light.dll
+C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.UI.dll
+C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\bin\Debug\TelerikCommon.dll
+C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.xml
+C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.GridView.xml
+C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.csproj.CopyComplete
+C:\Users\agarcia\Documents\Arturo\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Index.frmStaticHash.resources
+C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\bin\Debug\ProyectoArchivos.exe.config
+C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\bin\Debug\ProyectoArchivos.exe
+C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\bin\Debug\ProyectoArchivos.pdb
+C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.dll
+C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.UI.dll
+C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\bin\Debug\TelerikCommon.dll
+C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.xml
+C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.GridView.xml
+C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.csprojAssemblyReference.cache
+C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.frmStart.resources
+C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Create.frmCreateAttribute.resources
+C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Create.frmCreateEntity.resources
+C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Delete.frmDeleteAttribute.resources
+C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Delete.frmDeleteEntity.resources
+C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Index.frmBinaryTree.resources
+C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Index.frmForeignKey.resources
+C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Index.frmPrimaryKey.resources
+C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Index.frmStaticHash.resources
+C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.Properties.Resources.resources
+C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.csproj.GenerateResource.cache
+C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.exe.licenses
+C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.csproj.CoreCompileInputs.cache
+C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.csproj.CopyComplete
+C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.exe
+C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.pdb
+C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.GridView.dll
+C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.Themes.Office2013Light.dll
+C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.Themes.TelerikMetro.dll
+C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.Themes.VisualStudio2012Light.dll
+C:\Users\agarcia\Documents\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.UI.xml
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\bin\Debug\ProyectoArchivos.exe.config
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\bin\Debug\ProyectoArchivos.exe
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\bin\Debug\ProyectoArchivos.pdb
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.dll
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.GridView.dll
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.Themes.Office2013Light.dll
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.Themes.TelerikMetro.dll
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.Themes.VisualStudio2012Light.dll
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.UI.dll
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\bin\Debug\TelerikCommon.dll
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.xml
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.GridView.xml
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\bin\Debug\Telerik.WinControls.UI.xml
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.csprojAssemblyReference.cache
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.frmStart.resources
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Create.frmCreateAttribute.resources
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Create.frmCreateEntity.resources
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Delete.frmDeleteAttribute.resources
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Delete.frmDeleteEntity.resources
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Index.frmBinaryTree.resources
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Index.frmForeignKey.resources
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Index.frmPrimaryKey.resources
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.MainApp.Index.frmStaticHash.resources
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.Properties.Resources.resources
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.csproj.GenerateResource.cache
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.exe.licenses
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.csproj.CoreCompileInputs.cache
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.csproj.CopyComplete
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.exe
+C:\Users\omm27\Documents\Universidad\universidad Agosto-Diciembre 2020\Bases de Datos\Proyecto\Archivos\ProyectoArchivos\obj\x86\Debug\ProyectoArchivos.pdb
